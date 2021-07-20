@@ -1,0 +1,26 @@
+server:
+  port: 9091
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    check-template-location: true
+    suffix: .html
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-dql: true
+
+  datasource:
+    dirverClassName: com.mysql.cj.jdbc.Dirver
+    url: jdbc:mysql://localhost:3306/mygram?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
+    username: root
+    password:
