@@ -26,7 +26,7 @@ public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhone
     }
 
     public static boolean isEmail(String email){
-        String emailPattern = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        String emailPattern = "^[a-z0-9_+-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}$";
         Pattern p = Pattern.compile(emailPattern);
         Matcher matcher = p.matcher(email);
         return matcher.matches();
