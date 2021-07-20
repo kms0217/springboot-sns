@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EmailPhoneNumber {
 
-    String Message() default "{이메일, 휴대전화 형식에 맞지 않습니다.}";
+    String message() default "{이메일, 휴대전화 형식에 맞지 않습니다.}";
 
     Class<?>[] groups() default { };
 

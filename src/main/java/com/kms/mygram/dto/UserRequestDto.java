@@ -20,7 +20,6 @@ public class UserRequestDto {
 
     @Max(value = 20, message = "사용자 이름이 너무 깁니다.")
     @NotBlank(message = "사용자 이름을 입력해 주세요.")
-    @NotNull()
     private String username;
 
     @NotBlank(message = "이름을 입력해 주세요.")
@@ -30,7 +29,7 @@ public class UserRequestDto {
     private String password;
 
     @NotBlank(message = "이메일 혹은 핸드폰 번호를 입력해 주세요.")
-    @EmailPhoneNumber
+    @EmailPhoneNumber(message = "이메일 혹은 핸드폰 번호를 확인해주세요.")
     private String emailOrPhoneNumber;
 
     public User toEntity(){
