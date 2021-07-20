@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Mygram</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/signbase.css}">
+    <link rel="stylesheet" th:href="@{/css/signup.css}">
+</head>
+<body>
+<main id="signup-form">
+    <div class="page sign-wrapper">
+        <div class="sign-box">
+            <img class="logo" th:src="@{/image/logo.png}">
+            <p>친구들의 사진과 동영상을 보려면 가입하세요.</p>
+            <button class="sign-button facebook-login">Facebook으로 로그인</button>
+            <button class="sign-button google-login">Google로 로그인</button>
+            <div class="line-text"> 또는</div>
+
+            <form method="post" th:action="@{/signup}">
+                <input class="sign-input"
+                       type="text"
+                       placeholder="휴대폰 번호 또는 이메일 주소"
+                       required
+                >
+                <input class="sign-input"
+                       type="text"
+                       placeholder="성명"
+                       required
+                >
+                <input class="sign-input"
+                       type="text"
+                       placeholder="사용자 이름"
+                       required
+                >
+                <input class="sign-input"
+                       type="password"
+                       placeholder="비밀번호"
+                       required
+                >
+                <button class="sign-button" type="submit">가입</button>
+            </form>
+        </div>
+        <div id="sign-bottom-box">
+            <p>계정이 있으신가요?
+                <a th:href="@{/login}" style="text-decoration:none;">로그인</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+   width: 100% !important;
+}
+
+#signup-form .facebook-login {
+    background-color: dodgerblue !important;
+}
+
+#signup-form .google-login {
+    background-color: black !important;
+}

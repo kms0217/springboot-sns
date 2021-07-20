@@ -1,0 +1,27 @@
+input:focus {
+    outline:none;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+}
+
+.OAuth-login {
+    background-color: white;
+    font-weight: 1000;
+    margin-top: 10px;
+    margin-bottom:10px;
+    border: 0px;
+}
+
+.OAuth-icon {
+    width: 15px;
+}
+
+#facebook-OAuth{
+    color: cornflowerblue;
+}
+
+#login-form .error-message {
+    margin-top: 1em;
+    text-align: center;
+    color: red;
+}
