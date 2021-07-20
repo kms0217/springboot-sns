@@ -18,13 +18,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String password;
     private String website;
     private String intro;
-    private String email;
-    private String phoneNumber;
     private Gender gender;
     private boolean recommend;
 
