@@ -2,6 +2,7 @@ package com.kms.mygram.controller;
 
 import com.kms.mygram.dto.UserRequestDto;
 import com.kms.mygram.service.AuthService;
+import com.kms.mygram.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserValidator userValidator;
 
     @GetMapping("/login")
     public String loginForm(){
@@ -34,19 +36,18 @@ public class AuthController {
     }
 
     @GetMapping("/signup")
-    public String signupForm(){
+    public String signupForm(Model model){
+        model.addAttribute("userRequestDto", new UserRequestDto());
         return "signup";
     }
 
     @PostMapping("/signup")
     public String signup(@Valid UserRequestDto userRequestDto, BindingResult bindingResult){
+        userValidator.validate(userRequestDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "signup";
-        } try {
-            authService.signup(userRequestDto.toEntity());
-        } catch (Exception e) {
-            return "signup";
         }
-        return "login";
+        authService.signup(userRequestDto.toEntity());
+        return "redirect:/";
     }
 }

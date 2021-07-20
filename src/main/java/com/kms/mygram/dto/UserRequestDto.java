@@ -8,9 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class UserRequestDto {
 
-    @Max(value = 20, message = "사용자 이름이 너무 깁니다.")
+    @Size(max = 20, message = "사용자 이름이 너무 깁니다.")
     @NotBlank(message = "사용자 이름을 입력해 주세요.")
     private String username;
 
@@ -40,6 +39,7 @@ public class UserRequestDto {
         if (EmailPhoneNumberValidator.isEmail(this.emailOrPhoneNumber)){
             user.setEmail(this.emailOrPhoneNumber);
         } else {
+            this.emailOrPhoneNumber = this.emailOrPhoneNumber.replaceAll("[^0-9]", "");
             user.setPhoneNumber(this.emailOrPhoneNumber);
         }
         return user;

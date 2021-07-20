@@ -17,31 +17,43 @@
             <button class="sign-button google-login">Google로 로그인</button>
             <div class="line-text"> 또는</div>
 
-            <form method="post" th:action="@{/signup}">
-                <input class="sign-input"
-                       name="email"
+            <form method="post" th:action="@{/signup}" th:object="${userRequestDto}">
+                <input class="sign-input form-control"
+                       name="emailOrPhoneNumber"
+                       th:classappend="${#fields.hasErrors('emailOrPhoneNumber')} ? 'is-invalid'"
                        type="text"
                        placeholder="휴대폰 번호 또는 이메일 주소"
                        required
                 >
-                <input class="sign-input"
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('emailOrPhoneNumber')}" th:errors="*{emailOrPhoneNumber}">
+                </div>
+                <input class="sign-input form-control"
                        name="name"
+                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
                        type="text"
                        placeholder="성명"
                        required
                 >
-                <input class="sign-input"
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                </div>
+                <input class="sign-input form-control"
                        name="username"
+                       th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'"
                        type="text"
                        placeholder="사용자 이름"
                        required
                 >
-                <input class="sign-input"
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                </div>
+                <input class="sign-input form-control"
                        name="password"
+                       th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
                        type="password"
                        placeholder="비밀번호"
                        required
                 >
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                </div>
                 <button class="sign-button" type="submit">가입</button>
             </form>
         </div>
