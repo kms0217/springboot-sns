@@ -14,11 +14,13 @@
             <form method="post" th:action="@{/auth/login}" style="min-width: 100%">
                 <img class="logo" th:src="@{/image/logo.png}">
                 <input class="sign-input"
+                       name="email"
                        type="text"
                        placeholder="전화번호, 사용자 이름 또는 이메일"
                        required
                 >
                 <input class="sign-input"
+                       name="password"
                        type="password"
                        placeholder="비밀번호"
                        required
