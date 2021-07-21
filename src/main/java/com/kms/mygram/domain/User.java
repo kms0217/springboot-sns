@@ -35,7 +35,8 @@ public class User {
     private String password;
     private String website;
     private String intro;
-    private Gender gender;
+
+    private Gender gender = Gender.SECRET;
     private boolean recommend;
 
     private LocalDateTime createdAt;
