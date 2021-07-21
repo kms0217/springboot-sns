@@ -1,0 +1,99 @@
+html, body{
+    height: 100%;
+}
+
+.content{
+    margin: auto;
+    padding-top: 54px;
+    max-width: 935px;
+    align-content: center;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.content-container{
+    padding-top: 30px;
+}
+
+.comment-date{
+    padding-left: 16px;
+    font-size: 6px;
+    color: #bdbdbd;
+}
+
+.comment-text{
+    padding-left: 16px;
+
+}
+
+.post-nav{
+    padding-top: 10px;
+    padding-left: 16px;
+}
+
+.post-btn{
+    background-color: white;
+    border: 0;
+}
+
+.like-button-wrapper{
+    width: 24px;
+    height: 24px;
+    padding-right: 20px;
+}
+
+.post-like{
+    padding-left: 16px;
+}
+
+.post-comment-input{
+    background: 0 0;
+    border: 0;
+    color: #262626;
+    display: flex;
+    font-size: inherit;
+    max-height: 80px;
+    outline: 0;
+    padding: 0;
+    resize: none;
+    width: 0;
+
+}
+
+.post-comment-input-wrapper{
+    margin: 0!important;
+    width: 100%;
+    padding-left: 16px;
+    border: 1px solid #bdbdbd;
+}
+
+.post-item{
+    margin-bottom: 30px;
+    border: 1px solid #bdbdbd;
+}
+
+.imoz-wrapper{
+    padding-left: 0;
+}
+
+.imoz{
+    background-color: white;
+    padding-top: 12px;
+    border: 0;
+    padding-left: 0;
+}
+
+.comment-button{
+    border: 0;
+    background-color: #00ff0000;
+    padding-top: 15px;
+}
+
+.comment-button p{
+    color: #00aeff;
+    font-weight: 600;
+}
+
+.comment-button-wrapper{
+    padding-left: 30px;
+}
