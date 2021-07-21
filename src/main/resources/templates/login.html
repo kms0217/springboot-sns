@@ -11,10 +11,10 @@
 <main id="login-form">
     <div class="sign-wrapper">
         <div class="sign-box">
-            <form method="post" th:action="@{/auth/login}" style="min-width: 100%">
+            <form method="post" th:action="@{/login}" style="min-width: 100%">
                 <img class="logo" th:src="@{/image/logo.png}">
                 <input class="sign-input"
-                       name="email"
+                       name="username"
                        type="text"
                        placeholder="전화번호, 사용자 이름 또는 이메일"
                        required
