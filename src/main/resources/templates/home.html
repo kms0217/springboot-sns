@@ -18,20 +18,20 @@
                 <div th:replace="/postTemplate.html :: fragment-post"></div>
             </div>
             <div class="side col-4">
-                <div class="recommend-wrapper" style="position: fixed; width: inherit">
+                <div class="recommend-wrapper" style="position: fixed; width: fit-content">
                     <text class="recommend-header col-8" style="font-size: 18px; font-weight: 600; color: #bdbdbd">회원님을 위한 추천</text>
                     <a th:href="@{/allRecommend}" style="padding-left: 80px; text-decoration: none; font-weight: 600; color: black">모두 보기</a>
                     <div class="recommend-list" style="padding-top: 15px;">
-                        <div class="recommend-content row">
+                        <div class="recommend-content row" style="width: inherit">
                             <div class="col-1 recommend-img">
                                 <img th:src="@{/image/default-profile.png}" style="border-radius: 50%;width: 32px;">
                             </div>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <p style="padding-left: 15px; padding-top: 3px; font-weight: 400">user name</p>
                             </div>
-                            <div class="col-5">
+                            <div class="col-4">
                                 <button style="background-color: white; border: 0;">
-                                    <p style="font-size: 15px; padding-top: 3px; font-weight: 600; color: #00aeff">팔로우</p>
+                                    <p style="font-size: 15px; padding-left: 20px; padding-top: 3px; font-weight: 600; color: #00aeff">팔로우</p>
                                 </button>
                             </div>
                         </div>
