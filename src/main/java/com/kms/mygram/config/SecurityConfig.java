@@ -1,4 +1,4 @@
-package com.kms.mygram.configure;
+package com.kms.mygram.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

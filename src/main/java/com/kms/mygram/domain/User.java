@@ -4,20 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Builder
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name="user_id"))
+    private Set<Authority> authorities;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -36,7 +42,7 @@ public class User {
     private String website;
     private String intro;
 
-    private Gender gender = Gender.SECRET;
+    private Gender gender;
     private boolean recommend;
 
     private LocalDateTime createdAt;
@@ -50,6 +56,26 @@ public class User {
     @PreUpdate
     public void updateTime() {
         updatedAt = LocalDateTime.now();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public static enum Gender{
