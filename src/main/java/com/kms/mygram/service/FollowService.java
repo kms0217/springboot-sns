@@ -2,6 +2,7 @@ package com.kms.mygram.service;
 
 import com.kms.mygram.domain.Follow;
 import com.kms.mygram.domain.User;
+import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +16,21 @@ public class FollowService {
     private final UserService userService;
 
     @Transactional
-    public Follow createFollow(Long followerId, Long followeeId){
-        User followerUser = userService.getUser(followerId);
-        User followeeUser = userService.getUser(followeeId);
-        Follow follow = Follow.builder()
-                .follower(followerUser)
-                .followee(followeeUser)
-                .build();
-        return followRepository.save(follow);
+    public void createFollow(Long followerId, Long followeeId){
+        try{
+            followRepository.follow(followerId, followeeId);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new ApiException("Follow 실패");
+        }
     }
 
     @Transactional
     public void deleteFollow(Long followerId, Long followeeId){
-        Follow follow = followRepository.findByFollowerUserIdAndFolloweeUserId(followerId, followeeId).orElseThrow();
-        followRepository.delete(follow);
+        try{
+            followRepository.unfollow(followerId, followeeId);
+        } catch (Exception e){
+            throw new ApiException("Follow 상태가 아닙니다.");
+        }
     }
 }
