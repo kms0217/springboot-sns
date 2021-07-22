@@ -24,43 +24,43 @@
                        name="name"
                        type="text"
                        placeholder="이름"
-                       th:value="${user.name} ? ${user.name} : ''"
+                       th:value="${user.name} ? ${user.name} : null"
                 >
                 <input class="change-password-input"
                        name="username"
                        type="text"
                        placeholder="사용자 이름"
-                       th:value="${user.username} ? ${user.username} : ''"
+                       th:value="${user.username} ? ${user.username} : null"
                 >
                 <input class="change-password-input"
-                       name="webSite"
+                       name="website"
                        type="text"
                        placeholder="웹 사이트"
-                       th:value="${user.website} ? ${user.website} : ''"
+                       th:value="${user.website} ? ${user.website} : null"
                 >
                 <input class="change-password-input"
                        name="intro"
                        type="text"
                        placeholder="소개"
-                       th:value="${user.intro} ? ${user.intro} : ''"
+                       th:value="${user.intro} ? ${user.intro} : null"
                 >
                 <input class="change-password-input"
                        name="email"
                        type="text"
                        placeholder="이메일"
-                       th:value="${user.email} ? ${user.email} : ''"
+                       th:value="${user.email} ? ${user.email} : null"
                 >
                 <input class="change-password-input"
                        name="phoneNumber"
                        type="text"
                        placeholder="전화번호"
-                       th:value="${user.phoneNumber} ? ${user.phoneNumber} : ''"
+                       th:value="${user.phoneNumber} ? ${user.phoneNumber} : null"
                 >
                 <input class="change-password-input"
                        name="gender"
                        type="text"
                        placeholder="성별"
-                       th:value="${user.gender} ? ${user.gender} : ''"
+                       th:value="${user.gender} ? ${user.gender} : null"
                 >
                 <button type="button" th:attr="onclick=|update('${user.username}')|"
                         class="change-password-button">제출</button>
@@ -69,19 +69,22 @@
     </div>
 </div>
 <script type="text/javascript">
+    var log;
     function update(userId){
         let data = $("#update-form").serialize();
-        alert(data);
         $.ajax({
             type: "put",
-            url: '/api/user/${userId}',
+            url: '/api/user',
             data: data,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            dataType: "json"
-        }).success({
-
-        }).fail({
-
+            contentType: "Application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function(data){
+                alert("success");
+            },
+            error: function(data){
+                log = data;
+                alert(data.responseJSON.message);
+            }
         });
     }
 </script>
