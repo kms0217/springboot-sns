@@ -1,12 +1,11 @@
 package com.kms.mygram.controller.api;
 
+import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.ProfileEditDto;
-import com.kms.mygram.dto.ResponseDto;
 import com.kms.mygram.exception.ProfileEditValidException;
 import com.kms.mygram.service.UserService;
 import com.kms.mygram.validator.ProfileEditValidator;
-import com.kms.mygram.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +30,10 @@ public class UserApiController {
 
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal Principal principal,
             @Valid ProfileEditDto profileEditDto,
             BindingResult bindingResult
     ){
-        System.out.println(profileEditDto);
         profileEditValidator.validate(profileEditDto, bindingResult);
         if (bindingResult.hasErrors()){
             Map<String, String> errors = new HashMap<>();
@@ -46,7 +44,8 @@ public class UserApiController {
             }
             throw new ProfileEditValidException(buffer.toString(), errors);
         }
-        User userEntity = userService.updateUser(user.getUserId(), profileEditDto);
+        User userEntity = userService.updateUser(principal.getUser().getUserId(), profileEditDto);
+        principal.setUser(userEntity);
         return new ResponseEntity<>(userEntity, HttpStatus.OK);
     }
 }

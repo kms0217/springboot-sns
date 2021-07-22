@@ -1,5 +1,6 @@
 package com.kms.mygram.validator;
 
+import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.ProfileEditDto;
 import com.kms.mygram.service.AuthService;
@@ -24,7 +25,8 @@ public class ProfileEditValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ProfileEditDto profileEditDto = (ProfileEditDto) target;
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principal.getUser();
         String userPhone = user.getPhoneNumber();
         String userEmail = user.getEmail();
         String userUsername = user.getUsername();
@@ -57,9 +59,6 @@ public class ProfileEditValidator implements Validator {
         // 3. username format에 맞는지 확인
         // 4. 중복된 User가 있는지 확인
         if (!userUsername.equals(validUsername) && !Utils.isBlank(validUsername)) {
-            System.out.println("[" + userUsername + "]");
-            System.out.println("[" + validUsername + "]");
-            System.out.println(userUsername != validUsername);
             if (authService.getUserByUserName(validUsername).isPresent()){
                 errors.rejectValue("username", "key", "이미 존재하는 사용자 이름입니다.");
             } else{
