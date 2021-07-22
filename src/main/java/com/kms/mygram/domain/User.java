@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private String website;
     private String intro;
 
-    private Gender gender;
+    private String gender;
     private boolean recommend;
 
     private LocalDateTime createdAt;
@@ -76,11 +76,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public static enum Gender{
-        MAN,
-        WOMAN,
-        SECRET
     }
 }

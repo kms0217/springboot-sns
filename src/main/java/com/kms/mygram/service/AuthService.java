@@ -24,7 +24,6 @@ public class AuthService {
         Authority defaultRole = new Authority(savedUser.getUserId(), "ROLE_USER");
         authorities.add(defaultRole);
         user.setAuthorities(authorities);
-        user.setGender(User.Gender.SECRET);
         return userRepository.save(user);
     }
 
