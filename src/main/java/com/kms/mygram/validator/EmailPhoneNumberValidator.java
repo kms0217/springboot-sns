@@ -18,7 +18,7 @@ public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhone
         return isPhoneNumber(value) || isEmail(value);
     }
 
-    public boolean isPhoneNumber(String phoneNumber){
+    public static boolean isPhoneNumber(String phoneNumber){
         if (phoneNumber == null)
             return false;
         String phonePattern = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$";

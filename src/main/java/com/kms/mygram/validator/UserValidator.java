@@ -35,7 +35,7 @@ public class UserValidator implements Validator {
         checkUserName(userRequestDto.getUsername(), errors);
     }
 
-    public void checkUserName(String username, Errors errors) {
+    public static void checkUserName(String username, Errors errors) {
         String allowPattern = "^[0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣_.]+$";
         String exceptionPattern = "^[0-9]+$";
         Pattern p = Pattern.compile(allowPattern);
