@@ -19,6 +19,8 @@ public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhone
     }
 
     public boolean isPhoneNumber(String phoneNumber){
+        if (phoneNumber == null)
+            return false;
         String phonePattern = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$";
         Pattern p = Pattern.compile(phonePattern);
         Matcher matcher = p.matcher(phoneNumber);
@@ -26,6 +28,8 @@ public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhone
     }
 
     public static boolean isEmail(String email){
+        if (email == null)
+            return false;
         String emailPattern = "^[a-z0-9_+-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}$";
         Pattern p = Pattern.compile(emailPattern);
         Matcher matcher = p.matcher(email);
