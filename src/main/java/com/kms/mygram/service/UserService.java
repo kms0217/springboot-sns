@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,5 +30,13 @@ public class UserService {
         user.setIntro(profileEditDto.getIntro());
         user.setWebsite(profileEditDto.getWebsite());
         return userRepository.save(user);
+    }
+
+    public User getUser(Long userId){
+        return userRepository.findById(userId).orElseThrow();
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
