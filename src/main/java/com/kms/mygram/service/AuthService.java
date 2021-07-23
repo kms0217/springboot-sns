@@ -4,6 +4,7 @@ import com.kms.mygram.domain.Authority;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
 
+    @Value("${default.profile.image}")
+    private String profileImageUrl;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public User signup(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setProfileImageUrl(profileImageUrl);
         User savedUser = userRepository.save(user);
         HashSet<Authority> authorities = new HashSet<>();
         Authority defaultRole = new Authority(savedUser.getUserId(), "ROLE_USER");
