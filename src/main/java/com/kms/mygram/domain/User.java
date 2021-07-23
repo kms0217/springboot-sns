@@ -1,5 +1,6 @@
 package com.kms.mygram.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class User {
     private String email;
 
     @Column(unique = true)
+    @JsonIgnore
     private String phoneNumber;
 
     @Column(nullable = false)
