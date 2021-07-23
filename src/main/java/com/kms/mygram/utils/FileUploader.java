@@ -17,6 +17,8 @@ public class FileUploader {
     private String rootPath;
 
     public String upload(MultipartFile file, String dir){
+        if (file == null)
+            return null;
         UUID uuid = UUID.randomUUID();
         String uniqueFileName = uuid + "_" + file.getOriginalFilename();
         Path path = Paths.get(rootPath + dir + uniqueFileName);

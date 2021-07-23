@@ -15,10 +15,12 @@ public class ImageFileValidator implements ConstraintValidator<ImageFile, Multip
 
     @Override
     public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
-        try {
-            ImageIO.read(file.getInputStream()).toString();
-        } catch (Exception e){
-            return false;
+        if (file != null){
+            try {
+                ImageIO.read(file.getInputStream()).toString();
+            } catch (Exception e){
+                return false;
+            }
         }
         return true;
     }
