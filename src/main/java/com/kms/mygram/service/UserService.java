@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public User getUser(Long userId){
-        return userRepository.findById(userId).orElseThrow();
+        return userRepository.findById(userId).orElse(null);
     }
 
     public List<User> getAllUsers() {

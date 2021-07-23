@@ -65,7 +65,7 @@
                        placeholder="성별"
                        th:value="${baseInfo.currentUser.gender} ? ${baseInfo.currentUser.gender} : null"
                 >
-                <button type="button" th:attr="onclick=|update('${baseInfo.currentUser.username}')|"
+                <button type="button" th:attr="onclick=|update('${baseInfo.currentUser.userId}')|"
                         class="change-password-button">제출</button>
             </form>
         </div>
@@ -81,7 +81,7 @@
         dataArray.forEach(ele => data.append(ele.name, ele.value));
         $.ajax({
             type: "put",
-            url: '/api/user',
+            url: '/api/users/' + userId,
             data: data,
             contentType: false,
             processData: false,
