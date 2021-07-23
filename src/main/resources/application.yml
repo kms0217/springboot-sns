@@ -16,11 +16,26 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-dql: true
+      ddl-auto: update
+    show-sql: true
+
+  servlet:
+    multipart:
+      enabled: true
 
   datasource:
     dirverClassName: com.mysql.cj.jdbc.Dirver
     url: jdbc:mysql://localhost:3306/mygram?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
     username: root
     password:
+
+logging:
+  level:
+    org.springframework.web: trace
+
+upload:
+  path: "C:/Users/kms/IdeaProjects/mygram/upload/"
+
+default:
+  profile:
+    image: "default-profile.png"
