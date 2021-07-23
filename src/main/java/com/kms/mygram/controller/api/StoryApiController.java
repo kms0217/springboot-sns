@@ -3,6 +3,7 @@ package com.kms.mygram.controller.api;
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.dto.StoryRequestDto;
+import com.kms.mygram.exception.ValidException;
 import com.kms.mygram.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -49,7 +51,7 @@ public class StoryApiController {
             @AuthenticationPrincipal Principal principal)
     {
         if (bindingResult.hasErrors())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            throw new ValidException("이미지 형식을 확인해주세요.");
         Story story = storyService.createStory(storyRequestDto, principal.getUser());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponentsBuilder.path("/stories/{storyId}").buildAndExpand(story.getStoryId()).toUri());

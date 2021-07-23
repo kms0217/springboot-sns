@@ -72,6 +72,7 @@
     </div>
 </div>
 <script type="text/javascript">
+    let log;
     function update(userId){
         let dataArray = $("#update-form").serializeArray();
         let data = new FormData();
@@ -86,10 +87,15 @@
             contentType: false,
             processData: false,
             success: function(){
+                alert("변경에 성공하였습니다.");
                 window.location.href = "http://localhost:9091/profile";
             },
-            error: function(){
-                alert("error");
+            error: function(data){
+                log = data;
+                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
+                    alert(data.responseJSON.message);
+                else
+                    alert("error");
             }
         });
     }

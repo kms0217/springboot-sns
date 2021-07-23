@@ -52,10 +52,14 @@
             type: "post",
             url: '/api/follow/' + userId,
             success: function () {
-                alert("success");
+                alert("Follow 성공");
             },
-            error: function () {
-                alert("fail")
+            error: function(data){
+                log = data;
+                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
+                    alert(data.responseJSON.message);
+                else
+                    alert("error가 발생했습니다.");
             }
         });
     }

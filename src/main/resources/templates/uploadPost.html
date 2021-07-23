@@ -60,10 +60,15 @@
             contentType: false,
             processData: false,
             success: function(){
+                alert("upload에 성공했습니다.")
                 window.location.href = "http://localhost:9091/profile"
             },
-            error: function(){
-                alert("error");
+            error: function(data){
+                log = data;
+                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
+                    alert(data.responseJSON.message);
+                else
+                    alert("error가 발생했습니다.");
             }
         });
     }
