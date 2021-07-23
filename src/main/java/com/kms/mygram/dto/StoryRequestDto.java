@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostRequestDto {
+public class StoryRequestDto {
 
     @ImageFile
     private MultipartFile image;

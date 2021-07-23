@@ -22,7 +22,9 @@ public class PageController {
     public String Home(Model model, @AuthenticationPrincipal Principal principal){
         List<User> userList = userService.getAllUsers();
         userList.remove(principal.getUser());
-        HomePageDto homePageDto = HomePageDto.builder().postList(null).userList(userList).build();
+        HomePageDto homePageDto = new HomePageDto();
+        homePageDto.setStoryList(null);
+        homePageDto.setUserList(userList);
         // Home Page에서 필요한 Data
         // 1. 자신이 Follow 한 User들의 게시글을 최신 기준으로 정렬해서 전송
         // 2. 추천 리스트 전송
@@ -78,5 +80,12 @@ public class PageController {
         model.addAttribute("current", "feed");
         model.addAttribute("user", principal.getUser());
         return "feed";
+    }
+
+    @GetMapping("/upload")
+    public String Upload(Model model, @AuthenticationPrincipal Principal principal){
+        model.addAttribute("current", "upload");
+        model.addAttribute("user", principal.getUser());
+        return "uploadPost";
     }
 }
