@@ -23,46 +23,42 @@ public class ProfileEditValidator implements Validator {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        ProfileEditDto profileEditDto = (ProfileEditDto) target;
+    public void validate(Object object, Errors errors) {
+        ProfileEditDto target = (ProfileEditDto) object;
         Principal principal = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principal.getUser();
-        String userPhone = user.getPhoneNumber();
-        String userEmail = user.getEmail();
-        String userUsername = user.getUsername();
-        String validPhone = profileEditDto.getPhoneNumber();
-        String validEmail = profileEditDto.getEmail();
-        String validUsername = profileEditDto.getUsername();
-        // email validation
-        // 1. 현재 user의 email이 비어있을 때만 사용 -> 만약 가입할 때 Email을 입력했다면 이후 Email은 수정 불가
-        // 2. 만약 user의 email이 비어 있다면 Email format이 맞는지 확인하고, 다른 중복된 User가 있는지 확인
-        if (Utils.isBlank(userEmail) && !Utils.isBlank(validEmail)) {
-            if (!EmailPhoneNumberValidator.isEmail(validEmail)) {
+
+        emailValid(user.getEmail(), target.getEmail(), errors);
+        phoneValid(user.getPhoneNumber(), target.getPhoneNumber(), errors);
+        userNameValid(user.getUsername(), target.getUsername(), errors);
+    }
+
+    private void emailValid(String userEmail, String targetEmail, Errors errors) {
+        if (Utils.isBlank(userEmail) && !Utils.isBlank(targetEmail)) {
+            if (!EmailPhoneNumberValidator.isEmail(targetEmail)) {
                 errors.rejectValue("email", "key", "이메일 형식이 맞지 않습니다.");
-            } else if (authService.getUserByEmail(validEmail).isPresent()) {
+            } else if (authService.getUserByEmail(targetEmail).isPresent()) {
                 errors.rejectValue("email", "key", "이미 존재하는 이메일 입니다.");
             }
         }
-        // phoneNumber validation
-        // 1. 현재 user의 phoneNumber가 비어있을 때만 사용 -> 만약 가입할 때 PhoneNumber 입력했다면 이후 PhoneNumber은 수정 불가
-        // 2. 만약 user의 phoneNumber가 비어 있다면 PhoneNumber format이 맞는지 확인하고, 다른 중복된 User가 있는지 확인
-        if (Utils.isBlank(userPhone) && !Utils.isBlank(validPhone)) {
-            if (!EmailPhoneNumberValidator.isPhoneNumber(validPhone.replaceAll("[^0-9]", ""))) {
+    }
+
+    private void phoneValid(String userPhone, String targetPhone, Errors errors) {
+        if (Utils.isBlank(userPhone) && !Utils.isBlank(targetPhone)) {
+            if (!EmailPhoneNumberValidator.isPhoneNumber(targetPhone.replaceAll("[^0-9]", ""))) {
                 errors.rejectValue("phoneNumber", "key", "핸드폰 번호 형식이 맞지 않습니다.");
-            } else if (authService.getUserByPhoneNumber(validPhone).isPresent()) {
+            } else if (authService.getUserByPhoneNumber(targetPhone).isPresent()) {
                 errors.rejectValue("phoneNumber", "key", "이미 존재하는 휴대폰 번호 입니다.");
             }
         }
-        // username validation
-        // 1. 현재 User의 username과 같다면 검증 성공
-        // 2. 빈값이 올 수 없음
-        // 3. username format에 맞는지 확인
-        // 4. 중복된 User가 있는지 확인
-        if (!userUsername.equals(validUsername) && !Utils.isBlank(validUsername)) {
-            if (authService.getUserByUserName(validUsername).isPresent()){
+    }
+
+    private void userNameValid(String username, String targetUsername, Errors errors) {
+        if (!username.equals(targetUsername) && !Utils.isBlank(targetUsername)) {
+            if (authService.getUserByUserName(targetUsername).isPresent()) {
                 errors.rejectValue("username", "key", "이미 존재하는 사용자 이름입니다.");
-            } else{
-                UserValidator.checkUserName(validUsername, errors);
+            } else {
+                UserValidator.checkUserName(targetUsername, errors);
             }
         }
     }
