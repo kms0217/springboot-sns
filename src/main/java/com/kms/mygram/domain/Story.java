@@ -16,12 +16,12 @@ public class Story {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long StoryId;
 
     @ManyToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comment;
 
     private String imageUrl;

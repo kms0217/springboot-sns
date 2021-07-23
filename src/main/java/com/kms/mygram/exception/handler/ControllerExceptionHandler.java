@@ -2,6 +2,7 @@ package com.kms.mygram.exception.handler;
 
 import com.kms.mygram.dto.ResponseDto;
 import com.kms.mygram.exception.ApiException;
+import com.kms.mygram.exception.ApiForbiddenException;
 import com.kms.mygram.exception.ValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<?> ApiExceptionHandle(ApiException e){
         return new ResponseEntity<>(new ResponseDto<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ApiForbiddenException.class)
+    public ResponseEntity<?> ForbiddenException(ApiForbiddenException e){
+        return new ResponseEntity<>(new ResponseDto<>(e.getMessage(), null), HttpStatus.FORBIDDEN);
     }
 }
