@@ -13,10 +13,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"follower_user_id", "followee_user_id"}
+        )
+})
 public class Follow {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
     @ManyToOne
@@ -24,7 +29,6 @@ public class Follow {
 
     @ManyToOne
     private User followee;
-
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

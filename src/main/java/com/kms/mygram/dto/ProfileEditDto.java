@@ -1,8 +1,10 @@
 package com.kms.mygram.dto;
 
+import com.kms.mygram.Annotation.ImageFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -16,4 +18,7 @@ public class ProfileEditDto {
     private String website;
     private String intro;
     private String gender;
+
+    @ImageFile
+    private MultipartFile image;
 }

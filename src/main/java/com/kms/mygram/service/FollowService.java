@@ -20,7 +20,6 @@ public class FollowService {
         try{
             followRepository.follow(followerId, followeeId);
         } catch (Exception e){
-            System.out.println(e.getMessage());
             throw new ApiException("Follow 실패");
         }
     }
