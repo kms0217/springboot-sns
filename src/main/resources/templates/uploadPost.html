@@ -11,20 +11,20 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
 <div class="content">
     <div class="content-container h-100 row" style="margin-left: 0!important; margin-right: 0!important;">
-        <form method="post" action="upload" enctype="multipart/form-data" style="text-align: center;">
+        <form id="upload-form" style="text-align: center;">
             <div class="image-container">
                 <img style="width: 500px;" id="preview-image" width="500px" height="500px">
                 <label for="image" style="display: block; background-color: #00aeff; border-radius: 4px; color: white; width: 120px; margin: auto;">
                     사진 선택
                 </label>
-                <input style="display: none" type="file" id="image">
+                <input style="display: none" type="file" id="image" name="image">
             </div>
             <div style="padding-top: 20px;">
                 <input type="text" name="caption" id="caption" style="width: 500px;" placeholder="사진 설명을 써주세요.">
-                <button class="btn btn-primary" type="submit" style="display: block; margin: auto;">
+                <button class="btn btn-primary" th:attr="onclick=|upload()|" type="button" style="display: block; margin: auto;">
                     게시
                 </button>
             </div>
@@ -32,6 +32,10 @@
     </div>
 </div>
 <script type="text/javascript">
+    const inputImage = document.getElementById("image")
+    inputImage.addEventListener("change", e => {
+        readImage(e.target)
+    });
     function readImage(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader()
@@ -42,10 +46,27 @@
             reader.readAsDataURL(input.files[0])
         }
     }
-    const inputImage = document.getElementById("image")
-    inputImage.addEventListener("change", e => {
-        readImage(e.target)
-    })
+    function upload() {
+        let dataArray = $("#upload-form").serializeArray();
+        let data = new FormData();
+        if ($('input[name=image]')[0].files[0]!=undefined){
+            data.append('image', $('input[name=image]')[0].files[0]);
+        }
+        dataArray.forEach(ele => data.append(ele.name, ele.value));
+        $.ajax({
+            type: "post",
+            url: '/api/stories',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(){
+                window.location.href = "http://localhost:9091/profile"
+            },
+            error: function(){
+                alert("error");
+            }
+        });
+    }
 </script>
 </body>
 </html>

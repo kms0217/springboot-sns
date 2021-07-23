@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <div th:fragment="fragment-nav">
+    <div th:fragment="fragment-nav(current, user)">
         <nav class="nav-container navbar navbar-fixed-top" style="background-color: white;">
             <div class="logo">
                 <a th:href="@{/}">

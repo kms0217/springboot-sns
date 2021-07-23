@@ -11,11 +11,11 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
 <div class="content">
     <div class="content-container h-100 row" style="margin-left: 0!important; margin-right: 0!important;">
         <div class="post-list h-100 col-8">
-            <div th:each="p : ${homeDto.postList}">
+            <div th:each="p : ${pageInfo.getStoryList}">
                 <div th:replace="/postTemplate.html :: fragment-post(post = p)"></div>
             </div>
         </div>
@@ -26,10 +26,10 @@
                 </text>
                 <a th:href="@{/allRecommend}"
                    style="padding-left: 80px; text-decoration: none; font-weight: 600; color: black">모두 보기</a>
-                <div class="recommend-list" style="padding-top: 15px;" th:each="u : ${homeDto.userList}">
+                <div class="recommend-list" style="padding-top: 15px;" th:each="u : ${pageInfo.userList}">
                     <div class="recommend-content row" style="width: inherit">
                         <div class="col-1 recommend-img">
-                            <img th:src="@{/image/default-profile.png}" style="border-radius: 50%;width: 32px;">
+                            <img th:src="@{'/file/profile/' + ${u.profileImageUrl}}" style="border-radius: 50%;width: 32px;">
                         </div>
                         <div class="col-7">
                             <p style="padding-left: 15px; padding-top: 3px; font-weight: 400">[[${u.username}]]</p>

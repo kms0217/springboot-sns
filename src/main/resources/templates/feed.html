@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
 <div class="content">
     notYet
 </div>

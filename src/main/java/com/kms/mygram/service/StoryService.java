@@ -64,4 +64,9 @@ public class StoryService {
             throw new ApiForbiddenException("본인의 글이 아닙니다.");
         return true;
     }
+
+    public List<Story> findAllStoriesByUser(User user) {
+        return storyRepository.findAllByUser(user);
+    }
+
 }

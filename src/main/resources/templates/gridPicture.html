@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<div th:fragment="fragment-gridPicture">
+<div th:fragment="fragment-gridPicture(story)">
     <div class="gallery-picture" tabindex="0">
-        <img th:src="@{image/default-profile.png}" class="gallery-image">
+        <img th:src="@{'/file/post/' + ${story.imageUrl}}" class="gallery-image">
         <div class="gallery-item-info">
             <ul>
                 <li class="grid-like"><span class="visually-hidden">Likes:</span>

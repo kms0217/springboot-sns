@@ -11,22 +11,15 @@
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
 <main style="margin: auto; padding-top: 100px; max-width: 935px; align-content: center;">
     <div class="container">
         <div class="gallery">
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
-            <div th:replace="/gridPicture.html :: fragment-gridPicture"></div>
+            <div th:each="story : ${pageInfo.storyList}">
+                <div th:replace="/gridPicture.html :: fragment-gridPicture(${story})">
+                </div>
+            </div>
         </div>
-    </div>
 </main>
 </body>
 </html>
