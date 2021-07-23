@@ -3,7 +3,7 @@ package com.kms.mygram.controller.api;
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.ProfileEditDto;
-import com.kms.mygram.exception.ProfileEditValidException;
+import com.kms.mygram.exception.ValidException;
 import com.kms.mygram.service.UserService;
 import com.kms.mygram.validator.ProfileEditValidator;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -36,13 +34,10 @@ public class UserApiController {
     ){
         profileEditValidator.validate(profileEditDto, bindingResult);
         if (bindingResult.hasErrors()){
-            Map<String, String> errors = new HashMap<>();
             StringBuffer buffer = new StringBuffer("Validation Fail\n");
-            for(FieldError error : bindingResult.getFieldErrors()){
-                errors.put(error.getField(), error.getDefaultMessage());
+            for(FieldError error : bindingResult.getFieldErrors())
                 buffer.append(error.getDefaultMessage() + "\n");
-            }
-            throw new ProfileEditValidException(buffer.toString(), errors);
+            throw new ValidException(buffer.toString());
         }
         User userEntity = userService.updateUser(principal.getUser().getUserId(), profileEditDto);
         principal.setUser(userEntity);
