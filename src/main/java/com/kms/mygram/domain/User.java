@@ -47,10 +47,7 @@ public class User {
     private String intro;
     private String gender;
     private boolean recommend;
-
-    @OneToMany(mappedBy = "user")
-    private List<Story> stories;
-
+    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -63,5 +60,4 @@ public class User {
     public void updateTime() {
         updatedAt = LocalDateTime.now();
     }
-
 }
