@@ -6,26 +6,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long commentId;
 
     @ManyToOne
     private User user;
 
-    @OneToMany
-    private List<Comment> comment;
-
-    private String imageUrl;
-    private String caption;
     private int likeNum;
 
     private LocalDateTime createdAt;
