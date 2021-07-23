@@ -18,6 +18,7 @@ public class Comment {
     private Long commentId;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private int likeNum;

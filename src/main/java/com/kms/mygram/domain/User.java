@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -46,6 +47,9 @@ public class User {
     private String intro;
     private String gender;
     private boolean recommend;
+
+    @OneToMany(mappedBy = "user")
+    private List<Story> stories;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

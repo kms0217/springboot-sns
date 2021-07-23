@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(
-                columnNames = {"follower_user_id", "followee_user_id"}
+                columnNames = {"follower_id", "followee_id"}
         )
 })
 public class Follow {
@@ -25,9 +25,11 @@ public class Follow {
     private Long followId;
 
     @ManyToOne
+    @JoinColumn(name = "follower_id")
     private User follower;
 
     @ManyToOne
+    @JoinColumn(name = "followee_id")
     private User followee;
 
     private LocalDateTime createdAt;
