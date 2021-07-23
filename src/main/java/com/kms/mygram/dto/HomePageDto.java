@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class HomePageDto {
 
     private List<Post> postList = new ArrayList<>();

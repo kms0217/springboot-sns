@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ProfilePageDto {
 
     private User user;
