@@ -17,9 +17,12 @@
     <div class="content-container"
          style="margin-left: 0!important; margin-right: 0!important; margin-top: 30px;height: 90%; border: 1px solid #bdbdbd;">
         <div style="margin: auto; width: 300px; height: 200px">
-            <img th:src="@{/image/default-profile.png}" style="border-radius: 50%; width: 56px; height: 56px; margin-bottom: 20px;">
-            <button style="font-size: 11px; border: 0; background-color: white; color: #00aeff; padding-top: 10px;"> 프로필 사진 바꾸기 </button>
             <form id="update-form" style="min-width: 100%">
+                <img th:src="@{'/file/profile/' + ${user.profileImageUrl}}" id="preview-image" style="border-radius: 50%; width: 56px; height: 56px; margin-bottom: 20px;">
+                <label for="image" style="display: inline-block; font-size: 11px; border: 0; background-color: white; color: #00aeff; padding-top: 10px">
+                    프로필 사진 바꾸기
+                </label>
+                <input style="display: none" type="file" id="image" name="image">
                 <input class="change-password-input"
                        name="name"
                        type="text"
@@ -69,24 +72,44 @@
     </div>
 </div>
 <script type="text/javascript">
-    var log;
     function update(userId){
-        let data = $("#update-form").serialize();
+        let dataArray = $("#update-form").serializeArray();
+        let data = new FormData();
+        if ($('input[name=image]')[0].files[0]!=undefined){
+            data.append('image', $('input[name=image]')[0].files[0]);
+        }
+        dataArray.forEach(ele => data.append(ele.name, ele.value));
         $.ajax({
             type: "put",
             url: '/api/user',
             data: data,
-            contentType: "Application/x-www-form-urlencoded; charset=utf-8",
+            contentType: false,
+            processData: false,
             dataType: "json",
             success: function(data){
                 alert("success");
             },
             error: function(data){
-                log = data;
-                alert(data.responseJSON.message);
+                alert("error");
             }
         });
     }
+</script>
+<script type="text/javascript">
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader()
+            reader.onload = e => {
+                const previewImage = document.getElementById("preview-image")
+                previewImage.src = e.target.result
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+    const inputImage = document.getElementById("image")
+    inputImage.addEventListener("change", e => {
+        readImage(e.target)
+    })
 </script>
 </body>
 </html>

@@ -4,14 +4,48 @@
     <meta charset="UTF-8">
     <title>Mygram</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
 <div th:replace="/nav.html :: fragment-nav"></div>
 <div class="content">
-    emtpy
+    <div class="content-container h-100 row" style="margin-left: 0!important; margin-right: 0!important;">
+        <form method="post" action="upload" enctype="multipart/form-data" style="text-align: center;">
+            <div class="image-container">
+                <img style="width: 500px;" id="preview-image" width="500px" height="500px">
+                <label for="image" style="display: block; background-color: #00aeff; border-radius: 4px; color: white; width: 120px; margin: auto;">
+                    사진 선택
+                </label>
+                <input style="display: none" type="file" id="image">
+            </div>
+            <div style="padding-top: 20px;">
+                <input type="text" name="caption" id="caption" style="width: 500px;" placeholder="사진 설명을 써주세요.">
+                <button class="btn btn-primary" type="submit" style="display: block; margin: auto;">
+                    게시
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+<script type="text/javascript">
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader()
+            reader.onload = e => {
+                const previewImage = document.getElementById("preview-image")
+                previewImage.src = e.target.result
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+    const inputImage = document.getElementById("image")
+    inputImage.addEventListener("change", e => {
+        readImage(e.target)
+    })
+</script>
 </body>
 </html>

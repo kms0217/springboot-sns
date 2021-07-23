@@ -50,7 +50,7 @@
                     </svg>
                 </a>
                 <a class="profile-button" th:href="@{/profile}">
-                    <img class="profile-img" th:src="@{/image/default-profile.png}">
+                    <img class="profile-img" th:src="@{'/file/profile/' + ${user.profileImageUrl}}">
                 </a>
             </div>
         </nav>

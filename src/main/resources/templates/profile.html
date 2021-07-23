@@ -18,7 +18,7 @@
     <div class="container">
         <div class="profile" style="padding-top: 10px;">
             <div class="profile-image">
-                <img th:src="@{/image/default-profile.png}" width="150px" height="150px" style="border-radius: 50%;">
+                <img th:src="@{'/file/profile/' + ${user.profileImageUrl}}" width="150px" height="150px" style="border-radius: 50%;">
             </div>
             <div class="profile-user-settings">
                 <h1 class="profile-user-name">username</h1>
@@ -64,7 +64,7 @@
         <div class="modal-content rounded-1">
             <div class="modal-body" style="width: 300px;">
                 <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
-                    <a style="text-decoration: none; color: black;">게시글 작성</a>
+                    <a style="text-decoration: none; color: black;" th:href="@{/upload}">게시글 작성</a>
                 </div>
                 <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
                     <a style="text-decoration: none; color: black;" th:href="@{/profile/edit/password}">비밀번호 변경</a>
