@@ -50,6 +50,8 @@ public class UserService {
     }
 
     public List<User> getRecommendUsers(Long userId) {
-        return null;
+        //TODO 이후 어떤 추천 알고리즘 사용할지 생각, 현재는 Follow안한 user
+
+        return userRepository.findRecommendUser(userId);
     }
 }
