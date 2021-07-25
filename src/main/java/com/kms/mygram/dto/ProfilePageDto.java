@@ -16,6 +16,7 @@ public class ProfilePageDto extends BasePageDto{
 
     private User user;
     private boolean myProfile;
+    private boolean checkFollowing;
     private int storyNum;
     private int followerNum;
     private int followeeNum;

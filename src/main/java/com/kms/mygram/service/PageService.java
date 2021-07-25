@@ -19,6 +19,7 @@ public class PageService {
 
     public HomePageDto homePage(User user) {
         //TODO 현재는 모든 user -> 이후 추천 리스트로 변경
+        //Follow중 아닌 List만
         HomePageDto homePageDto = new HomePageDto();
         homePageDto.setCurrentUser(user);
         homePageDto.setCurrentPage("home");
@@ -67,6 +68,7 @@ public class PageService {
         profilePageDto.setMyProfile(currentUser.getUserId() == targetUser.getUserId());
         profilePageDto.setStoryList(storyList);
         profilePageDto.setUser(targetUser);
+        profilePageDto.setCheckFollowing(followService.checkFollow(currentUser.getUserId(), targetUser.getUserId()));
         profilePageDto.setFolloweeNum(followService.getFolloweeNum(targetUser.getUserId()));
         profilePageDto.setFollowerNum(followService.getFollowerNum(targetUser.getUserId()));
         profilePageDto.setStoryNum(storyList.size());

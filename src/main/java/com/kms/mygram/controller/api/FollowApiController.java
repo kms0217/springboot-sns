@@ -44,7 +44,7 @@ public class FollowApiController {
         return new ResponseEntity<>(followList, HttpStatus.OK);
     }
 
-    @PostMapping("/follow/{userId}")
+    @PostMapping("/follows/{userId}")
     public ResponseEntity Follow(@AuthenticationPrincipal Principal principal,
                                  @PathVariable Long userId
     ){
@@ -52,7 +52,7 @@ public class FollowApiController {
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
-    @DeleteMapping("/follow/{userId}")
+    @DeleteMapping("/follows/{userId}")
     public ResponseEntity UnFollow(@AuthenticationPrincipal Principal principal,
                                    @PathVariable Long userId
     ){
