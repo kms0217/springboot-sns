@@ -1,5 +1,6 @@
 package com.kms.mygram.service;
 
+import com.kms.mygram.domain.Follow;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.StoryRequestDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class StoryService {
 
     private final StoryRepository storyRepository;
     private final UserService userService;
+    private final FollowService followService;
     private final FileUploader fileUploader;
 
     public List<Story> findAllStories() {
@@ -66,7 +69,15 @@ public class StoryService {
     }
 
     public List<Story> findAllStoriesByUser(User user) {
-        return storyRepository.findAllByUser(user);
+        return storyRepository.findAllByUserId(user.getUserId());
     }
 
+    public List<Story> getFolloweeStories(Long userId) {
+        List<Long> followUserIdList = followService.findAllByFollower(userId)
+                .stream()
+                .map(Follow::getFollowee)
+                .map(User::getUserId)
+                .collect(Collectors.toList());
+        return storyRepository.findAllByFolloweeList(followUserIdList);
+    }
 }
