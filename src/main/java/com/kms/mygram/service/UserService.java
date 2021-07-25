@@ -37,8 +37,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(Long userId){
+    public User getUser(Long userId) {
         return userRepository.findById(userId).orElse(null);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     public List<User> getAllUsers() {
