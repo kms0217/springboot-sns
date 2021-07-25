@@ -39,7 +39,7 @@ public class PageService {
 
     public ExplorerPageDto explorerPage(User user) {
         ExplorerPageDto explorerPageDto = new ExplorerPageDto();
-        explorerPageDto.setCurrentPage("explorer");
+        explorerPageDto.setCurrentPage("explore");
         explorerPageDto.setCurrentUser(user);
         explorerPageDto.setStoryList(storyService.findAllStories());
         return explorerPageDto;

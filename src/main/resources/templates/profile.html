@@ -37,17 +37,19 @@
                 <h1 class="profile-user-name">[[${pageInfo.user.username}]]</h1>
 
                 <div th:if="${pageInfo.checkFollowing}">
-                    <button class="unfollow" th:attr="onclick=|follow('${pageInfo.user.userId}', this)|">언팔로우</button>
+                    <button class="unfollow" style="font-size: 15px" th:attr="onclick=|follow('${pageInfo.user.userId}', this)|">언팔로우</button>
                 </div>
                 <div th:unless="${pageInfo.checkFollowing}">
-                    <button class="follow" th:attr="onclick=|follow('${pageInfo.user.userId}', this)|">팔로우</button>
+                    <button class="follow" style="font-size: 15px" th:attr="onclick=|follow('${pageInfo.user.userId}', this)|">팔로우</button>
                 </div>
             </div>
             <div class="profile-stats">
                 <ul style="padding-left: 0;">
                     <li>게시물 <span class="profile-stat-count">[[${pageInfo.storyNum}]]</span></li>
-                    <li>팔로워 <span class="profile-stat-count">[[${pageInfo.followerNum}]]</span></li>
-                    <li>팔로우 <span class="profile-stat-count">[[${pageInfo.followeeNum}]]</span></li>
+                    <li th:attr="onclick=|followerModalShow('${pageInfo.user.userId}')|">팔로워 <span
+                            class="profile-stat-count">[[${pageInfo.followerNum}]]</span></li>
+                    <li th:attr="onclick=|followeeModalShow('${pageInfo.user.userId}')|">팔로우 <span
+                            class="profile-stat-count">[[${pageInfo.followingNum}]]</span></li>
                 </ul>
             </div>
             <div class="profile-bio">
@@ -74,60 +76,54 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-1">
             <div class="modal-body" style="width: 300px;">
-                <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
+                <div class="setting-modal-link">
                     <a style="text-decoration: none; color: black;" th:href="@{/upload}">게시글 작성</a>
                 </div>
-                <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
+                <div class="setting-modal-link">
                     <a style="text-decoration: none; color: black;" th:href="@{/profile/edit/password}">비밀번호 변경</a>
                 </div>
-                <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
+                <div class="setting-modal-link">
                     <a style="text-decoration: none; color: black;" th:href="@{/logout}">로그아웃</a>
                 </div>
-                <div style="height: 30px; font-size: 13px; text-align: center; font-weight: 500; padding-top: 5px; margin-bottom: 5px; cursor: pointer">
+                <div class="setting-modal-link">
                     <a style="text-decoration: none;" data-bs-dismiss="modal">취소</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function follow(userId, obj) {
-        if ($(obj).text() === "언팔로우") {
-            $.ajax({
-                type: "delete",
-                url: "/api/follows/" + userId,
-                success: function () {
-                    $(obj).text("팔로우");
-                    $(obj).removeClass("unfollow");
-                    $(obj).addClass("follow")
-                },
-                error: function(data){
-                    log = data;
-                    if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                        alert(data.responseJSON.message);
-                    else
-                        alert("error가 발생했습니다.");
-                }
-            })
-        } else {
-            $.ajax({
-                type: "post",
-                url: "/api/follows/" + userId,
-                success: function () {
-                    $(obj).text("언팔로우");
-                    $(obj).removeClass("follow");
-                    $(obj).addClass("unfollow")
-                },
-                error: function(data){
-                    log = data;
-                    if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                        alert(data.responseJSON.message);
-                    else
-                        alert("error가 발생했습니다.");
-                }
-            })
-        }
-    }
-</script>
+<div id="profile-follow-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog f-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header f-modal-content">
+                <h5 class="modal-title f-modal-title">팔로우</h5>
+                <button class="f-modal-close" type="button" onclick="profileFollowModalClose()">
+                    <span class="f-modal-x" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body f-modal-body">
+                <div class="f-modal-item" id="profile-follow-modal-item">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="profile-follower-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog f-modal" role="document">
+        <div class="modal-content f-modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f-modal-title">팔로워</h5>
+                <button class="f-modal-close" type="button" onclick="profileFollowerModalClose()">
+                    <span class="f-modal-x" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body f-modal-body">
+                <div class="f-modal-item" id="profile-follower-modal-item">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/profile.js"></script>
 </body>
 </html>

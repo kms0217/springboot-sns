@@ -331,16 +331,57 @@ img {
 
 .follow {
     border: 0;
-    border-radius: 5rem;
+    border-radius: 5px;
     background-color: #00aeff;
     color: white;
-    font-size: 15px;
 }
 
 .unfollow {
     border: 0;
-    border-radius: 5rem;
+    border-radius: 5px;
     background-color: lightcoral;
-    font-size: 15px;
     color: white;
+}
+
+.setting-modal-link {
+    height: 30px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+    padding-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.f-modal {
+    width: 250px;
+}
+
+.f-modal-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: auto;
+}
+
+.f-modal-body {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.f-modal-close {
+    background-color: white;
+    border: 0;
+}
+
+.f-modal-x {
+    font-size: 20px;
+}
+
+.f-modal-username {
+    text-overflow: ellipsis;
+    padding-top: 3px;
+    font-weight: 400;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
 }
