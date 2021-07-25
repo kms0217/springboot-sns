@@ -11,7 +11,7 @@
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
 <main style="margin: auto; padding-top: 100px; max-width: 935px; align-content: center;">
     <div class="container">
         <div class="gallery">

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<div th:fragment="fragment-post">
+<div th:fragment="fragment-post(post)">
     <div class="post-item">
         <div class="post-item-header" style="background-color: white; height: 60px;">
             <div class="container row" style="padding-top: 13px;">
-                <div class="post-profile-img col-1" style="width: 40px; float: left;">
-                    <img th:src="@{/image/default-profile.png}" style="border-radius: 50%; width: 32px; height: 32px;">
-                </div>
+                <disv class="post-profile-img col-1" style="width: 40px; float: left;">
+                    <img th:src="@{'/file/profile/' + ${post.user.profileImageUrl}}" style="border-radius: 50%; width: 32px; height: 32px;">
+                </disv>
                 <div class="col-10" style="padding-top: 5px;padding-left: 20px;">
-                    <p>[[${post.user.userId]]</p>
+                    <p>[[${post.user.username}]]</p>
                 </div>
                 <div class="col-1" style="padding-top: 5px;">
                     <button style="width: 24px; height: 24px; border: 0; margin-left: 30px; background-color: white"><i
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="post-item-image" style="height: 614px;">
-            <img class="post-image" th:src="@{/image/default-profile.png}" style="width: 100%; height: 100%;">
+            <img class="post-image" th:src="@{'/file/post/' + ${post.imageUrl}}" style="width: 100%; height: 100%;">
         </div>
         <div class="post-nav row" style="height:40px;">
             <div class="like-button-wrapper col-1">

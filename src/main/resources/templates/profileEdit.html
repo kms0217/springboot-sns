@@ -12,13 +12,13 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
 <div class="content">
     <div class="content-container"
          style="margin-left: 0!important; margin-right: 0!important; margin-top: 30px;height: 90%; border: 1px solid #bdbdbd;">
         <div style="margin: auto; width: 300px; height: 200px">
             <form id="update-form" style="min-width: 100%">
-                <img th:src="@{'/file/profile/' + ${baseInfo.currentUser.profileImageUrl}}" id="preview-image" style="border-radius: 50%; width: 56px; height: 56px; margin-bottom: 20px;">
+                <img th:src="@{'/file/profile/' + ${pageInfo.currentUser.profileImageUrl}}" id="preview-image" style="border-radius: 50%; width: 56px; height: 56px; margin-bottom: 20px;">
                 <label for="image" style="display: inline-block; font-size: 11px; border: 0; background-color: white; color: #00aeff; padding-top: 10px">
                     프로필 사진 바꾸기
                 </label>
@@ -27,45 +27,45 @@
                        name="name"
                        type="text"
                        placeholder="이름"
-                       th:value="${baseInfo.currentUser.name} ? ${baseInfo.currentUser.name} : null"
+                       th:value="${pageInfo.currentUser.name} ? ${pageInfo.currentUser.name} : null"
                 >
                 <input class="change-password-input"
                        name="username"
                        type="text"
                        placeholder="사용자 이름"
-                       th:value="${baseInfo.currentUser.username} ? ${baseInfo.currentUser.username} : null"
+                       th:value="${pageInfo.currentUser.username} ? ${pageInfo.currentUser.username} : null"
                 >
                 <input class="change-password-input"
                        name="website"
                        type="text"
                        placeholder="웹 사이트"
-                       th:value="${baseInfo.currentUser.website} ? ${baseInfo.currentUser.website} : null"
+                       th:value="${pageInfo.currentUser.website} ? ${pageInfo.currentUser.website} : null"
                 >
                 <input class="change-password-input"
                        name="intro"
                        type="text"
                        placeholder="소개"
-                       th:value="${baseInfo.currentUser.intro} ? ${baseInfo.currentUser.intro} : null"
+                       th:value="${pageInfo.currentUser.intro} ? ${pageInfo.currentUser.intro} : null"
                 >
                 <input class="change-password-input"
                        name="email"
                        type="text"
                        placeholder="이메일"
-                       th:value="${baseInfo.currentUser.email} ? ${baseInfo.currentUser.email} : null"
+                       th:value="${pageInfo.currentUser.email} ? ${pageInfo.currentUser.email} : null"
                 >
                 <input class="change-password-input"
                        name="phoneNumber"
                        type="text"
                        placeholder="전화번호"
-                       th:value="${baseInfo.currentUser.phoneNumber} ? ${baseInfo.currentUser.phoneNumber} : null"
+                       th:value="${pageInfo.currentUser.phoneNumber} ? ${pageInfo.currentUser.phoneNumber} : null"
                 >
                 <input class="change-password-input"
                        name="gender"
                        type="text"
                        placeholder="성별"
-                       th:value="${baseInfo.currentUser.gender} ? ${baseInfo.currentUser.gender} : null"
+                       th:value="${pageInfo.currentUser.gender} ? ${pageInfo.currentUser.gender} : null"
                 >
-                <button type="button" th:attr="onclick=|update('${baseInfo.currentUser.userId}')|"
+                <button type="button" th:attr="onclick=|update('${pageInfo.currentUser.userId}')|"
                         class="change-password-button">제출</button>
             </form>
         </div>

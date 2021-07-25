@@ -11,12 +11,12 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav(current = ${baseInfo.current}, user = ${baseInfo.currentUser})"></div>
+<div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
 <div class="content">
     <div class="content-container h-100 row" style="margin-left: 0!important; margin-right: 0!important;">
         <div class="post-list h-100 col-8">
-            <div th:each="p : ${pageInfo.getStoryList}">
-                <div th:replace="/postTemplate.html :: fragment-post(post = p)"></div>
+            <div th:each="p : ${pageInfo.storyList}">
+                <div th:replace="/postTemplate.html :: fragment-post(post = ${p})"></div>
             </div>
         </div>
         <div class="side col-4">
