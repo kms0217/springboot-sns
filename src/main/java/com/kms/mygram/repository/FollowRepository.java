@@ -18,17 +18,17 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query(value = "delete from follow where follower_id=:follower_id and followee_id=:followee_id", nativeQuery = true)
     int unfollow(@Param("follower_id") Long follower_id, @Param("followee_id") Long followee_id);
 
-    @Query(value = "select * from follow where followee_id=:followee_id", nativeQuery = true)
-    List<Follow> findAllByFollower(@Param("followee_id") Long userId);
-
     @Query(value = "select * from follow where follower_id=:follower_id", nativeQuery = true)
-    List<Follow> findAllByFollowee(@Param("follower_id") Long userId);
+    List<Follow> findAllByFollower(@Param("follower_id") Long userId);
 
-    @Query(value = "select count(*) from follow where followee_id=:followee_id", nativeQuery = true)
-    int followerCount(@Param("followee_id") Long userId);
+    @Query(value = "select * from follow where followee_id=:followee_id", nativeQuery = true)
+    List<Follow> findAllByFollowee(@Param("followee_id") Long userId);
 
     @Query(value = "select count(*) from follow where follower_id=:follower_id", nativeQuery = true)
-    int followeeCount(@Param("follower_id") Long userId);
+    int countByFollowerId(@Param("follower_id") Long userId);
+
+    @Query(value = "select count(*) from follow where followee_id=:followee_id", nativeQuery = true)
+    int countByFolloweeId(@Param("followee_id") Long userId);
 
     @Query(value = "select count(*) from follow where follower_id=:follower_id and followee_id=:followee_id", nativeQuery = true)
     int checkFollowTarget(@Param("follower_id") Long userId, @Param("followee_id") Long targetUserId);

@@ -19,7 +19,11 @@ public class ProfilePageDto extends BasePageDto {
     private boolean myProfile;
     private boolean checkFollowing;
     private int storyNum;
+
+    //나를 follow하는 사람
     private int followerNum;
-    private int followeeNum;
+
+    //내가 follow하느 사람
+    private int followingNum;
     List<Story> storyList = new ArrayList<>();
 }

@@ -1,7 +1,7 @@
 package com.kms.mygram.controller;
 
 import com.kms.mygram.auth.Principal;
-import com.kms.mygram.dto.*;
+import com.kms.mygram.dto.Page.*;
 import com.kms.mygram.service.PageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +33,7 @@ public class PageController {
 
     @GetMapping("/explore")
     public String Explore(Model model, @AuthenticationPrincipal Principal principal){
-        ExplorerDto dto = pageService.explorerPage(principal.getUser());
+        ExplorerPageDto dto = pageService.explorerPage(principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "explore";
     }

@@ -48,4 +48,8 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public List<User> getRecommendUsers(Long userId) {
+        return null;
+    }
 }

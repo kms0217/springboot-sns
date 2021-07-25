@@ -2,6 +2,7 @@ package com.kms.mygram.controller.api;
 
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.Follow;
+import com.kms.mygram.dto.Page.ProfileModalDto;
 import com.kms.mygram.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,31 +24,37 @@ public class FollowApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Follow>> allFollows() {
         List<Follow> followList = followService.findAllFollows();
-        if(followList.isEmpty())
+        if (followList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(followList, HttpStatus.OK);
     }
 
     @GetMapping("/follows/{userId}/follower")
-    public ResponseEntity<List<Follow>> getFollower(@PathVariable Long userId) {
-        List<Follow> followList = followService.findAllByFollower(userId);
-        if(followList.isEmpty())
+    public ResponseEntity<List<ProfileModalDto>> getFollower(@PathVariable Long userId,
+                                                             @AuthenticationPrincipal Principal principal)
+    {
+        List<ProfileModalDto> profileModalDtoList =
+                followService.getModalDtoByFollower(principal.getUser().getUserId(), userId);
+        if (profileModalDtoList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(followList, HttpStatus.OK);
+        return new ResponseEntity<>(profileModalDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/follows/{userId}/followee")
-    public ResponseEntity<List<Follow>> getFollowee(@PathVariable Long userId) {
-        List<Follow> followList = followService.findAllByFollowee(userId);
-        if(followList.isEmpty())
+    public ResponseEntity<List<ProfileModalDto>> getFollowee(@PathVariable Long userId,
+                                                             @AuthenticationPrincipal Principal principal)
+    {
+        List<ProfileModalDto> profileModalDtoList =
+                followService.getModalDtoByFollowee(principal.getUser().getUserId(), userId);
+        if (profileModalDtoList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(followList, HttpStatus.OK);
+        return new ResponseEntity<>(profileModalDtoList, HttpStatus.OK);
     }
 
     @PostMapping("/follows/{userId}")
     public ResponseEntity Follow(@AuthenticationPrincipal Principal principal,
                                  @PathVariable Long userId
-    ){
+    ) {
         followService.createFollow(principal.getUser().getUserId(), userId);
         return new ResponseEntity(null, HttpStatus.OK);
     }
@@ -55,7 +62,7 @@ public class FollowApiController {
     @DeleteMapping("/follows/{userId}")
     public ResponseEntity UnFollow(@AuthenticationPrincipal Principal principal,
                                    @PathVariable Long userId
-    ){
+    ) {
         followService.deleteFollow(principal.getUser().getUserId(), userId);
         return new ResponseEntity(null, HttpStatus.OK);
     }

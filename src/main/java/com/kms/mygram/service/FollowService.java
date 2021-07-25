@@ -2,12 +2,14 @@ package com.kms.mygram.service;
 
 import com.kms.mygram.domain.Follow;
 import com.kms.mygram.domain.User;
+import com.kms.mygram.dto.Page.ProfileModalDto;
 import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,12 +41,15 @@ public class FollowService {
         }
     }
 
-    public int getFollowerNum(Long userId) {
-        return followRepository.followerCount(userId);
+    // user Id가 Follower인 갯수
+    public int countByFollower(Long userId) {
+        return followRepository.countByFollowerId(userId);
     }
 
-    public int getFolloweeNum(Long userId) {
-        return followRepository.followeeCount(userId);
+
+    //user Id가 Followee인 개수
+    public int countByFollowee(Long userId) {
+        return followRepository.countByFolloweeId(userId);
     }
 
     public boolean checkFollow(Long userId, Long targetUserId) {
@@ -55,7 +60,39 @@ public class FollowService {
         return followRepository.findAllByFollower(userId);
     }
 
+    public List<ProfileModalDto> getModalDtoByFollower(Long userId, Long targetUserId) {
+        List<Follow> followList = followRepository.findAllByFollower(targetUserId);
+        List<ProfileModalDto> profileModalDtoList = new ArrayList<>();
+        for (Follow follow : followList) {
+            User followeeUser = userService.getUser(follow.getFollowee().getUserId());
+            profileModalDtoList.add(ProfileModalDto.builder()
+                    .following(checkFollow(userId, followeeUser.getUserId()))
+                    .profileImageUrl(followeeUser.getProfileImageUrl())
+                    .me(userId == followeeUser.getUserId())
+                    .username(followeeUser.getUsername())
+                    .userId(followeeUser.getUserId())
+                    .build());
+        }
+        return profileModalDtoList;
+    }
+
     public List<Follow> findAllByFollowee(Long userId) {
         return followRepository.findAllByFollowee(userId);
+    }
+
+    public List<ProfileModalDto> getModalDtoByFollowee(Long userId, Long targetUserId) {
+        List<Follow> followList = followRepository.findAllByFollowee(targetUserId);
+        List<ProfileModalDto> profileModalDtoList = new ArrayList<>();
+        for (Follow follow : followList) {
+            User followerUser = userService.getUser(follow.getFollower().getUserId());
+            profileModalDtoList.add(ProfileModalDto.builder()
+                    .following(checkFollow(userId, followerUser.getUserId()))
+                    .profileImageUrl(followerUser.getProfileImageUrl())
+                    .me(followerUser.getUserId() == userId)
+                    .userId(followerUser.getUserId())
+                    .username(followerUser.getUsername())
+                    .build());
+        }
+        return profileModalDtoList;
     }
 }

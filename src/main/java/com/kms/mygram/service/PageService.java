@@ -2,7 +2,10 @@ package com.kms.mygram.service;
 
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
-import com.kms.mygram.dto.*;
+import com.kms.mygram.dto.Page.DirectPageDto;
+import com.kms.mygram.dto.Page.ExplorerPageDto;
+import com.kms.mygram.dto.Page.HomePageDto;
+import com.kms.mygram.dto.Page.ProfilePageDto;
 import com.kms.mygram.exception.PageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,10 @@ public class PageService {
 
     public HomePageDto homePage(User user) {
         //TODO 현재는 모든 user -> 이후 추천 리스트로 변경
-        //Follow중 아닌 List만
         HomePageDto homePageDto = new HomePageDto();
         homePageDto.setCurrentUser(user);
         homePageDto.setCurrentPage("home");
-        homePageDto.setUserList(userService.getAllUsers());
+        homePageDto.setUserList(userService.getRecommendUsers(user.getUserId()));
         homePageDto.setStoryList(storyService.getFolloweeStories(user.getUserId()));
         return homePageDto;
     }
@@ -35,12 +37,12 @@ public class PageService {
         return directPageDto;
     }
 
-    public ExplorerDto explorerPage(User user) {
-        ExplorerDto explorerDto = new ExplorerDto();
-        explorerDto.setCurrentPage("explorer");
-        explorerDto.setCurrentUser(user);
-        explorerDto.setStoryList(storyService.findAllStories());
-        return explorerDto;
+    public ExplorerPageDto explorerPage(User user) {
+        ExplorerPageDto explorerPageDto = new ExplorerPageDto();
+        explorerPageDto.setCurrentPage("explorer");
+        explorerPageDto.setCurrentUser(user);
+        explorerPageDto.setStoryList(storyService.findAllStories());
+        return explorerPageDto;
     }
 
     public ProfilePageDto myProfilePage(User user) {
@@ -51,8 +53,8 @@ public class PageService {
         profilePageDto.setMyProfile(true);
         profilePageDto.setStoryList(storyList);
         profilePageDto.setUser(user);
-        profilePageDto.setFolloweeNum(followService.getFolloweeNum(user.getUserId()));
-        profilePageDto.setFollowerNum(followService.getFollowerNum(user.getUserId()));
+        profilePageDto.setFollowerNum(followService.countByFollowee(user.getUserId()));
+        profilePageDto.setFollowingNum(followService.countByFollower(user.getUserId()));
         profilePageDto.setStoryNum(storyList.size());
         return profilePageDto;
     }
@@ -69,8 +71,8 @@ public class PageService {
         profilePageDto.setStoryList(storyList);
         profilePageDto.setUser(targetUser);
         profilePageDto.setCheckFollowing(followService.checkFollow(currentUser.getUserId(), targetUser.getUserId()));
-        profilePageDto.setFolloweeNum(followService.getFolloweeNum(targetUser.getUserId()));
-        profilePageDto.setFollowerNum(followService.getFollowerNum(targetUser.getUserId()));
+        profilePageDto.setFollowerNum(followService.countByFollowee(targetUser.getUserId()));
+        profilePageDto.setFollowingNum(followService.countByFollower(targetUser.getUserId()));
         profilePageDto.setStoryNum(storyList.size());
         return profilePageDto;
     }
