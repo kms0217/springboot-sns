@@ -19,6 +19,7 @@ public class Story {
     private Long StoryId;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
