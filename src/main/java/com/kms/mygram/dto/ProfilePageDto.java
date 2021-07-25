@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ProfilePageDto{
+public class ProfilePageDto extends BasePageDto{
 
     private User user;
     private boolean myProfile;

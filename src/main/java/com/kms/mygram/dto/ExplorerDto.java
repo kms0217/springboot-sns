@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExplorerDto {
+public class ExplorerDto extends BasePageDto{
 
     List<Story> storyList;
 }

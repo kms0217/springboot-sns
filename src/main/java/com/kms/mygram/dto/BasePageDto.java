@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class BasePageDto {
 
-    private String current;
+    private String currentPage;
     private User currentUser;
 }

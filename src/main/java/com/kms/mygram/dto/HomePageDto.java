@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HomePageDto{
+public class HomePageDto extends BasePageDto{
 
     private List<Story> storyList = new ArrayList<>();
     private List<User> userList = new ArrayList<>();
