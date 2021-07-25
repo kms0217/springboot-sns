@@ -328,3 +328,19 @@ img {
     text-align: left;
     vertical-align: middle;
 }
+
+.follow {
+    border: 0;
+    border-radius: 5rem;
+    background-color: #00aeff;
+    color: white;
+    font-size: 15px;
+}
+
+.unfollow {
+    border: 0;
+    border-radius: 5rem;
+    background-color: lightcoral;
+    font-size: 15px;
+    color: white;
+}

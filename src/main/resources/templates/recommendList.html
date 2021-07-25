@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="fragment-recommend(user)">
+    <div class="recommend-content row" style="width: inherit">
+        <div class="col-1 recommend-img">
+            <a th:href="@{'/profile/' + ${user.username}}">
+            <img th:src="@{'/file/profile/' + ${user.profileImageUrl}}" style="border-radius: 50%;width: 32px;">
+            </a>
+        </div>
+        <div class="col-7">
+            <p style="padding-left: 15px; padding-top: 3px; font-weight: 400">[[${u.username}]]</p>
+        </div>
+        <div class="col-4">
+            <p class="recommend-follow" th:attr="onclick=|follow('${user.userId}', this)|" style="cursor:pointer">팔로우</p>
+        </div>
+    </div>
+</div>
+</html>

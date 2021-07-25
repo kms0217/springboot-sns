@@ -27,41 +27,49 @@
                 <a th:href="@{/allRecommend}"
                    style="padding-left: 80px; text-decoration: none; font-weight: 600; color: black">모두 보기</a>
                 <div class="recommend-list" style="padding-top: 15px;" th:each="u : ${pageInfo.userList}">
-                    <div class="recommend-content row" style="width: inherit">
-                        <div class="col-1 recommend-img">
-                            <img th:src="@{'/file/profile/' + ${u.profileImageUrl}}" style="border-radius: 50%;width: 32px;">
-                        </div>
-                        <div class="col-7">
-                            <p style="padding-left: 15px; padding-top: 3px; font-weight: 400">[[${u.username}]]</p>
-                        </div>
-                        <div class="col-4">
-                            <button style="background-color: white; border: 0;" th:attr="onclick=|follow('${u.userId}')|">
-                                <p style="font-size: 15px; padding-left: 20px; padding-top: 3px; font-weight: 600; color: #00aeff">
-                                    팔로우</p>
-                            </button>
-                        </div>
-                    </div>
+                    <div th:replace="/recommendList.html :: fragment-recommend(user=${u})" style="margin-bottom: 10px"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function follow(userId) {
-        $.ajax({
-            type: "post",
-            url: '/api/follow/' + userId,
-            success: function () {
-                alert("Follow 성공");
-            },
-            error: function(data){
-                log = data;
-                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                    alert(data.responseJSON.message);
-                else
-                    alert("error가 발생했습니다.");
-            }
-        });
+    function follow(userId, obj) {
+        if ($(obj).text() === "팔로우") {
+            $.ajax({
+                type: "post",
+                url: '/api/follows/' + userId,
+                success: function () {
+                    $(obj).removeClass("recommend-follow");
+                    $(obj).addClass("recommend-unfollow");
+                    $(obj).text("언팔로우");
+                },
+                error: function(data){
+                    log = data;
+                    if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
+                        alert(data.responseJSON.message);
+                    else
+                        alert("error가 발생했습니다.");
+                }
+            });
+        } else {
+            $.ajax({
+                type: "delete",
+                url: '/api/follows/' + userId,
+                success: function () {
+                    $(obj).addClass("recommend-follow");
+                    $(obj).removeClass("recommend-unfollow");
+                    $(obj).text("팔로우");
+                },
+                error: function(data){
+                    log = data;
+                    if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
+                        alert(data.responseJSON.message);
+                    else
+                        alert("error가 발생했습니다.");
+                }
+            });
+        }
     }
 </script>
 </body>
