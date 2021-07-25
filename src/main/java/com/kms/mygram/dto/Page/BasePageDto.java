@@ -1,4 +1,4 @@
-package com.kms.mygram.dto;
+package com.kms.mygram.dto.Page;
 
 import com.kms.mygram.domain.User;
 import lombok.AllArgsConstructor;

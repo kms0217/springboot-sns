@@ -1,4 +1,4 @@
-package com.kms.mygram.dto;
+package com.kms.mygram.dto.Page;
 
 import com.kms.mygram.domain.Story;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExplorerDto extends BasePageDto{
+public class ExplorerPageDto extends BasePageDto{
 
     List<Story> storyList;
 }
