@@ -6,7 +6,6 @@ import com.kms.mygram.dto.*;
 import com.kms.mygram.exception.PageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.List;
 

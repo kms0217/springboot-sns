@@ -1,29 +1,19 @@
 package com.kms.mygram.controller;
 
 import com.kms.mygram.auth.Principal;
-import com.kms.mygram.domain.Story;
-import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.*;
 import com.kms.mygram.service.PageService;
-import com.kms.mygram.service.StoryService;
-import com.kms.mygram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class PageController {
 
-    private final UserService userService;
-    private final StoryService storyService;
     private final PageService pageService;
 
 
