@@ -1,19 +1,22 @@
 let created_at;
-let page_num = 0;
-let height = document.body.scrollHeight;
+let next_page_num = 0;
+let total_page_num = 0;
 
-window.onload = getStory();
+window.onload = getStory;
 
 function getStory() {
     $.ajax({
         type: "get",
-        url: "/api/stories/?page=" + page_num,
+        url: "/api/stories/?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             (data.content).forEach(content => {
                 $("#home-content").append(homeView(content));
             });
-            page_num = page_num + 1;
+            total_page_num = data.totalPages;
+            next_page_num = data.pageable.pageNumber + 1;
+            if (next_page_num > total_page_num - 1)
+                window.removeEventListener("scroll", checkScroll);
         },
         error: function (data) {
             if (data.status === 403)
@@ -22,10 +25,12 @@ function getStory() {
     });
 }
 
-$(window).scroll(function() {
+window.addEventListener('scroll', checkScroll);
+
+function checkScroll() {
     if (Math.floor(($(window).scrollTop() / ($(document).height() - $(window).height())) * 100) > 50)
         getStory();
-})
+}
 
 function homeView(content) {
     let view = `<div>
