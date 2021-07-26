@@ -64,7 +64,7 @@ public class FollowService {
         List<Follow> followList = followRepository.findAllByFollower(targetUserId);
         List<ProfileModalDto> profileModalDtoList = new ArrayList<>();
         for (Follow follow : followList) {
-            User followeeUser = userService.getUser(follow.getFollowee().getUserId());
+            User followeeUser = follow.getFollowee();
             profileModalDtoList.add(ProfileModalDto.builder()
                     .following(checkFollow(userId, followeeUser.getUserId()))
                     .profileImageUrl(followeeUser.getProfileImageUrl())
@@ -84,7 +84,7 @@ public class FollowService {
         List<Follow> followList = followRepository.findAllByFollowee(targetUserId);
         List<ProfileModalDto> profileModalDtoList = new ArrayList<>();
         for (Follow follow : followList) {
-            User followerUser = userService.getUser(follow.getFollower().getUserId());
+            User followerUser = follow.getFollower();
             profileModalDtoList.add(ProfileModalDto.builder()
                     .following(checkFollow(userId, followerUser.getUserId()))
                     .profileImageUrl(followerUser.getProfileImageUrl())
