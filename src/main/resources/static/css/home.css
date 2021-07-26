@@ -23,7 +23,6 @@ html, body {
 
 .comment-text {
     padding-left: 16px;
-
 }
 
 .post-nav {
@@ -64,7 +63,7 @@ html, body {
     margin: 0 !important;
     width: 100%;
     padding-left: 16px;
-    border: 1px solid #bdbdbd;
+    border-top: 1px solid #bdbdbd;
 }
 
 .post-item {
