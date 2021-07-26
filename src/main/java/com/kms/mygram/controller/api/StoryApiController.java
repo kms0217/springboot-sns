@@ -28,21 +28,30 @@ public class StoryApiController {
     private final StoryService storyService;
 
     @GetMapping("/stories")
-    public ResponseEntity<Page<Story>> allStories(
+    public ResponseEntity<Page<Story>> allStoriesFilterByFollower(
             @AuthenticationPrincipal Principal principal,
             @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
-            )
-    {
+    ) {
         Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
         return new ResponseEntity(storyPage, HttpStatus.OK);
     }
 
-    @GetMapping("/stories/{storyId}")
-    public ResponseEntity<Story> getStory(@PathVariable Long storyId){
-        Story story = storyService.findById(storyId);
-        if (story == null)
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(story, HttpStatus.OK);
+    @GetMapping("/explore")
+    public ResponseEntity<Page<Story>> allStories(
+            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<Story> storyPage = storyService.getStoriesPage(pageable);
+        return new ResponseEntity<>(storyPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/stories/{userId}")
+    public ResponseEntity<Page<Story>> getTargetStory(
+            @AuthenticationPrincipal Principal principal,
+            @PathVariable Long userId,
+            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<Story> storyPage = storyService.getTargetStoriesPage(principal.getUser(), pageable);
+        return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
     @PostMapping("/stories")
@@ -50,8 +59,7 @@ public class StoryApiController {
             @Valid StoryRequestDto storyRequestDto,
             BindingResult bindingResult,
             UriComponentsBuilder uriComponentsBuilder,
-            @AuthenticationPrincipal Principal principal)
-    {
+            @AuthenticationPrincipal Principal principal) {
         if (bindingResult.hasErrors())
             throw new ValidException("이미지 형식을 확인해주세요.");
         Story story = storyService.createStory(storyRequestDto, principal.getUser());
@@ -65,8 +73,7 @@ public class StoryApiController {
             @PathVariable Long storyId,
             @Valid @RequestBody StoryRequestDto storyRequestDto,
             BindingResult bindingResult,
-            @AuthenticationPrincipal Principal principal)
-    {
+            @AuthenticationPrincipal Principal principal) {
         if (bindingResult.hasErrors())
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         Story story = storyService.updateStory(storyId, storyRequestDto, principal.getUser());

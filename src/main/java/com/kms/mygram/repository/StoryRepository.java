@@ -15,8 +15,11 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
     List<Story> findAllByUserId(@Param("user_id") Long userId);
 
     @Query(value = "select * from story order by created_at desc", nativeQuery = true)
-    List<Story> findAll();
+    Page<Story> findAll(Pageable pageable);
 
     @Query(value = "select * from story a where a.user_id in (select b.followee_id from follow b where b.follower_id = :user_id)", nativeQuery = true)
     Page<Story> getFolloweeStories(@Param("user_id") Long userId, Pageable pageable);
+
+    @Query(value = "select * from story a where a.user_id=:user_id", nativeQuery = true)
+    Page<Story> getTargetStories(@Param("user_id") Long userId, Pageable pageable);
 }
