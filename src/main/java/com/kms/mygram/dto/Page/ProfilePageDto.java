@@ -2,10 +2,7 @@ package com.kms.mygram.dto.Page;
 
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper=false)
 public class ProfilePageDto extends BasePageDto {
 
     private User user;
