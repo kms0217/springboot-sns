@@ -47,15 +47,16 @@ public class PageService {
 
     public ProfilePageDto myProfilePage(User user) {
         List<Story> storyList = storyService.findAllStoriesByUser(user);
-        ProfilePageDto profilePageDto = new ProfilePageDto();
+        ProfilePageDto profilePageDto = ProfilePageDto.builder()
+                .myProfile(true)
+                .storyList(storyList)
+                .user(user)
+                .followerNum(followService.countByFollowee(user.getUserId()))
+                .followingNum(followService.countByFollower(user.getUserId()))
+                .storyNum(storyList.size())
+                .build();
         profilePageDto.setCurrentPage("profile");
         profilePageDto.setCurrentUser(user);
-        profilePageDto.setMyProfile(true);
-        profilePageDto.setStoryList(storyList);
-        profilePageDto.setUser(user);
-        profilePageDto.setFollowerNum(followService.countByFollowee(user.getUserId()));
-        profilePageDto.setFollowingNum(followService.countByFollower(user.getUserId()));
-        profilePageDto.setStoryNum(storyList.size());
         return profilePageDto;
     }
 
@@ -64,16 +65,17 @@ public class PageService {
         if (targetUser == null)
             throw new PageException("없는 사용자 입니다.");
         List<Story> storyList = storyService.findAllStoriesByUser(targetUser);
-        ProfilePageDto profilePageDto = new ProfilePageDto();
+        ProfilePageDto profilePageDto = ProfilePageDto.builder()
+                .myProfile(currentUser.getUserId() == targetUser.getUserId())
+                .storyList(storyList)
+                .user(targetUser)
+                .checkFollowing(followService.checkFollow(currentUser.getUserId(), targetUser.getUserId()))
+                .followerNum(followService.countByFollowee(targetUser.getUserId()))
+                .followingNum(followService.countByFollower(targetUser.getUserId()))
+                .storyNum(storyList.size())
+                .build();
         profilePageDto.setCurrentPage("profile");
         profilePageDto.setCurrentUser(currentUser);
-        profilePageDto.setMyProfile(currentUser.getUserId() == targetUser.getUserId());
-        profilePageDto.setStoryList(storyList);
-        profilePageDto.setUser(targetUser);
-        profilePageDto.setCheckFollowing(followService.checkFollow(currentUser.getUserId(), targetUser.getUserId()));
-        profilePageDto.setFollowerNum(followService.countByFollowee(targetUser.getUserId()));
-        profilePageDto.setFollowingNum(followService.countByFollower(targetUser.getUserId()));
-        profilePageDto.setStoryNum(storyList.size());
         return profilePageDto;
     }
 }
