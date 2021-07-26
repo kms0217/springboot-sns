@@ -1,6 +1,5 @@
 package com.kms.mygram.service;
 
-import com.kms.mygram.domain.Follow;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.StoryRequestDto;
@@ -10,11 +9,12 @@ import com.kms.mygram.repository.StoryRepository;
 import com.kms.mygram.utils.FileUploader;
 import com.kms.mygram.utils.Utils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,12 +72,7 @@ public class StoryService {
         return storyRepository.findAllByUserId(user.getUserId());
     }
 
-    public List<Story> getFolloweeStories(Long userId) {
-        List<Long> followUserIdList = followService.findAllByFollower(userId)
-                .stream()
-                .map(Follow::getFollowee)
-                .map(User::getUserId)
-                .collect(Collectors.toList());
-        return storyRepository.findAllByFolloweeList(followUserIdList);
+    public Page<Story> getFolloweeStoriesPage(User user, Pageable pageable) {
+        return storyRepository.getFolloweeStories(user.getUserId(), pageable);
     }
 }

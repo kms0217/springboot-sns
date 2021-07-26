@@ -1,6 +1,5 @@
 package com.kms.mygram.dto.Page;
 
-import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +15,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper=false)
 public class HomePageDto extends BasePageDto{
 
-    private List<Story> storyList = new ArrayList<>();
     private List<User> userList = new ArrayList<>();
 }

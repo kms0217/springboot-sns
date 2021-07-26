@@ -26,7 +26,6 @@ public class PageService {
         homePageDto.setCurrentUser(user);
         homePageDto.setCurrentPage("home");
         homePageDto.setUserList(userService.getRecommendUsers(user.getUserId()));
-        homePageDto.setStoryList(storyService.getFolloweeStories(user.getUserId()));
         return homePageDto;
     }
 
