@@ -30,7 +30,7 @@ public class StoryApiController {
     @GetMapping("/stories")
     public ResponseEntity<Page<Story>> allStories(
             @AuthenticationPrincipal Principal principal,
-            @PageableDefault(size = 3, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
             )
     {
         Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
