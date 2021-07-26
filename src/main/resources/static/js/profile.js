@@ -9,6 +9,8 @@ function follow(userId, obj) {
                 $(obj).addClass("follow")
             },
             error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
                 if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                     alert(data.responseJSON.message);
                 else
@@ -25,6 +27,8 @@ function follow(userId, obj) {
                 $(obj).addClass("unfollow")
             },
             error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
                 if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                     alert(data.responseJSON.message);
                 else
@@ -47,6 +51,8 @@ function followerModalShow(userId) {
             })
         },
         error: function (data) {
+            if (data.status === 403)
+                location.replace("/login");
             if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                 alert(data.responseJSON.message);
             else
@@ -68,6 +74,8 @@ function followeeModalShow(userId) {
             })
         },
         error: function (data) {
+            if (data.status === 403)
+                location.replace("/login");
             if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                 alert(data.responseJSON.message);
             else

@@ -9,6 +9,8 @@ function follow(userId, obj) {
                 $(obj).text("언팔로우");
             },
             error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
                 if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                     alert(data.responseJSON.message);
                 else
@@ -25,6 +27,8 @@ function follow(userId, obj) {
                 $(obj).text("팔로우");
             },
             error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
                 if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
                     alert(data.responseJSON.message);
                 else
