@@ -1,5 +1,6 @@
 package com.kms.mygram.config;
 
+import com.kms.mygram.auth.AjaxAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -32,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .loginProcessingUrl("/login")
                             .defaultSuccessUrl("/", false)
                             .failureUrl("/login-error");
+                })
+                .exceptionHandling(exception->{
+                    exception.authenticationEntryPoint(ajaxAwareAuthenticationEntryPoint("/login"));
                 });
     }
 
@@ -46,4 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    private AjaxAuthenticationEntryPoint ajaxAwareAuthenticationEntryPoint(String url) {
+        return new AjaxAuthenticationEntryPoint(url);
+    }
+
 }
