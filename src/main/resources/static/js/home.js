@@ -1,29 +1,10 @@
 let created_at;
 let page_num = 0;
-//
-// $(document).ready(function () {
-//     $.ajax({
-//         type: "get",
-//         url: "/api/stories/?page=" + page_num,
-//         dataType: "Json",
-//         success: function (data) {
-//             (data.content).forEach(content => {
-//                 $("#home-content").html(homeView(content)).trigger("create"); //append(homeView(content)).trigger("create");
-//             });
-//             page_num = page_num + 1;
-//         },
-//         error: function (data) {
-//             if (data.status === 403)
-//                 location.replace("/login");
-//             if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-//                 alert(data.responseJSON.message);
-//             else
-//                 alert("error가 발생했습니다.");
-//         }
-//     });
-// });
+let height = document.body.scrollHeight;
 
-window.onload = function (){
+window.onload = getStory();
+
+function getStory() {
     $.ajax({
         type: "get",
         url: "/api/stories/?page=" + page_num,
@@ -37,13 +18,14 @@ window.onload = function (){
         error: function (data) {
             if (data.status === 403)
                 location.replace("/login");
-            if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                alert(data.responseJSON.message);
-            else
-                alert("error가 발생했습니다.");
         }
     });
 }
+
+$(window).scroll(function() {
+    if (Math.floor(($(window).scrollTop() / ($(document).height() - $(window).height())) * 100) > 50)
+        getStory();
+})
 
 function homeView(content) {
     let view = `<div>
