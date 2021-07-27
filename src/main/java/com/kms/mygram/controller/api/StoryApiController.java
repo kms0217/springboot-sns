@@ -46,11 +46,10 @@ public class StoryApiController {
 
     @GetMapping("/stories/{userId}")
     public ResponseEntity<Page<Story>> getTargetStory(
-            @AuthenticationPrincipal Principal principal,
             @PathVariable Long userId,
             @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Page<Story> storyPage = storyService.getTargetStoriesPage(principal.getUser(), pageable);
+        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 

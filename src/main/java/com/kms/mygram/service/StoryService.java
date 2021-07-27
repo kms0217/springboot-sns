@@ -76,8 +76,8 @@ public class StoryService {
         return storyRepository.getFolloweeStories(user.getUserId(), pageable);
     }
 
-    public Page<Story> getTargetStoriesPage(User user, Pageable pageable) {
-        return storyRepository.getTargetStories(user.getUserId(), pageable);
+    public Page<Story> getTargetStoriesPage(Long userId, Pageable pageable) {
+        return storyRepository.getTargetStories(userId, pageable);
     }
 
     public Page<Story> getStoriesPage(Pageable pageable) {
