@@ -22,7 +22,7 @@ public class Story {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story_id")
     private List<Comment> comment;
 
     private String imageUrl;
@@ -35,6 +35,7 @@ public class Story {
     @PrePersist
     public void createTime() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate

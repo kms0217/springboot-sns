@@ -38,6 +38,7 @@ public class Follow {
     @PrePersist
     public void createTime() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
