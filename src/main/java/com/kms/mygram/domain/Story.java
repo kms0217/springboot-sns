@@ -23,6 +23,7 @@ public class Story {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
+    @OrderBy("created_at desc")
     private List<Comment> comment;
 
     private String imageUrl;
