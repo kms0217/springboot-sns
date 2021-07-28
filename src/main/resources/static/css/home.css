@@ -167,3 +167,11 @@ html, body {
     display: inline;
     font-size: 13px;
 }
+
+.story-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    width: 100%;
+}

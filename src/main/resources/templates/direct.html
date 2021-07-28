@@ -6,8 +6,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/direct.css}">
 </head>
 <body>
 <div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
@@ -15,7 +19,7 @@
     <div class="content-container row" style="margin-left: 0!important; margin-right: 0!important; height: 95%">
         <div class="col-4" style="border: 1px solid #bdbdbd; padding: 0; margin: 0;">
             <div style="height: 60px; border-bottom: 1px solid #bdbdbd; width: 100%; position: relative; padding: 0; margin: 0;">
-                <button style=" position:absolute; margin: 0; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); background-color: white; border: 0;)">
+                <button class="dm-search-button">
                     <i class="fas fa-edit fa-lg"></i>
                 </button>
             </div>
@@ -23,31 +27,27 @@
                 <div th:replace="chatusers.html :: fragment-chatusers"></div>
             </div>
         </div>
-        <div class="post-list h-100 col-8 " style="border: 1px solid #bdbdbd; padding: 0; margin: 0;">
+        <div class="chat-box h-100 col-8">
             <!--     Enter chat room       -->
-            <div class="h-100" th:if="false">
-                <div style="height: 60px; border: 1px solid #bdbdbd; width: 100%; padding: 0; margin: 0;">
+            <div class="h-100 chatroom" th:if="false">
+                <div class="chatroom-header">
                 </div>
                 <div style="height: calc(100% - 120px); overflow-y: scroll;">
                     <div th:replace="sendchat.html :: fragment-sendchat"></div>
                     <div th:replace="recvchat.html :: fragment-recvchat"></div>
                 </div>
-                <div id="input-chat"
-                     style="height: 40px; border: 1px solid #bdbdbd; border-radius: 25px; margin-left: 20px; margin-right: 20px; padding-left: 20px; padding-right: 20px; margin-bottom: 10px;">
-                    <input type="text"
-                           style="font-size:13px; height:40px; padding-top:0px!important; padding-bottom: 0!important; border: 0;background-color:transparent!important;"
-                           placeholder="메시지입력..." class="form-control rounded-0 border-0 py-4 bg-light"/>
+                <div id="input-chat" class="dm-input-wrapper">
+                    <input type="text" placeholder="메시지입력..." class="form-control rounded-0 border-0 py-4 bg-light dm-input-text"/>
                 </div>
             </div>
             <!--        Default         -->
             <div class="h-100" th:unless="false" style="position: relative;">
-                <div style="position: absolute; top: 50%; left: 50%; display: block;width: 60%;height: 20%;margin: -14% 0 0 -28%;">
-                    <i class="far fa-paper-plane fa-5x" style="margin-left: 35%; padding-bottom: 10px;"></i>
-                    <p style="text-align: center; font-size: 22px; font-weight: 100; padding-bottom: 0!important; margin-bottom: 0;">내 메시지</p>
-                    <p style="text-align: center; font-size: 12px; font-weight: 300; color: #bdbdbd; margin-bottom: 15px!important;">친구나 그룹에 비공개 사진과 메시지를 보내보세요.</p>
-                    <button class="btn-primary" style="border-radius: 5px;align-content: center;font-size: 12px; font-weight: 600; margin-left: 32%;">메시지 보내기</button>
+                <div class="default-item-box">
+                    <i class="far fa-paper-plane fa-5x default-icon"></i>
+                    <p class="default-text-title">내 메시지</p>
+                    <p class="default-text-content">친구나 그룹에 비공개 사진과 메시지를 보내보세요.</p>
+                    <button class="btn-primary default-send-msg-btn">메시지 보내기</button>
                 </div>
-
             </div>
         </div>
     </div>
