@@ -92,7 +92,7 @@ function follow(userId, obj) {
         })
     }
 }
-let log;
+
 function followerModalShow(userId) {
     $('.f-item').remove();
     $("#profile-follow-modal").modal('show');

@@ -34,10 +34,10 @@ function checkScroll() {
 
 function homeView(content) {
     let view = `<div>
-        <div class="post-item" user_id="${content.user.userId} story_id="${content.storyId}">
-            <div class="post-item-header" style="background-color: white; height: 60px;">
+        <div class="story-item" user_id="${content.user.userId} data-story-id="${content.storyId}">
+            <div class="story-item-header" style="background-color: white; height: 60px;">
                 <div class="container row" style="padding-top: 13px;">
-                    <disv class="post-profile-img col-1" style="width: 40px; float: left;">
+                    <disv class="story-profile-img col-1" style="width: 40px; float: left;">
                         <img src="/file/profile/${content.user.profileImageUrl}"
                              style="border-radius: 50%; width: 32px; height: 32px;">
                     </disv>
@@ -51,47 +51,58 @@ function homeView(content) {
                     </div>
                 </div>
             </div>
-            <div class="post-item-image" style="height: 614px;">
-                <img class="post-image" src="/file/post/${content.imageUrl}"
+            <div class="story-item-image" style="height: 614px;">
+                <img class="story-image" src="/file/post/${content.imageUrl}"
                      style="width: 100%; height: 100%;">
             </div>
-            <div class="post-nav row" style="height:40px;">
+            <div class="story-nav row" style="height:40px;">
                 <div class="like-button-wrapper col-1">
-                    <button class="post-btn">
+                    <button class="story-btn">
                         <i class="far fa-heart fa-lg"></i>
                     </button>
                 </div>
                 <div class="like-button-wrapper col-1">
-                    <button class="post-btn">
+                    <button class="story-btn">
                         <i class="far fa-comments fa-lg"></i>
                     </button>
                 </div>
                 <div class="like-button-wrapper col-1">
-                    <button class="post-btn">
+                    <button class="story-btn">
                         <i class="far fa-paper-plane fa-lg"></i>
                     </button>
                 </div>
             </div>
-            <div class="post-like" style="height: 24px;">
-                <p class="post-like-count">n명이 좋아합니다.</p>
+            <div class="story-like" style="height: 24px;">
+                <p class="story-like-count">${content.likenum}명이 좋아합니다.</p>
+            </div>`;
+    if (content.comment.length > 3) {
+        view += `<p class="show-all" onclick="showStoryModal(${content.storyId})">댓글 모두보기</p>`;
+        view += `<div class="story-comment" id="story-comment-list-${content.storyId}">`;
+        (content.comment).slice(0, 2).forEach(comment => {
+            view += createCommentView(comment);
+        });
+    }
+    else {
+        view += `<div class="story-comment" id="story-comment-list-${content.storyId}">`;
+        (content.comment).forEach(comment => {
+            view += createCommentView(comment);
+        });
+    }
+    view += `</div><div class="story-date" style="height:19px;">
+                <p class="comment-date">${content.createdAt}</p>
             </div>
-            <div class="post-comment">
-                <p class="comment-text">username 어쩌구저쩌구</p>
-            </div>
-            <div class="post-date" style="height:19px;">
-                <p class="comment-date">7월 3일</p>
-            </div>
-            <div class="post-comment-input-wrapper row" style="height: 56px;">
+            <div class="story-comment-input-wrapper row" style="height: 56px;">
                 <div class="col-1 imoz-wrapper">
                     <button class="imoz">
                         <i class="far fa-smile fa-2x"></i>
                     </button>
                 </div>
                 <div class="col-9">
-                    <input class="post-comment-input" placeholder="댓글 달기..." style="width: 100%; height: 100%;">
+                    <input class="story-comment-input" placeholder="댓글 달기..." id="story-input-${content.storyId}" 
+                    style="width: 100%; height: 100%;" onkeyup="if(window.event.keyCode==13){addComment(${content.storyId})}">
                 </div>
                 <div class="col-2 comment-button-wrapper">
-                    <button class="comment-button"><p>게시</p></button>
+                    <button class="comment-button" onclick="addComment(${content.storyId})"><p>게시</p></button>
                 </div>
             </div>
         </div>
@@ -138,4 +149,53 @@ function follow(userId, obj) {
             }
         });
     }
+}
+
+function addComment(storyId) {
+    //TODO example =  <script>alert('test')</script>같은것 처리
+    let inputVal = $("#story-input-" + storyId).val();
+    $("#story-input-" + storyId).val("");
+    if (inputVal === "") {
+        alert("댓글을 입력해 주세요.");
+        return;
+    }
+    let data = {commentMsg: inputVal, storyId: storyId};
+    $.ajax({
+        type: "post",
+        url: "/api/comments",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (data) {
+            $("#story-comment-list-" + storyId).prepend(createCommentView(data));
+        },
+        error: function (data) {}
+    });
+}
+
+function createCommentView(comment) {
+    return `<a href="/profile/${comment.user.username}" class="comment-username">${comment.user.username}</a>
+            <p class="comment-text"> ${comment.commentMsg}</p><br>`;
+}
+
+function createStoryModalItem(comment) {
+    let view = `<div class="story-modal-item row">
+                        <a class="story-modal-username col-3" href="/profile/${comment.user.username}"> ${comment.user.username} </a>
+                        <p class="story-modal-comment col-9"> ${comment.commentMsg} </p>
+                    </div>`;
+    return view;
+}
+
+function showStoryModal(storyId) {
+    $('.story-modal-item').remove();
+    $("#story-modal").modal("show");
+    $.ajax({
+        type: "get",
+        url: "/api/comments?storyId=" + storyId,
+        dataType: "Json",
+        success: function(data) {
+            (data).forEach(comment=>{
+                $("#story-modal-item-list").append(createStoryModalItem(comment));
+            });
+        }
+    });
 }

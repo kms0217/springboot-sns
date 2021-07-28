@@ -22,15 +22,25 @@ html, body {
 }
 
 .comment-text {
-    padding-left: 16px;
+    margin-bottom: 3px;
+    font-size: 14px;
+    display: inline;
 }
 
-.post-nav {
+.comment-username {
+    padding-left: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+}
+
+.story-nav {
     padding-top: 10px;
     padding-left: 16px;
 }
 
-.post-btn {
+.story-btn {
     background-color: white;
     border: 0;
 }
@@ -41,11 +51,11 @@ html, body {
     padding-right: 20px;
 }
 
-.post-like {
+.story-like {
     padding-left: 16px;
 }
 
-.post-comment-input {
+.story-comment-input {
     background: 0 0;
     border: 0;
     color: #262626;
@@ -56,17 +66,16 @@ html, body {
     padding: 0;
     resize: none;
     width: 0;
-
 }
 
-.post-comment-input-wrapper {
+.story-comment-input-wrapper {
     margin: 0 !important;
     width: 100%;
     padding-left: 16px;
     border-top: 1px solid #bdbdbd;
 }
 
-.post-item {
+.story-item {
     margin-bottom: 30px;
     border: 1px solid #bdbdbd;
 }
@@ -111,4 +120,40 @@ html, body {
     padding-top: 3px;
     font-weight: 600;
     color: lightcoral;
+}
+
+.show-all {
+    padding-left: 16px;
+    font-size: 13px;
+    color: gainsboro;
+    margin-bottom: 5px;
+}
+
+.story-modal-body {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.story-modal-close {
+    background-color: white;
+    border: 0;
+}
+
+.story-modal-x {
+    font-size: 20px;
+}
+
+.story-modal-username {
+    text-overflow: ellipsis;
+    font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+}
+
+.story-modal-comment {
+    display: inline;
+    font-size: 13px;
 }
