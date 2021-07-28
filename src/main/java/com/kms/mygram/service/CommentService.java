@@ -10,6 +10,8 @@ import com.kms.mygram.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -34,5 +36,9 @@ public class CommentService {
                 .orElseThrow(() -> new ApiException("해당 댓글이 존재하지 않습니다."));
         if (comment.getUser().getUserId() != user.getUserId())
             throw new ApiForbiddenException("본인의 댓글만 지울 수 있습니다.");
+    }
+
+    public List<Comment> getStoryComment(Long storyId) {
+        return commentRepository.findByStoryId(storyId);
     }
 }
