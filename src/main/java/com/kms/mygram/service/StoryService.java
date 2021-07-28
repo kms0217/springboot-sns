@@ -1,5 +1,6 @@
 package com.kms.mygram.service;
 
+import com.kms.mygram.domain.Like;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.StoryRequestDto;
@@ -73,7 +74,18 @@ public class StoryService {
     }
 
     public Page<Story> getFolloweeStoriesPage(User user, Pageable pageable) {
-        return storyRepository.getFolloweeStories(user.getUserId(), pageable);
+        Page<Story> storyPage = storyRepository.getFolloweeStories(user.getUserId(), pageable);
+        for (Story story : storyPage) {
+            List<Like> likes = story.getLikes();
+            story.setLikeNum(likes.size());
+            for (Like like : likes) {
+                if (like.getUser().getUserId() == user.getUserId()) {
+                    story.setLikeStatus(true);
+                    break;
+                }
+            }
+        }
+        return storyPage;
     }
 
     public Page<Story> getTargetStoriesPage(Long userId, Pageable pageable) {

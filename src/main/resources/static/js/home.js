@@ -55,11 +55,16 @@ function homeView(content) {
                 <img class="story-image" src="/file/post/${content.imageUrl}"
                      style="width: 100%; height: 100%;">
             </div>
+           
             <div class="story-nav row" style="height:40px;">
                 <div class="like-button-wrapper col-1">
-                    <button class="story-btn">
-                        <i class="far fa-heart fa-lg"></i>
-                    </button>
+                    <button class="story-btn" onclick="like(${content.storyId})" >`;
+    if (content.likeStatus)
+        view += `<i class="fas fa-heart fa-lg" id="like-btn-${content.storyId}"></i>`;
+    else
+        view += `<i class="far fa-heart fa-lg" id="like-btn-${content.storyId}"></i>`;
+
+    view += `</button>
                 </div>
                 <div class="like-button-wrapper col-1">
                     <button class="story-btn">
@@ -73,18 +78,20 @@ function homeView(content) {
                 </div>
             </div>
             <div class="story-like" style="height: 24px;">
-                <p class="story-like-count">${content.likenum}명이 좋아합니다.</p>
-            </div>`;
-    if (content.comment.length > 3) {
+                <p class="story-like-count" id="like-count-${content.storyId}">${content.likeNum}</p>
+                <p class="story-like-count-text"> 명이 좋아합니다.</p><br>
+            </div>
+            <a href="/profile/${content.user.username}" class="comment-username">${content.user.username}</a>
+            <p class="comment-text"> ${content.caption}</p><br>`;
+    if (content.comments.length > 3) {
         view += `<p class="show-all" onclick="showStoryModal(${content.storyId})">댓글 모두보기</p>`;
         view += `<div class="story-comment" id="story-comment-list-${content.storyId}">`;
-        (content.comment).slice(0, 2).forEach(comment => {
+        (content.comments).slice(-2).forEach(comment => {
             view += createCommentView(comment);
         });
-    }
-    else {
+    } else {
         view += `<div class="story-comment" id="story-comment-list-${content.storyId}">`;
-        (content.comment).forEach(comment => {
+        (content.comments).forEach(comment => {
             view += createCommentView(comment);
         });
     }
@@ -166,9 +173,12 @@ function addComment(storyId) {
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function (data) {
-            $("#story-comment-list-" + storyId).prepend(createCommentView(data));
+            $("#story-comment-list-" + storyId).append(createCommentView(data));
         },
-        error: function (data) {}
+        error: function (data) {
+            if (data.status === 403)
+                location.replace("/login");
+        }
     });
 }
 
@@ -192,10 +202,49 @@ function showStoryModal(storyId) {
         type: "get",
         url: "/api/comments?storyId=" + storyId,
         dataType: "Json",
-        success: function(data) {
-            (data).forEach(comment=>{
+        success: function (data) {
+            (data).forEach(comment => {
                 $("#story-modal-item-list").append(createStoryModalItem(comment));
             });
+        },
+        error: function (data) {
+            if (data.status === 403)
+                location.replace("/login");
         }
     });
+}
+
+function like(storyId) {
+    let current_status = $("#like-btn-" + storyId).attr("class");
+    if (current_status.includes("far")) {
+        $.ajax({
+            type: "post",
+            url: "/api/likes/" + storyId,
+            dataType: "Json",
+            success: function (data) {
+                $("#like-btn-" + storyId).removeClass("far");
+                $("#like-btn-" + storyId).addClass("fas");
+                $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) + 1);
+            },
+            error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
+            }
+        })
+    } else {
+        $.ajax({
+            type: "delete",
+            url: "/api/likes/" + storyId,
+            dataType: "Json",
+            success: function (data) {
+                $("#like-btn-" + storyId).removeClass("fas");
+                $("#like-btn-" + storyId).addClass("far");
+                $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) - 1);
+            },
+            error: function (data) {
+                if (data.status === 403)
+                    location.replace("/login");
+            }
+        })
+    }
 }

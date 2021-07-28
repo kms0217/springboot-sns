@@ -22,15 +22,21 @@ public class Story {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
+    @OneToMany(mappedBy = "story")
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "story")
     private List<Like> likes;
 
+    @Transient
+    private int likeNum;
+
+    @Transient
+    private boolean likeStatus;
+
     private String imageUrl;
     private String caption;
-    private int likeNum;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

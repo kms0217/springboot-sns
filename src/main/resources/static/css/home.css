@@ -55,6 +55,16 @@ html, body {
     padding-left: 16px;
 }
 
+.story-like-count {
+    font-size: 13px;
+    display: inline;
+}
+
+.story-like-count-text {
+    font-size: 13px;
+    display: inline;
+}
+
 .story-comment-input {
     background: 0 0;
     border: 0;
