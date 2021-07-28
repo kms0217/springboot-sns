@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query(value = "select * from comment where story_id=:story_id order by created_at desc", nativeQuery = true)
+    @Query(value = "select * from comment where story_id=:story_id", nativeQuery = true)
     List<Comment> findByStoryId(@Param("story_id") Long storyId);
 }

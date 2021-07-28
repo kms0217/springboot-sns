@@ -1,36 +1,34 @@
 package com.kms.mygram.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-public class Story {
+@Table(name = "like_table")
+public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storyId;
+    private Long likeId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "story")
-    private List<Like> likes;
-
-    private String imageUrl;
-    private String caption;
-    private int likeNum;
+    @ManyToOne
+    @JoinColumn(name = "story_id")
+    @JsonIgnore
+    private Story story;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
