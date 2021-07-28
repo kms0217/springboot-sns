@@ -32,6 +32,9 @@ public class Story {
     private int likeNum;
 
     @Transient
+    private int commentNum;
+
+    @Transient
     private boolean likeStatus;
 
     private String imageUrl;

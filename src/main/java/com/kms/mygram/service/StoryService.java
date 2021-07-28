@@ -89,10 +89,20 @@ public class StoryService {
     }
 
     public Page<Story> getTargetStoriesPage(Long userId, Pageable pageable) {
-        return storyRepository.getTargetStories(userId, pageable);
+        Page<Story> storyPage = storyRepository.getTargetStories(userId, pageable);
+        for (Story story : storyPage) {
+            story.setLikeNum(story.getLikes().size());
+            story.setCommentNum(story.getComments().size());
+        }
+        return storyPage;
     }
 
     public Page<Story> getStoriesPage(Pageable pageable) {
-        return storyRepository.findAll(pageable);
+        Page<Story> storyPage = storyRepository.findAll(pageable);
+        for (Story story : storyPage) {
+            story.setLikeNum(story.getLikes().size());
+            story.setCommentNum(story.getComments().size());
+        }
+        return storyPage;
     }
 }

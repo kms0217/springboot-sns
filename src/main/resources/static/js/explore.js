@@ -35,15 +35,15 @@ function checkScroll() {
 
 function exploreView(content) {
     let view = `<div>
-    <div class="gallery-picture" tabindex="0" data-story-id="${content.storyId}">
+    <div class="gallery-item" tabindex="0" data-story-id="${content.storyId}">
         <img src="/file/post/${content.imageUrl}" class="gallery-image" style="display: block;">
         <div class="gallery-item-info">
             <ul>
-                <li class="grid-like"><span class="visually-hidden">Likes:</span>
-                    <i class="fas fa-heart" aria-hidden="true"></i> 111
+                <li class="gallery-like"><span class="visually-hidden">Likes:</span>
+                    <i class="fas fa-heart" aria-hidden="true"></i> ${content.likeNum}
                 </li>
-                <li class="grid-comments"><span class="visually-hidden">Comments:</span>
-                    <i class="fas fa-comment" aria-hidden="true"></i> 111
+                <li class="gallery-comments"><span class="visually-hidden">Comments:</span>
+                    <i class="fas fa-comment" aria-hidden="true"></i> ${content.commentNum}
                 </li>
             </ul>
         </div>
