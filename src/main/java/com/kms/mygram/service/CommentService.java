@@ -9,6 +9,7 @@ import com.kms.mygram.exception.ApiForbiddenException;
 import com.kms.mygram.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final StoryService storyService;
 
+    @Transactional
     public Comment createComment(User user, CommentDto commentDto) {
         Story story = storyService.findById(commentDto.getStoryId());
         // TODO 여기서 처리할 필요 없이 storyService에서 Throw해주면 될듯.
@@ -31,6 +33,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public void deleteComment(User user, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ApiException("해당 댓글이 존재하지 않습니다."));

@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @RestController
 @ControllerAdvice
 public class ControllerExceptionHandler {
-
+    //TODO 같은 형식의 반환은 통합하기
     @ExceptionHandler(ValidException.class)
     public ResponseEntity<?> ProfileValidException(ValidException e) {
         return new ResponseEntity<>(new ResponseDto<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
