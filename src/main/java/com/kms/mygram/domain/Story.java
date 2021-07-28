@@ -16,13 +16,13 @@ public class Story {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long StoryId;
+    private Long storyId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
     private List<Comment> comment;
 
     private String imageUrl;

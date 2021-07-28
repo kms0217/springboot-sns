@@ -1,5 +1,6 @@
 package com.kms.mygram.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,13 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int likeNum;
+    @ManyToOne
+    @JoinColumn(name = "story_id")
+    @JsonIgnore
+    private Story story;
+
+    @Column(nullable = false)
+    private String commentMsg;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -29,6 +36,7 @@ public class Comment {
     @PrePersist
     public void createTime() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
