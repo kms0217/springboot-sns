@@ -54,4 +54,8 @@ public class UserService {
 
         return userRepository.findRecommendUser(userId);
     }
+
+    public List<User> getUserWithFilter(User user, String filter) {
+        return userRepository.findWithFilter(user.getUserId(), filter);
+    }
 }

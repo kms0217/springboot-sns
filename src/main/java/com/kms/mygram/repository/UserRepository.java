@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "(select b.followee_id from follow b where b.follower_id =:user_id) " +
             "and a.user_id !=:user_id", nativeQuery = true)
     List<User> findRecommendUser(@Param("user_id") Long userId);
+
+    @Query(value = "select * from user where username like :filter% and user_id!=:user_id", nativeQuery = true)
+    List<User> findWithFilter(@Param("user_id") Long userId, @Param("filter") String filter);
 }
