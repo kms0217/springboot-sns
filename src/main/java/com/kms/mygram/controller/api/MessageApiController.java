@@ -23,9 +23,9 @@ public class MessageApiController {
     private final MessageService messageService;
 
     @GetMapping("/chatrooms/{chatRoomId}/messages")
-    public ResponseEntity getChatRoomMessage(@AuthenticationPrincipal Principal principal, @PathVariable Long chatRoomId) {
+    public ResponseEntity<List<Message>> getChatRoomMessage(@AuthenticationPrincipal Principal principal, @PathVariable Long chatRoomId) {
 
         List<Message> messages = messageService.getChatRoomMessages(principal.getUser(), chatRoomId);
-        return new ResponseEntity(messages, HttpStatus.OK);
+        return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 }

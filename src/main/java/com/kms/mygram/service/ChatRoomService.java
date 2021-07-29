@@ -18,19 +18,15 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final UserService userService;
 
-    public List<ChatRoom> getChatRooms(User user) {
-        return chatRoomRepository.findAllByUserId(user.getUserId());
-    }
-
     public ChatRoom getChatRoom(Long chatRoomId) {
-        return chatRoomRepository.findById(chatRoomId).orElseThrow(()->
-            new ApiException("chatroom이 존재하지 않습니다."));
+        return chatRoomRepository.findById(chatRoomId).orElseThrow(() ->
+                new ApiException("chatroom이 존재하지 않습니다."));
     }
 
     public ChatRoomDto createChatRoom(Long userId, Long targetUserId) {
         User userTwo = userService.getUser(targetUserId);
         ChatRoom chatRoom = chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).orElse(null);
-        if (chatRoom != null){
+        if (chatRoom != null) {
             return ChatRoomDto.builder()
                     .otherUser(userTwo)
                     .chatRoomId(chatRoom.getChatRoomId())
@@ -50,14 +46,14 @@ public class ChatRoomService {
     }
 
     public List<ChatRoomDto> getChatRoomsDto(User user) {
-        List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
+        List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
         chatRoomRepository.findAllByUserId(user.getUserId()).forEach(chatRoom -> {
             ChatRoomDto chatRoomDto = new ChatRoomDto();
             chatRoomDto.setChatRoomId(chatRoom.getChatRoomId());
-            chatRoomDto.setOtherUser(!chatRoom.getUserOne().getUserId().equals(user.getUserId())? chatRoom.getUserOne() : chatRoom.getUserTwo());
+            chatRoomDto.setOtherUser(!chatRoom.getUserOne().getUserId().equals(user.getUserId()) ? chatRoom.getUserOne() : chatRoom.getUserTwo());
             chatRoomDto.setNewRoom(false);
-            chatRoomDtos.add(chatRoomDto);
+            chatRoomDtoList.add(chatRoomDto);
         });
-        return chatRoomDtos;
+        return chatRoomDtoList;
     }
 }

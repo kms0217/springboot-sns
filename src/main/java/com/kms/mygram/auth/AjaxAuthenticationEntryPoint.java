@@ -16,7 +16,7 @@ public class AjaxAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoi
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        String header = ((HttpServletRequest) request).getHeader("X-Requested-With");
+        String header = request.getHeader("X-Requested-With");
         boolean isAjax = "XMLHttpRequest".equals(header);
         if (isAjax) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "세션이 만료되었습니다.");

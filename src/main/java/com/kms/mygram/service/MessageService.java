@@ -7,6 +7,7 @@ import com.kms.mygram.exception.ApiForbiddenException;
 import com.kms.mygram.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,12 +20,13 @@ public class MessageService {
 
     public List<Message> getChatRoomMessages(User user, Long chatRoomId) {
         ChatRoom chatRoom = chatRoomService.getChatRoom(chatRoomId);
-        if (!chatRoom.getUserOne().getUserId().equals(user.getUserId())  && !chatRoom.getUserTwo().getUserId().equals(user.getUserId())) {
+        if (!chatRoom.getUserOne().getUserId().equals(user.getUserId()) && !chatRoom.getUserTwo().getUserId().equals(user.getUserId())) {
             throw new ApiForbiddenException("해당 채팅방에 참여중이 아닙니다.");
         }
         return messageRepository.findAllByChatRoomId(chatRoomId);
     }
 
+    @Transactional
     public Message createMessage(Message message) {
         return messageRepository.save(message);
     }

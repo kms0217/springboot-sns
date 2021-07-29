@@ -16,7 +16,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     @Modifying
     @Query(value = "delete from follow where follower_id=:follower_id and followee_id=:followee_id", nativeQuery = true)
-    int unfollow(@Param("follower_id") Long follower_id, @Param("followee_id") Long followee_id);
+    void unfollow(@Param("follower_id") Long follower_id, @Param("followee_id") Long followee_id);
 
     @Query(value = "select * from follow where follower_id=:follower_id", nativeQuery = true)
     List<Follow> findAllByFollower(@Param("follower_id") Long userId);

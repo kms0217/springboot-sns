@@ -2,6 +2,7 @@ package com.kms.mygram.service;
 
 import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.ProfileEditDto;
+import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.repository.UserRepository;
 import com.kms.mygram.utils.FileUploader;
 import com.kms.mygram.utils.Utils;
@@ -21,7 +22,9 @@ public class UserService {
     @Transactional
     public User updateUser(Long userId, ProfileEditDto profileEditDto) {
         String fileUrl = fileUploader.upload(profileEditDto.getImage(), "profile/");
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new ApiException("존재하지 않는 User 입니다.")
+        );
         if (!Utils.isBlank(profileEditDto.getPhoneNumber()) && Utils.isBlank(user.getPhoneNumber()))
             user.setPhoneNumber(profileEditDto.getPhoneNumber().replaceAll("[^0-9]", ""));
         if (!Utils.isBlank(profileEditDto.getEmail()) && Utils.isBlank(user.getEmail()))
@@ -50,8 +53,7 @@ public class UserService {
     }
 
     public List<User> getRecommendUsers(Long userId) {
-        //TODO 이후 어떤 추천 알고리즘 사용할지 생각, 현재는 Follow안한 user
-
+        //TODO 이후 어떤 추천 알고리즘 사용할지 생각, 현재는 Follow 안한 user
         return userRepository.findRecommendUser(userId);
     }
 

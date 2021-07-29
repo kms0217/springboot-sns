@@ -23,17 +23,17 @@ public class CommentApiController {
     private final CommentService commentService;
 
     @GetMapping("/comments")
-    public ResponseEntity getComments(@RequestParam Long storyId) {
+    public ResponseEntity<List<Comment>> getComments(@RequestParam Long storyId) {
         List<Comment> comments = commentService.getStoryComment(storyId);
-        return new ResponseEntity(comments, HttpStatus.OK);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @PostMapping("/comments")
-    public ResponseEntity addComment(@AuthenticationPrincipal Principal principal, @Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) {
+    public ResponseEntity<Comment> addComment(@AuthenticationPrincipal Principal principal, @Valid @RequestBody CommentDto commentDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new ApiException("댓글을 입력해 주세요.");
         Comment comment = commentService.createComment(principal.getUser(), commentDto);
-        return new ResponseEntity(comment, HttpStatus.CREATED);
+        return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/comments/{commentId}")

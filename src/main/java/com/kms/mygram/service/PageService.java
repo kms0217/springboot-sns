@@ -65,7 +65,7 @@ public class PageService {
             throw new PageException("없는 사용자 입니다.");
         List<Story> storyList = storyService.findAllStoriesByUser(targetUser);
         ProfilePageDto profilePageDto = ProfilePageDto.builder()
-                .myProfile(currentUser.getUserId() == targetUser.getUserId())
+                .myProfile(currentUser.getUserId().equals(targetUser.getUserId()))
                 .storyList(storyList)
                 .user(targetUser)
                 .checkFollowing(followService.checkFollow(currentUser.getUserId(), targetUser.getUserId()))

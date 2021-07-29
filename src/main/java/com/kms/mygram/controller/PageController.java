@@ -16,30 +16,29 @@ public class PageController {
 
     private final PageService pageService;
 
-
     @GetMapping("/")
-    public String Home(Model model, @AuthenticationPrincipal Principal principal){
+    public String Home(Model model, @AuthenticationPrincipal Principal principal) {
         HomePageDto dto = pageService.homePage(principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "home";
     }
 
     @GetMapping("/direct")
-    public String Direct(Model model, @AuthenticationPrincipal Principal principal){
+    public String Direct(Model model, @AuthenticationPrincipal Principal principal) {
         DirectPageDto dto = pageService.directPage(principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "direct";
     }
 
     @GetMapping("/explore")
-    public String Explore(Model model, @AuthenticationPrincipal Principal principal){
+    public String Explore(Model model, @AuthenticationPrincipal Principal principal) {
         ExplorerPageDto dto = pageService.explorerPage(principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "explore";
     }
 
     @GetMapping("/profile")
-    public String Profile(Model model, @AuthenticationPrincipal Principal principal){
+    public String Profile(Model model, @AuthenticationPrincipal Principal principal) {
         ProfilePageDto dto = pageService.myProfilePage(principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "profile";
@@ -56,28 +55,28 @@ public class PageController {
     }
 
     @GetMapping("/profile/edit")
-    public String ProfileEdit(Model model, @AuthenticationPrincipal Principal principal){
+    public String ProfileEdit(Model model, @AuthenticationPrincipal Principal principal) {
         BasePageDto dto = new BasePageDto("profileEdit", principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "profileEdit";
     }
 
     @GetMapping("/profile/edit/password")
-    public String ChangePassword(Model model, @AuthenticationPrincipal  Principal principal){
+    public String ChangePassword(Model model, @AuthenticationPrincipal Principal principal) {
         BasePageDto dto = new BasePageDto("editPassword", principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "changePassword";
     }
 
     @GetMapping("/feed")
-    public String Feed(Model model, @AuthenticationPrincipal Principal principal){
+    public String Feed(Model model, @AuthenticationPrincipal Principal principal) {
         BasePageDto dto = new BasePageDto("feed", principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "feed";
     }
 
     @GetMapping("/upload")
-    public String Upload(Model model, @AuthenticationPrincipal Principal principal){
+    public String Upload(Model model, @AuthenticationPrincipal Principal principal) {
         BasePageDto dto = new BasePageDto("upload", principal.getUser());
         model.addAttribute("pageInfo", dto);
         return "uploadPost";

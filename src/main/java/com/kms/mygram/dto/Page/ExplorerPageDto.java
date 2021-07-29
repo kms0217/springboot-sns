@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
-public class ExplorerPageDto extends BasePageDto{
+@EqualsAndHashCode(callSuper = false)
+public class ExplorerPageDto extends BasePageDto {
 
     List<Story> storyList;
 }

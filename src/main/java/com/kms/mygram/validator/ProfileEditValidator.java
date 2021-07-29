@@ -5,17 +5,17 @@ import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.ProfileEditDto;
 import com.kms.mygram.service.AuthService;
 import com.kms.mygram.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
+@RequiredArgsConstructor
 public class ProfileEditValidator implements Validator {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @Override
     public boolean supports(Class<?> clazz) {

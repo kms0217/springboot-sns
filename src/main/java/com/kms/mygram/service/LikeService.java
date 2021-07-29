@@ -15,7 +15,7 @@ public class LikeService {
 
     @Transactional
     public void createLike(Long storyId, User user) {
-        try{
+        try {
             likeRepository.createWithStoryIdAndUserId(storyId, user.getUserId());
         } catch (Exception e) {
             throw new ApiException("좋아요 실패");

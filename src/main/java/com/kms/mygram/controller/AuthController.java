@@ -20,29 +20,29 @@ public class AuthController {
     private final UserValidator userValidator;
 
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping("/login-error")
-    public String loginError(Model model){
+    public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
     }
 
     @GetMapping("/signup")
-    public String signupForm(Model model){
+    public String signupForm(Model model) {
         model.addAttribute("userRequestDto", new UserRequestDto());
         return "signup";
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid UserRequestDto userRequestDto, BindingResult bindingResult){
+    public String signup(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
         userValidator.validate(userRequestDto, bindingResult);
         if (bindingResult.hasErrors()) {
             return "signup";

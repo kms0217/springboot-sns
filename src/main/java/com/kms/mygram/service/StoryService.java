@@ -23,7 +23,6 @@ public class StoryService {
 
     private final StoryRepository storyRepository;
     private final UserService userService;
-    private final FollowService followService;
     private final FileUploader fileUploader;
 
     public List<Story> findAllStories() {
@@ -31,7 +30,8 @@ public class StoryService {
     }
 
     public Story findById(Long storyId) {
-        return storyRepository.findById(storyId).orElse(null);
+        return storyRepository.findById(storyId).orElseThrow(() ->
+                new ApiException("존재하지 않는 Story 입니다."));
     }
 
     @Transactional
@@ -51,7 +51,7 @@ public class StoryService {
         Story story = storyRepository.findById(storyId).orElse(null);
         if (story == null)
             return null;
-        if (story.getUser().getUserId() != user.getUserId())
+        if (!user.getUserId().equals(story.getUser().getUserId()))
             throw new ApiException("본인의 글이 아닙니다.");
         String fileUrl = fileUploader.upload(storyRequestDto.getImage(), "post/");
         story.setImageUrl(fileUrl);
@@ -60,13 +60,12 @@ public class StoryService {
     }
 
     @Transactional
-    public boolean deleteStory(Long storyId, User user) {
-        Story story = storyRepository.findById(storyId).orElse(null);
-        if (story == null)
-            return false;
-        if (story.getUser().getUserId() != user.getUserId())
+    public void deleteStory(Long storyId, User user) {
+        Story story = storyRepository.findById(storyId).orElseThrow(() ->
+                new ApiException("존재하지 않는 Story 입니다.")
+        );
+        if (!user.getUserId().equals(story.getUser().getUserId()))
             throw new ApiForbiddenException("본인의 글이 아닙니다.");
-        return true;
     }
 
     public List<Story> findAllStoriesByUser(User user) {
@@ -79,7 +78,7 @@ public class StoryService {
             List<Like> likes = story.getLikes();
             story.setLikeNum(likes.size());
             for (Like like : likes) {
-                if (like.getUser().getUserId() == user.getUserId()) {
+                if (user.getUserId().equals(like.getUser().getUserId())) {
                     story.setLikeStatus(true);
                     break;
                 }

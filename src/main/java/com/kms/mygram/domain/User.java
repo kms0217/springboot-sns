@@ -1,16 +1,13 @@
 package com.kms.mygram.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,7 +22,7 @@ public class User {
     private Long userId;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name="user_id"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id"))
     private Set<Authority> authorities;
 
     @Column(unique = true, nullable = false)
@@ -49,7 +46,7 @@ public class User {
     private String intro;
     private String gender;
     private boolean recommend;
-    
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

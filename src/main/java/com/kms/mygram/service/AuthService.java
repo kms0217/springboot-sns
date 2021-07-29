@@ -31,15 +31,15 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserByUserName(String username){
+    public Optional<User> getUserByUserName(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public Optional<User> getUserByEmail(String email){
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> getUserByPhoneNumber(String phoneNumber){
+    public Optional<User> getUserByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber);
     }
 }

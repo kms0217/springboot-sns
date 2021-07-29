@@ -19,14 +19,14 @@ public class ChatRoomApiController {
     private final ChatRoomService chatRoomService;
 
     @GetMapping("/chatrooms")
-    public ResponseEntity getChatRooms(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<List<ChatRoomDto>> getChatRooms(@AuthenticationPrincipal Principal principal) {
         List<ChatRoomDto> chatRoomDtoList = chatRoomService.getChatRoomsDto(principal.getUser());
-        return new ResponseEntity(chatRoomDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(chatRoomDtoList, HttpStatus.OK);
     }
 
     @PostMapping("/chatrooms")
-    public ResponseEntity createChatRoom(@AuthenticationPrincipal Principal principal, @RequestParam Long targetUserId) {
+    public ResponseEntity<ChatRoomDto> createChatRoom(@AuthenticationPrincipal Principal principal, @RequestParam Long targetUserId) {
         ChatRoomDto chatRoomDto = chatRoomService.createChatRoom(principal.getUser().getUserId(), targetUserId);
-        return new ResponseEntity(chatRoomDto, HttpStatus.OK);
+        return new ResponseEntity<>(chatRoomDto, HttpStatus.OK);
     }
 }

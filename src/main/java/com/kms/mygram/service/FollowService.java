@@ -17,7 +17,6 @@ import java.util.List;
 public class FollowService {
 
     private final FollowRepository followRepository;
-    private final UserService userService;
 
     public List<Follow> findAllFollows() {
         return followRepository.findAll();
@@ -56,10 +55,6 @@ public class FollowService {
         return followRepository.checkFollowTarget(userId, targetUserId) > 0;
     }
 
-    public List<Follow> findAllByFollower(Long userId) {
-        return followRepository.findAllByFollower(userId);
-    }
-
     public List<ProfileModalDto> getModalDtoByFollower(Long userId, Long targetUserId) {
         List<Follow> followList = followRepository.findAllByFollower(targetUserId);
         List<ProfileModalDto> profileModalDtoList = new ArrayList<>();
@@ -68,16 +63,12 @@ public class FollowService {
             profileModalDtoList.add(ProfileModalDto.builder()
                     .following(checkFollow(userId, followeeUser.getUserId()))
                     .profileImageUrl(followeeUser.getProfileImageUrl())
-                    .me(userId == followeeUser.getUserId())
+                    .me(userId.equals(followeeUser.getUserId()))
                     .username(followeeUser.getUsername())
                     .userId(followeeUser.getUserId())
                     .build());
         }
         return profileModalDtoList;
-    }
-
-    public List<Follow> findAllByFollowee(Long userId) {
-        return followRepository.findAllByFollowee(userId);
     }
 
     public List<ProfileModalDto> getModalDtoByFollowee(Long userId, Long targetUserId) {
@@ -88,7 +79,7 @@ public class FollowService {
             profileModalDtoList.add(ProfileModalDto.builder()
                     .following(checkFollow(userId, followerUser.getUserId()))
                     .profileImageUrl(followerUser.getProfileImageUrl())
-                    .me(followerUser.getUserId() == userId)
+                    .me(userId.equals(followerUser.getUserId()))
                     .userId(followerUser.getUserId())
                     .username(followerUser.getUsername())
                     .build());

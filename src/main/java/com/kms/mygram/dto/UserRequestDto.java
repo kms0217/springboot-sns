@@ -31,12 +31,12 @@ public class UserRequestDto {
     @EmailPhoneNumber(message = "이메일 혹은 핸드폰 번호를 확인해주세요.")
     private String emailOrPhoneNumber;
 
-    public User toEntity(){
+    public User toEntity() {
         User user = new User();
         user.setUsername(this.username);
         user.setName(this.name);
         user.setPassword(this.password);
-        if (EmailPhoneNumberValidator.isEmail(this.emailOrPhoneNumber)){
+        if (EmailPhoneNumberValidator.isEmail(this.emailOrPhoneNumber)) {
             user.setEmail(this.emailOrPhoneNumber);
         } else {
             this.emailOrPhoneNumber = this.emailOrPhoneNumber.replaceAll("[^0-9]", "");

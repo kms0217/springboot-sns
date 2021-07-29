@@ -29,7 +29,7 @@ public class UserApiController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<User>> allUsers(){
+    public ResponseEntity<List<User>> allUsers() {
         List<User> userList = userService.getAllUsers();
         if (userList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -37,7 +37,7 @@ public class UserApiController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable Long userId){
+    public ResponseEntity<User> getUser(@PathVariable Long userId) {
         User user = userService.getUser(userId);
         if (user == null)
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -50,13 +50,13 @@ public class UserApiController {
             @AuthenticationPrincipal Principal principal,
             @Valid ProfileEditDto profileEditDto,
             BindingResult bindingResult
-    ){
-        if (userId != principal.getUser().getUserId())
+    ) {
+        if (!principal.getUser().getUserId().equals(userId))
             throw new ApiForbiddenException("본인의 설정만 수정할 수 있습니다.");
         profileEditValidator.validate(profileEditDto, bindingResult);
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             StringBuffer buffer = new StringBuffer("Validation Fail\n");
-            for(FieldError error : bindingResult.getFieldErrors())
+            for (FieldError error : bindingResult.getFieldErrors())
                 buffer.append(error.getDefaultMessage() + "\n");
             throw new ValidException(buffer.toString());
         }

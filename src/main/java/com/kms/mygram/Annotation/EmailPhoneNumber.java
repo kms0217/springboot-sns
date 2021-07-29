@@ -16,7 +16,7 @@ public @interface EmailPhoneNumber {
 
     String message() default "{이메일, 휴대전화 형식에 맞지 않습니다.}";
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }

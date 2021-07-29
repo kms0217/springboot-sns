@@ -23,9 +23,6 @@ public class CommentService {
     @Transactional
     public Comment createComment(User user, CommentDto commentDto) {
         Story story = storyService.findById(commentDto.getStoryId());
-        // TODO 여기서 처리할 필요 없이 storyService에서 Throw해주면 될듯.
-        if (story == null)
-            throw new ApiException("해당 페이지가 존재하지 않습니다.");
         Comment comment = new Comment();
         comment.setCommentMsg(commentDto.getCommentMsg());
         comment.setUser(user);
@@ -37,7 +34,7 @@ public class CommentService {
     public void deleteComment(User user, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ApiException("해당 댓글이 존재하지 않습니다."));
-        if (comment.getUser().getUserId() != user.getUserId())
+        if (!comment.getUser().getUserId().equals(user.getUserId()))
             throw new ApiForbiddenException("본인의 댓글만 지울 수 있습니다.");
     }
 

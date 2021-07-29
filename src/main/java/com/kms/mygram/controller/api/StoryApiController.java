@@ -31,20 +31,20 @@ public class StoryApiController {
     public ResponseEntity<Page<Story>> allStoriesFilterByFollower(
             @AuthenticationPrincipal Principal principal,
             @RequestParam(value = "userId", required = false) Long userId,
-            @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         if (userId == null) {
             Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
-            return new ResponseEntity(storyPage, HttpStatus.OK);
+            return new ResponseEntity<>(storyPage, HttpStatus.OK);
         }
         Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
     @GetMapping("/stories/{storyId}")
-    public ResponseEntity getStory(@PathVariable Long storyId) {
+    public ResponseEntity<Story> getStory(@PathVariable Long storyId) {
         Story story = storyService.findById(storyId);
-        return new ResponseEntity(story, HttpStatus.OK);
+        return new ResponseEntity<>(story, HttpStatus.OK);
     }
 
     @GetMapping("/explore")
@@ -56,7 +56,7 @@ public class StoryApiController {
     }
 
     @PostMapping("/stories")
-    public ResponseEntity createStory(
+    public ResponseEntity<Void> createStory(
             @Valid StoryRequestDto storyRequestDto,
             BindingResult bindingResult,
             UriComponentsBuilder uriComponentsBuilder,
@@ -66,26 +66,26 @@ public class StoryApiController {
         Story story = storyService.createStory(storyRequestDto, principal.getUser());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponentsBuilder.path("/stories/{storyId}").buildAndExpand(story.getStoryId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/stories/{storyId}")
-    public ResponseEntity updateStory(
+    public ResponseEntity<?> updateStory(
             @PathVariable Long storyId,
             @Valid @RequestBody StoryRequestDto storyRequestDto,
             BindingResult bindingResult,
             @AuthenticationPrincipal Principal principal) {
         if (bindingResult.hasErrors())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Story story = storyService.updateStory(storyId, storyRequestDto, principal.getUser());
         if (story == null)
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        return new ResponseEntity(story, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(story, HttpStatus.OK);
     }
 
     @DeleteMapping("/stories/{storyId}")
-    public ResponseEntity deleteStory(@PathVariable Long storyId, @AuthenticationPrincipal Principal principal) {
+    public HttpStatus deleteStory(@PathVariable Long storyId, @AuthenticationPrincipal Principal principal) {
         storyService.deleteStory(storyId, principal.getUser());
-        return new ResponseEntity(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 }

@@ -31,8 +31,7 @@ public class FollowApiController {
 
     @GetMapping("/follows/{userId}/follower")
     public ResponseEntity<List<ProfileModalDto>> getFollower(@PathVariable Long userId,
-                                                             @AuthenticationPrincipal Principal principal)
-    {
+                                                             @AuthenticationPrincipal Principal principal) {
         List<ProfileModalDto> profileModalDtoList =
                 followService.getModalDtoByFollower(principal.getUser().getUserId(), userId);
         if (profileModalDtoList.isEmpty())
@@ -42,8 +41,7 @@ public class FollowApiController {
 
     @GetMapping("/follows/{userId}/followee")
     public ResponseEntity<List<ProfileModalDto>> getFollowee(@PathVariable Long userId,
-                                                             @AuthenticationPrincipal Principal principal)
-    {
+                                                             @AuthenticationPrincipal Principal principal) {
         List<ProfileModalDto> profileModalDtoList =
                 followService.getModalDtoByFollowee(principal.getUser().getUserId(), userId);
         if (profileModalDtoList.isEmpty())
@@ -52,18 +50,18 @@ public class FollowApiController {
     }
 
     @PostMapping("/follows/{userId}")
-    public ResponseEntity Follow(@AuthenticationPrincipal Principal principal,
-                                 @PathVariable Long userId
+    public HttpStatus Follow(@AuthenticationPrincipal Principal principal,
+                             @PathVariable Long userId
     ) {
         followService.createFollow(principal.getUser().getUserId(), userId);
-        return new ResponseEntity(null, HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("/follows/{userId}")
-    public ResponseEntity UnFollow(@AuthenticationPrincipal Principal principal,
-                                   @PathVariable Long userId
+    public HttpStatus UnFollow(@AuthenticationPrincipal Principal principal,
+                               @PathVariable Long userId
     ) {
         followService.deleteFollow(principal.getUser().getUserId(), userId);
-        return new ResponseEntity(null, HttpStatus.OK);
+        return HttpStatus.OK;
     }
 }

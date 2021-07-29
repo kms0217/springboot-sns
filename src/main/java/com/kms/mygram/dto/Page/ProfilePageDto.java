@@ -10,18 +10,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class ProfilePageDto extends BasePageDto {
 
     private User user;
     private boolean myProfile;
     private boolean checkFollowing;
     private int storyNum;
-
-    //나를 follow하는 사람
     private int followerNum;
-
-    //내가 follow하는 사람
     private int followingNum;
     List<Story> storyList;
 }

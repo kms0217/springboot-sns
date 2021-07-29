@@ -16,15 +16,15 @@ public class FileUploader {
     @Value("${upload.path}")
     private String rootPath;
 
-    public String upload(MultipartFile file, String dir){
+    public String upload(MultipartFile file, String dir) {
         if (file == null)
             return null;
         UUID uuid = UUID.randomUUID();
         String uniqueFileName = uuid + "_" + file.getOriginalFilename();
         Path path = Paths.get(rootPath + dir + uniqueFileName);
-        try{
+        try {
             Files.write(path, file.getBytes());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ApiException("파일 업로드 실패");
         }
         return uniqueFileName;

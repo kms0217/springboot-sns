@@ -5,8 +5,6 @@ import com.kms.mygram.utils.Utils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhoneNumber, String> {
 
@@ -19,11 +17,11 @@ public class EmailPhoneNumberValidator implements ConstraintValidator<EmailPhone
         return isPhoneNumber(value) || isEmail(value);
     }
 
-    public static boolean isPhoneNumber(String phoneNumber){
+    public static boolean isPhoneNumber(String phoneNumber) {
         return Utils.checkMatch("^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$", phoneNumber);
     }
 
-    public static boolean isEmail(String email){
+    public static boolean isEmail(String email) {
         return Utils.checkMatch("^[a-z0-9_+-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}$", email);
     }
 }
