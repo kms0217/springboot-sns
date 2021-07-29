@@ -30,10 +30,21 @@ public class StoryApiController {
     @GetMapping("/stories")
     public ResponseEntity<Page<Story>> allStoriesFilterByFollower(
             @AuthenticationPrincipal Principal principal,
+            @RequestParam(value = "userId", required = false) Long userId,
             @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
-        return new ResponseEntity(storyPage, HttpStatus.OK);
+        if (userId == null) {
+            Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
+            return new ResponseEntity(storyPage, HttpStatus.OK);
+        }
+        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
+        return new ResponseEntity<>(storyPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/stories/{storyId}")
+    public ResponseEntity getStory(@PathVariable Long storyId) {
+        Story story = storyService.findById(storyId);
+        return new ResponseEntity(story, HttpStatus.OK);
     }
 
     @GetMapping("/explore")
@@ -41,15 +52,6 @@ public class StoryApiController {
             @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<Story> storyPage = storyService.getStoriesPage(pageable);
-        return new ResponseEntity<>(storyPage, HttpStatus.OK);
-    }
-
-    @GetMapping("/stories/{userId}")
-    public ResponseEntity<Page<Story>> getTargetStory(
-            @PathVariable Long userId,
-            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
