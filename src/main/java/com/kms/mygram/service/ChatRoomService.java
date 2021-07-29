@@ -2,11 +2,13 @@ package com.kms.mygram.service;
 
 import com.kms.mygram.domain.ChatRoom;
 import com.kms.mygram.domain.User;
+import com.kms.mygram.dto.ChatRoomDto;
 import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,18 +24,40 @@ public class ChatRoomService {
 
     public ChatRoom getChatRoom(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId).orElseThrow(()->
-            new ApiException("chatRoom이 존재하지 않습니다."));
+            new ApiException("chatroom이 존재하지 않습니다."));
     }
 
-    public ChatRoom createChatRoom(Long userId, Long targetUserId) {
-        ChatRoom chatRoom = chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).orElse(null);
-        if (chatRoom != null)
-            return chatRoom;
-        chatRoom = new ChatRoom();
-        User userOne = userService.getUser(userId);
+    public ChatRoomDto createChatRoom(Long userId, Long targetUserId) {
         User userTwo = userService.getUser(targetUserId);
-        chatRoom.setUserOne(userOne);
-        chatRoom.setUserTwo(userTwo);
-        return chatRoomRepository.save(chatRoom);
+        ChatRoom chatRoom = chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).orElse(null);
+        if (chatRoom != null){
+            return ChatRoomDto.builder()
+                    .otherUser(userTwo)
+                    .chatRoomId(chatRoom.getChatRoomId())
+                    .newRoom(false).build();
+        }
+        User userOne = userService.getUser(userId);
+        chatRoom = ChatRoom.builder()
+                .userOne(userOne)
+                .userTwo(userTwo)
+                .build();
+        chatRoom = chatRoomRepository.save(chatRoom);
+        return ChatRoomDto.builder()
+                .chatRoomId(chatRoom.getChatRoomId())
+                .otherUser(userTwo)
+                .newRoom(true)
+                .build();
+    }
+
+    public List<ChatRoomDto> getChatRoomsDto(User user) {
+        List<ChatRoomDto> chatRoomDtos = new ArrayList<>();
+        chatRoomRepository.findAllByUserId(user.getUserId()).forEach(chatRoom -> {
+            ChatRoomDto chatRoomDto = new ChatRoomDto();
+            chatRoomDto.setChatRoomId(chatRoom.getChatRoomId());
+            chatRoomDto.setOtherUser(!chatRoom.getUserOne().getUserId().equals(user.getUserId())? chatRoom.getUserOne() : chatRoom.getUserTwo());
+            chatRoomDto.setNewRoom(false);
+            chatRoomDtos.add(chatRoomDto);
+        });
+        return chatRoomDtos;
     }
 }
