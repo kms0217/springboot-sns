@@ -13,11 +13,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"user_one_id", "user_two_id"}
+        )
+})
 public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatRoomID;
+    private Long chatRoomId;
 
     @ManyToOne
     @JoinColumn(name = "user_one_id")
