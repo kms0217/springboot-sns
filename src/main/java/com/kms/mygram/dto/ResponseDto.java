@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseDto<T> {
 
-    private String message;
+    private String myMessage;
     private T data;
 }
