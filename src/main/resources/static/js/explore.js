@@ -7,7 +7,7 @@ window.onload = getExploreStory;
 function getExploreStory() {
     $.ajax({
         type: "get",
-        url: "/api/explore?page=0",
+        url: "/api/explore?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             log = data;
@@ -35,7 +35,7 @@ function checkScroll() {
 
 function exploreView(content) {
     let view = `<div>
-    <div class="gallery-item" tabindex="0" data-story-id="${content.storyId}">
+    <div class="gallery-item" tabindex="0" data-story-id="${content.storyId}" onclick="showStoryModal(${content.storyId})">
         <img src="/file/post/${content.imageUrl}" class="gallery-image" style="display: block;">
         <div class="gallery-item-info">
             <ul>

@@ -182,38 +182,6 @@ function addComment(storyId) {
     });
 }
 
-function createCommentView(comment) {
-    return `<a href="/profile/${comment.user.username}" class="comment-username">${comment.user.username}</a>
-            <p class="comment-text"> ${comment.commentMsg}</p><br>`;
-}
-
-function createStoryModalItem(comment) {
-    let view = `<div class="story-modal-item row">
-                        <a class="story-modal-username col-3" href="/profile/${comment.user.username}"> ${comment.user.username} </a>
-                        <p class="story-modal-comment col-9"> ${comment.commentMsg} </p>
-                    </div>`;
-    return view;
-}
-
-function showStoryModal(storyId) {
-    $('.story-modal-item').remove();
-    $("#story-modal").modal("show");
-    $.ajax({
-        type: "get",
-        url: "/api/comments?storyId=" + storyId,
-        dataType: "Json",
-        success: function (data) {
-            (data).forEach(comment => {
-                $("#story-modal-item-list").append(createStoryModalItem(comment));
-            });
-        },
-        error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
-        }
-    });
-}
-
 function like(storyId) {
     let current_status = $("#like-btn-" + storyId).attr("class");
     if (current_status.includes("far")) {

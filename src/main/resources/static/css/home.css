@@ -137,6 +137,7 @@ html, body {
     font-size: 13px;
     color: gainsboro;
     margin-bottom: 5px;
+    cursor: pointer;
 }
 
 .story-modal-body {
@@ -164,8 +165,13 @@ html, body {
 }
 
 .story-modal-comment {
-    display: inline;
+    display: inline-block;
     font-size: 13px;
+    margin-left: 13px;
+    margin-right: 13px;
+    min-width: calc(100% - 26px);
+    overflow-x: hidden;
+    word-break: break-all;
 }
 
 .story-modal {
@@ -174,4 +180,47 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%) !important;
     width: 100%;
+}
+
+.story-modal-comment-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.story-modal-owner-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+#story-modal-comment-list {
+    height: calc(600px - 72px - 56px);
+    width: 100%;
+    overflow-y: scroll;
+    border-left: 1px solid #bdbdbd;
+}
+
+.story-modal-input {
+    height: 56px;
+    width: 100%;
+    --bs-gutter-x: 0 !important;
+    border-top: #bdbdbd solid 1px;
+    border-left: 1px solid #bdbdbd;
+}
+
+#story-modal-comment-owner {
+    height: 72px;
+    width: 100%;
+    border-bottom: 1px solid #bdbdbd;
+    border-left: 1px solid #bdbdbd;
+}
+
+#story-modal-img {
+    padding: 0px !important;
+    margin: 0px !important;
+    min-width: 600px;
 }

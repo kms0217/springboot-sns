@@ -26,42 +26,30 @@
                 <a th:href="@{/allRecommend}"
                    style="padding-left: 80px; text-decoration: none; font-weight: 600; color: black">모두 보기</a>
                 <div class="recommend-list" style="padding-top: 15px;" th:each="u : ${pageInfo.userList}">
-                    <div th:replace="/recommendList.html :: fragment-recommend(user=${u})" style="margin-bottom: 10px"></div>
+                    <div th:replace="/recommendList.html :: fragment-recommend(user=${u})"
+                         style="margin-bottom: 10px"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div id="story-modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog story-modal" role="document">
+<div class="modal" id="story-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 935px;">
         <div class="modal-content">
-            <div class="modal-body story-modal-body">
-                <div id="story-modal-item-list">
+            <div class="modal-body row"
+                 style="padding: 0px !important; min-height: 600px; flex-wrap: nowrap; --bs-gutter-x: 0!important;">
+                <div class="col-8" id="story-modal-img">
+                </div>
+                <div class="col-4" style="padding: 0px!important; margin: 0px !important;">
+                    <div id="story-modal-comment-owner"></div>
+                    <div id="story-modal-comment-list"></div>
+                    <div class="row" id="story-modal-input" style="--bs-gutter-x: 0;border-top: 1px solid #bdbdbd;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--<div class="modal" id="story-modal" tabindex="-1" role="dialog">-->
-<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="row no-gutters">-->
-<!--                <div class="col-md-8 d-flex">-->
-<!--                    <div class="modal-body p-5 img d-flex color-1 d-flex" style="padding: 0!important; width: 600px; height: 600px">-->
-<!--                        <img src="/file/post/ff8d0e29-1253-41cb-af81-b6354b8edacd_Image-of-bicycle-dog-and-car-from-Imagenet-detected-by-the-algorithm.jpg">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-md-4 d-flex">-->
-<!--                    <div class="modal-body img d-flex color-2" style="padding: 0!important;">-->
-<!--                        <div class="text w-100 py-0 py-md-5" style="display: block; background-color: yellow">-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <script src="/js/home.js"></script>
+<script src="/js/storyModal.js"></script>
 </body>
 </html>

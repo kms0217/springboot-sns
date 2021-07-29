@@ -10,7 +10,7 @@ function getProfileStory() {
         return;
     $.ajax({
         type: "get",
-        url: "/api/stories/" +  user_id + "/?page=" + next_page_num,
+        url: "/api/stories?userId=" + user_id + "&page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             (data.content).forEach(content => {
@@ -37,7 +37,7 @@ function checkScroll() {
 
 function profileView(content) {
     let view = `<div>
-    <div class="gallery-item" tabindex="0" data-story-id="${content.storyId}">
+    <div class="gallery-item" tabindex="0" data-story-id="${content.storyId}" onclick="showStoryModal(${content.storyId})">
         <img src="/file/post/${content.imageUrl}" class="gallery-image" style="display: block;">
         <div class="gallery-item-info">
             <ul>
