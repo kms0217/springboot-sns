@@ -19,8 +19,7 @@ function getStory() {
                 window.removeEventListener("scroll", checkScroll);
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }
@@ -129,12 +128,7 @@ function follow(userId, obj) {
                 $(obj).text("언팔로우");
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
-                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                    alert(data.responseJSON.message);
-                else
-                    alert("error가 발생했습니다.");
+                errorHandle(data);
             }
         });
     } else {
@@ -147,12 +141,7 @@ function follow(userId, obj) {
                 $(obj).text("팔로우");
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
-                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                    alert(data.responseJSON.message);
-                else
-                    alert("error가 발생했습니다.");
+                errorHandle(data);
             }
         });
     }
@@ -176,8 +165,7 @@ function addComment(storyId) {
             $("#story-comment-list-" + storyId).append(createCommentView(data));
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }
@@ -195,8 +183,7 @@ function like(storyId) {
                 $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) + 1);
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
+                errorHandle(data);
             }
         })
     } else {
@@ -210,8 +197,7 @@ function like(storyId) {
                 $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) - 1);
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
+                errorHandle(data);
             }
         })
     }

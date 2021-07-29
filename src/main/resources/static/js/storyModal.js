@@ -64,8 +64,7 @@ function ModalCommentAdd(storyId) {
             $("#story-modal-comment-list").append(createModalCommentView(data));
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }
@@ -84,8 +83,7 @@ function showStoryModal(storyId) {
             createStoryModalItem(data);
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }

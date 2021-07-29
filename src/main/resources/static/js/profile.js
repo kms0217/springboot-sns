@@ -22,8 +22,7 @@ function getProfileStory() {
                 window.removeEventListener("scroll", checkScroll);
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }
@@ -64,12 +63,7 @@ function follow(userId, obj) {
                 $(obj).addClass("follow")
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
-                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                    alert(data.responseJSON.message);
-                else
-                    alert("error가 발생했습니다.");
+                errorHandle(data);
             }
         })
     } else {
@@ -82,12 +76,7 @@ function follow(userId, obj) {
                 $(obj).addClass("unfollow")
             },
             error: function (data) {
-                if (data.status === 403)
-                    location.replace("/login");
-                if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                    alert(data.responseJSON.message);
-                else
-                    alert("error가 발생했습니다.");
+                errorHandle(data);
             }
         })
     }
@@ -106,12 +95,7 @@ function followerModalShow(userId) {
             })
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
-            if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                alert(data.responseJSON.message);
-            else
-                alert("error가 발생했습니다.");
+            errorHandle(data);
         }
     });
 }
@@ -124,17 +108,13 @@ function followeeModalShow(userId) {
         url: '/api/follows/' + userId + "/follower",
         dataType: "JSON",
         success: function (data) {
-            data.forEach(profileModalDto => {
-                $("#profile-follower-modal-item").append(createView(profileModalDto));
-            })
+            if (data)
+                data.forEach(profileModalDto => {
+                    $("#profile-follower-modal-item").append(createView(profileModalDto));
+                })
         },
-        error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
-            if (data != undefined && data.responseJSON != undefined && data.responseJSON.message != undefined)
-                alert(data.responseJSON.message);
-            else
-                alert("error가 발생했습니다.");
+        error: function(data) {
+            errorHandle(data);
         }
     });
 }

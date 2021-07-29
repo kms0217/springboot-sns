@@ -9,6 +9,9 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
     <link rel="stylesheet" th:href="@{/css/direct.css}">
@@ -19,38 +22,36 @@
     <div class="content-container row" style="margin-left: 0!important; margin-right: 0!important; height: 95%">
         <div class="col-4" style="border: 1px solid #bdbdbd; padding: 0; margin: 0;">
             <div style="height: 60px; border-bottom: 1px solid #bdbdbd; width: 100%; position: relative; padding: 0; margin: 0;">
-                <button class="dm-search-button">
+                <button class="dm-search-button" onclick="showSearchModal()">
                     <i class="fas fa-edit fa-lg"></i>
                 </button>
             </div>
-            <div style="overflow-y: scroll; height: calc(100% - 60px);">
-                <div th:replace="chatusers.html :: fragment-chatusers"></div>
+            <div id="chat-room-box" style="overflow-y: scroll; height: calc(100% - 60px);">
             </div>
         </div>
-        <div class="chat-box h-100 col-8">
-            <!--     Enter chat room       -->
-            <div class="h-100 chatroom" th:if="false">
-                <div class="chatroom-header">
-                </div>
-                <div style="height: calc(100% - 120px); overflow-y: scroll;">
-                    <div th:replace="sendchat.html :: fragment-sendchat"></div>
-                    <div th:replace="recvchat.html :: fragment-recvchat"></div>
-                </div>
-                <div id="input-chat" class="dm-input-wrapper">
-                    <input type="text" placeholder="메시지입력..." class="form-control rounded-0 border-0 py-4 bg-light dm-input-text"/>
-                </div>
-            </div>
-            <!--        Default         -->
-            <div class="h-100" th:unless="false" style="position: relative;">
+        <div class="chat-box h-100 col-8" id="chat-box">
+            <div class="h-100 chat" style="position: relative;">
                 <div class="default-item-box">
                     <i class="far fa-paper-plane fa-5x default-icon"></i>
                     <p class="default-text-title">내 메시지</p>
                     <p class="default-text-content">친구나 그룹에 비공개 사진과 메시지를 보내보세요.</p>
-                    <button class="btn-primary default-send-msg-btn">메시지 보내기</button>
+                    <button class="btn-primary default-send-msg-btn" onclick="showSearchModal()">메시지 보내기</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div id="search-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 300px;">
+        <div class="modal-content">
+            <input id="search-input" placeholder="검색.." onkeyup="if(window.event.keyCode==13){search()}">
+            <div class="modal-body" id="search-result" style="height: 500px;  overflow-y: scroll;">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/error.js"></script>
+<script src="/js/direct.js"></script>
 </body>
 </html>

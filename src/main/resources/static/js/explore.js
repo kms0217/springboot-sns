@@ -20,8 +20,7 @@ function getExploreStory() {
                 window.removeEventListener("scroll", checkScroll);
         },
         error: function (data) {
-            if (data.status === 403)
-                location.replace("/login");
+            errorHandle(data);
         }
     });
 }
