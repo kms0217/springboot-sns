@@ -1,7 +1,6 @@
 package com.kms.mygram.service;
 
 import com.kms.mygram.domain.Message;
-import com.kms.mygram.domain.User;
 import com.kms.mygram.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -25,9 +24,6 @@ public class WebSocketService {
                 .chatRoom(chatRoomService.getChatRoom(messageDto.getChatRoomId()))
                 .build();
         message = messageService.createMessage(message);
-        System.out.println("=====================================");
-        System.out.println(message);
-        System.out.println("=====================================");
         messageSendingOperations.convertAndSend(
                 "/sub/chatroom/" + message.getChatRoom().getChatRoomId(), message
         );
