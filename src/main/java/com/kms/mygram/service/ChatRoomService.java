@@ -14,6 +14,7 @@ import java.util.List;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final UserService userService;
 
     public List<ChatRoom> getChatRooms(User user) {
         return chatRoomRepository.findAllByUserId(user.getUserId());
@@ -22,5 +23,17 @@ public class ChatRoomService {
     public ChatRoom getChatRoom(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId).orElseThrow(()->
             new ApiException("chatRoom이 존재하지 않습니다."));
+    }
+
+    public ChatRoom createChatRoom(Long userId, Long targetUserId) {
+        ChatRoom chatRoom = chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).orElse(null);
+        if (chatRoom != null)
+            return chatRoom;
+        chatRoom = new ChatRoom();
+        User userOne = userService.getUser(userId);
+        User userTwo = userService.getUser(targetUserId);
+        chatRoom.setUserOne(userOne);
+        chatRoom.setUserTwo(userTwo);
+        return chatRoomRepository.save(chatRoom);
     }
 }
