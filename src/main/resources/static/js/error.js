@@ -4,5 +4,5 @@ function errorHandle(data) {
     if (data != undefined && data.responseJSON != undefined && data.responseJSON.myMessage != undefined)
         alert(data.responseJSON.myMessage);
     else
-        alert(data);
+        alert("error가 발생했습니다.");
 }
