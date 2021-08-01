@@ -41,12 +41,11 @@ public class PageService {
         ExplorerPageDto explorerPageDto = new ExplorerPageDto();
         explorerPageDto.setCurrentPage("explore");
         explorerPageDto.setCurrentUser(user);
-        explorerPageDto.setStoryList(storyService.findAllStories());
         return explorerPageDto;
     }
 
     public ProfilePageDto myProfilePage(User user) {
-        List<Story> storyList = storyService.findAllStoriesByUser(user);
+        List<Story> storyList = storyService.getAllStoriesByUser(user);
         ProfilePageDto profilePageDto = ProfilePageDto.builder()
                 .myProfile(true)
                 .storyList(storyList)
@@ -67,7 +66,7 @@ public class PageService {
         } catch (ApiException e) {
             throw new PageException("없는 사용자 입니다.");
         }
-        List<Story> storyList = storyService.findAllStoriesByUser(targetUser);
+        List<Story> storyList = storyService.getAllStoriesByUser(targetUser);
         ProfilePageDto profilePageDto = ProfilePageDto.builder()
                 .myProfile(currentUser.getUserId().equals(targetUser.getUserId()))
                 .storyList(storyList)

@@ -25,11 +25,7 @@ public class StoryService {
     private final UserService userService;
     private final FileUploader fileUploader;
 
-    public List<Story> findAllStories() {
-        return storyRepository.findAll();
-    }
-
-    public Story findById(Long storyId) {
+    public Story getStoryById(Long storyId) {
         return storyRepository.findById(storyId).orElseThrow(() ->
                 new ApiException("존재하지 않는 Story 입니다."));
     }
@@ -47,16 +43,16 @@ public class StoryService {
     }
 
     @Transactional
-    public Story updateStory(Long storyId, StoryRequestDto storyRequestDto, User user) {
-        Story story = storyRepository.findById(storyId).orElse(null);
-        if (story == null)
-            return null;
+    public void updateStory(Long storyId, StoryRequestDto storyRequestDto, User user) {
+        Story story = storyRepository.findById(storyId).orElseThrow(() ->
+                new ApiException("존재하지 않는 Story 입니다.")
+        );
         if (!user.getUserId().equals(story.getUser().getUserId()))
             throw new ApiException("본인의 글이 아닙니다.");
         String fileUrl = fileUploader.upload(storyRequestDto.getImage(), "post/");
         story.setImageUrl(fileUrl);
         story.setCaption(storyRequestDto.getCaption());
-        return storyRepository.save(story);
+        storyRepository.save(story);
     }
 
     @Transactional
@@ -68,7 +64,7 @@ public class StoryService {
             throw new ApiForbiddenException("본인의 글이 아닙니다.");
     }
 
-    public List<Story> findAllStoriesByUser(User user) {
+    public List<Story> getAllStoriesByUser(User user) {
         return storyRepository.findAllByUserId(user.getUserId());
     }
 

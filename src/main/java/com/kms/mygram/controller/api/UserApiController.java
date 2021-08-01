@@ -37,12 +37,11 @@ public class UserApiController {
     }
 
     @PutMapping("/users/{userId}")
-    public HttpStatus updateUser(
-            @PathVariable Long userId,
-            @AuthenticationPrincipal Principal principal,
-            @Valid ProfileEditDto profileEditDto,
-            BindingResult bindingResult
-    ) {
+    public HttpStatus updateUser(@AuthenticationPrincipal Principal principal,
+                                 @PathVariable Long userId,
+                                 @Valid ProfileEditDto profileEditDto,
+                                 BindingResult bindingResult) {
+
         if (!principal.getUser().getUserId().equals(userId))
             throw new ApiForbiddenException("본인의 설정만 수정할 수 있습니다.");
         profileEditValidator.validate(profileEditDto, bindingResult);

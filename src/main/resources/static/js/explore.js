@@ -7,7 +7,7 @@ window.onload = getExploreStory;
 function getExploreStory() {
     $.ajax({
         type: "get",
-        url: "/api/explore?page=" + next_page_num,
+        url: "/api/stories?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             log = data;

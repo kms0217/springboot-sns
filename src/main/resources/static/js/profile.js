@@ -10,7 +10,7 @@ function getProfileStory() {
         return;
     $.ajax({
         type: "get",
-        url: "/api/stories?userId=" + user_id + "&page=" + next_page_num,
+        url: "/api/users/" + user_id + "/stories?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             (data.content).forEach(content => {

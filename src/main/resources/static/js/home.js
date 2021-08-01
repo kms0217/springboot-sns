@@ -7,7 +7,7 @@ window.onload = getStory;
 function getStory() {
     $.ajax({
         type: "get",
-        url: "/api/stories/?page=" + next_page_num,
+        url: "/api/stories/home/?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
             (data.content).forEach(content => {

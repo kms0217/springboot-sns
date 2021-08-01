@@ -22,7 +22,7 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(User user, CommentDto commentDto) {
-        Story story = storyService.findById(commentDto.getStoryId());
+        Story story = storyService.getStoryById(commentDto.getStoryId());
         Comment comment = new Comment();
         comment.setCommentMsg(commentDto.getCommentMsg());
         comment.setUser(user);

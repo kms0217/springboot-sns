@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,63 +29,69 @@ public class StoryApiController {
     private final StoryService storyService;
 
     @GetMapping("/stories")
-    public ResponseEntity<Page<Story>> allStoriesFilterByFollower(
-            @AuthenticationPrincipal Principal principal,
-            @RequestParam(value = "userId", required = false) Long userId,
-            @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        if (userId == null) {
-            Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
-            return new ResponseEntity<>(storyPage, HttpStatus.OK);
-        }
-        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
+    public ResponseEntity<Page<Story>> getAllStoriesPage(@PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Story> storyPage = storyService.getStoriesPage(pageable);
+        return new ResponseEntity<>(storyPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/stories/home")
+    public ResponseEntity<Page<Story>> getAllFolloweeStoriesPage(@AuthenticationPrincipal Principal principal,
+                                                                 @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
     @GetMapping("/stories/{storyId}")
     public ResponseEntity<Story> getStory(@PathVariable Long storyId) {
-        Story story = storyService.findById(storyId);
+        Story story = storyService.getStoryById(storyId);
         return new ResponseEntity<>(story, HttpStatus.OK);
     }
 
-    @GetMapping("/explore")
-    public ResponseEntity<Page<Story>> allStories(
-            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        Page<Story> storyPage = storyService.getStoriesPage(pageable);
+    @GetMapping("/users/{userId}/stories")
+    public ResponseEntity<Page<Story>> getAllStoriesByUser(@PathVariable Long userId,
+                                                           @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
     @PostMapping("/stories")
-    public ResponseEntity<Void> createStory(
-            @Valid StoryRequestDto storyRequestDto,
-            BindingResult bindingResult,
-            UriComponentsBuilder uriComponentsBuilder,
-            @AuthenticationPrincipal Principal principal) {
-        if (bindingResult.hasErrors())
-            throw new ValidException("이미지 형식을 확인해주세요.");
+    public ResponseEntity<Void> createStory(@AuthenticationPrincipal Principal principal,
+                                            @Valid StoryRequestDto storyRequestDto,
+                                            BindingResult bindingResult,
+                                            UriComponentsBuilder uriComponentsBuilder) {
+
+        if (bindingResult.hasErrors()) {
+            StringBuffer buffer = new StringBuffer("Validation Fail\n");
+            for (FieldError error : bindingResult.getFieldErrors())
+                buffer.append(error.getDefaultMessage() + "\n");
+            throw new ValidException(buffer.toString());
+        }
         Story story = storyService.createStory(storyRequestDto, principal.getUser());
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriComponentsBuilder.path("/stories/{storyId}").buildAndExpand(story.getStoryId()).toUri());
+        headers.setLocation(uriComponentsBuilder.path("/api/stories/{storyId}").buildAndExpand(story.getStoryId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/stories/{storyId}")
-    public ResponseEntity<?> updateStory(
-            @PathVariable Long storyId,
-            @Valid @RequestBody StoryRequestDto storyRequestDto,
-            BindingResult bindingResult,
-            @AuthenticationPrincipal Principal principal) {
-        if (bindingResult.hasErrors())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Story story = storyService.updateStory(storyId, storyRequestDto, principal.getUser());
-        if (story == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(story, HttpStatus.OK);
+    public HttpStatus updateStory(@AuthenticationPrincipal Principal principal,
+                                  @PathVariable Long storyId,
+                                  @Valid @RequestBody StoryRequestDto storyRequestDto,
+                                  BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            StringBuffer buffer = new StringBuffer("Validation Fail\n");
+            for (FieldError error : bindingResult.getFieldErrors())
+                buffer.append(error.getDefaultMessage() + "\n");
+            throw new ValidException(buffer.toString());
+        }
+        storyService.updateStory(storyId, storyRequestDto, principal.getUser());
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("/stories/{storyId}")
-    public HttpStatus deleteStory(@PathVariable Long storyId, @AuthenticationPrincipal Principal principal) {
+    public HttpStatus deleteStory(@AuthenticationPrincipal Principal principal, @PathVariable Long storyId) {
         storyService.deleteStory(storyId, principal.getUser());
         return HttpStatus.OK;
     }
