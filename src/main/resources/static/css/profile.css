@@ -310,20 +310,11 @@ body {
     }
 }
 
-.modal {
+#setting-modal, #profile-follow-modal, #profile-follower-modal {
     text-align: center;
 }
 
-@media screen and (min-width: 768px) {
-    .modal:before {
-        display: inline-block;
-        vertical-align: middle;
-        content: " ";
-        height: 100%;
-    }
-}
-
-.modal-dialog {
+.setting-dialog {
     display: inline-block;
     text-align: left;
     vertical-align: middle;
@@ -355,6 +346,9 @@ body {
 
 .f-modal {
     width: 250px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
 }
 
 .f-modal-title {

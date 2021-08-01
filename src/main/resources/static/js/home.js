@@ -10,9 +10,10 @@ function getStory() {
         url: "/api/stories/home/?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
-            (data.content).forEach(content => {
-                $("#home-content").append(homeView(content));
-            });
+            if (data.content)
+                (data.content).forEach(content => {
+                    $("#home-content").append(homeView(content));
+                });
             total_page_num = data.totalPages;
             next_page_num = data.pageable.pageNumber + 1;
             if (next_page_num > total_page_num - 1)
@@ -90,9 +91,10 @@ function homeView(content) {
         });
     } else {
         view += `<div class="story-comment" id="story-comment-list-${content.storyId}">`;
-        (content.comments).forEach(comment => {
-            view += createCommentView(comment);
-        });
+        if (content.comments)
+            (content.comments).forEach(comment => {
+                view += createCommentView(comment);
+            });
     }
     view += `</div><div class="story-date" style="height:19px;">
                 <p class="comment-date">${content.createdAt}</p>
@@ -105,10 +107,10 @@ function homeView(content) {
                 </div>
                 <div class="col-9">
                     <input class="story-comment-input" placeholder="댓글 달기..." id="story-input-${content.storyId}" 
-                    style="width: 100%; height: 100%;" onkeyup="if(window.event.keyCode==13){addComment(${content.storyId})}">
+                    style="width: 100%; height: 100%;" onkeyup="if(window.event.keyCode==13){postComment(${content.storyId})}">
                 </div>
                 <div class="col-2 comment-button-wrapper">
-                    <button class="comment-button" onclick="addComment(${content.storyId})"><p>게시</p></button>
+                    <button class="comment-button" onclick="postComment(${content.storyId})"><p>게시</p></button>
                 </div>
             </div>
         </div>
@@ -147,8 +149,7 @@ function follow(userId, obj) {
     }
 }
 
-function addComment(storyId) {
-    //TODO example =  <script>alert('test')</script>같은것 처리
+function postComment(storyId) {
     let inputVal = $("#story-input-" + storyId).val();
     $("#story-input-" + storyId).val("");
     if (inputVal === "") {
@@ -161,13 +162,27 @@ function addComment(storyId) {
         url: "/api/comments",
         data: JSON.stringify(data),
         contentType: "application/json",
+        success: function (data, status, xhr) {
+            addComment(xhr.getResponseHeader("Location"), storyId);
+        },
+        error: function (data) {
+            errorHandle(data);
+        }
+    });
+}
+
+function addComment(url, storyId) {
+    $.ajax({
+        type: "get",
+        url: url,
+        dataType: "Json",
         success: function (data) {
             $("#story-comment-list-" + storyId).append(createCommentView(data));
         },
         error: function (data) {
             errorHandle(data);
         }
-    });
+    })
 }
 
 function like(storyId) {
@@ -177,7 +192,7 @@ function like(storyId) {
             type: "post",
             url: "/api/likes/" + storyId,
             dataType: "Json",
-            success: function (data) {
+            success: function () {
                 $("#like-btn-" + storyId).removeClass("far");
                 $("#like-btn-" + storyId).addClass("fas");
                 $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) + 1);
@@ -191,7 +206,7 @@ function like(storyId) {
             type: "delete",
             url: "/api/likes/" + storyId,
             dataType: "Json",
-            success: function (data) {
+            success: function () {
                 $("#like-btn-" + storyId).removeClass("fas");
                 $("#like-btn-" + storyId).addClass("far");
                 $("#like-count-" + storyId).text(parseInt($("#like-count-" + storyId).text()) - 1);

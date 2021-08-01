@@ -11,9 +11,10 @@ function getExploreStory() {
         dataType: "Json",
         success: function (data) {
             log = data;
-            (data.content).forEach(content => {
-                $("#story-list").append(exploreView(content));
-            });
+            if (data.content)
+                (data.content).forEach(content => {
+                    $("#story-list").append(exploreView(content));
+                });
             total_page_num = data.totalPages;
             next_page_num = data.pageable.pageNumber + 1;
             if (next_page_num > total_page_num - 1)

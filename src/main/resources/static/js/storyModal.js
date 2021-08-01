@@ -6,9 +6,10 @@ function createCommentView(comment) {
 function createStoryModalItem(story) {
     $("#story-modal-img").append(`<img class="story-modal-img" src="/file/post/${story.imageUrl}" width="100%" height="100%">`);
     $("#story-modal-comment-owner").append(createModalOwner(story.user));
-    (story.comments).forEach(comment => {
-        $("#story-modal-comment-list").append(createModalCommentView(comment));
-    })
+    if (story.comments)
+        (story.comments).forEach(comment => {
+            $("#story-modal-comment-list").append(createModalCommentView(comment));
+        })
     $("#story-modal-input").append(createModalInputView(story.storyId));
 }
 
@@ -38,15 +39,15 @@ function createModalCommentView(comment) {
 function createModalInputView(storyId) {
     return `<div class="col-10 story-modal-input-box">
                 <input placeholder="댓글 달기..." id="story-modal-input-${storyId}" style="width: 100%; height: 100%; border: 0;"
-                       onKeyUp="if(window.event.keyCode==13){ModalCommentAdd(${storyId})}">
+                       onKeyUp="if(window.event.keyCode==13){modalPostComment(${storyId})}">
             </div>
             <div class="col-2 story-modal-input-box">
-                <button class="comment-button"  onClick="ModalCommentAdd(${storyId})">
+                <button class="comment-button"  onClick="modalPostComment(${storyId})">
                     <p style="font-size: 13px!important;">게시</p></button>
             </div>`;
 }
 
-function ModalCommentAdd(storyId) {
+function modalPostComment(storyId) {
     let inputVal = $("#story-modal-input-" + storyId).val();
     $("#story-modal-input-" + storyId).val("");
     if (inputVal === "") {
@@ -59,6 +60,21 @@ function ModalCommentAdd(storyId) {
         url: "/api/comments",
         data: JSON.stringify(data),
         contentType: "application/json",
+        success: function (data, status, xhr) {
+            modalAddComment(xhr.getResponseHeader("Location"), storyId)
+
+        },
+        error: function (data) {
+            errorHandle(data);
+        }
+    });
+}
+
+function modalAddComment(url, storyId) {
+    $.ajax({
+        type: "get",
+        url: url,
+        dataType: "Json",
         success: function (data) {
             $("#story-comment-list-" + storyId).append(createCommentView(data));
             $("#story-modal-comment-list").append(createModalCommentView(data));
@@ -66,7 +82,7 @@ function ModalCommentAdd(storyId) {
         error: function (data) {
             errorHandle(data);
         }
-    });
+    })
 }
 
 function showStoryModal(storyId) {

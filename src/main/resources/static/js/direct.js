@@ -28,12 +28,14 @@ function createChatView(messages, chatRoomId, otherUserId) {
     let view = `<div class="h-100 chatroom">
                     <div class="chatroom-header"></div>
                  <div id="chat-list" style="height: calc(100% - 120px); overflow-y: scroll;">`;
-    messages.forEach(message => {
-        if (message.user.userId === otherUserId)
-            view += createRecvChatView(message);
-        else
-            view += createSendChatView(message);
-    });
+    if (messages){
+        messages.forEach(message => {
+            if (message.user.userId === otherUserId)
+                view += createRecvChatView(message);
+            else
+                view += createSendChatView(message);
+        });
+    }
     view += `</div>
                 <div class="dm-input-wrapper">
                     <input type="text" id="input-chat" placeholder="메시지입력..."
@@ -89,7 +91,7 @@ function createSendChatView(message) {
 }
 
 function createChatRoomView(data) {
-    return `<div onclick="enterChatRoom(${data.chatRoomId}, ${data.otherUser.userId})">
+    return `<div id="chat-room-${data.otherUser.userId}" onclick="enterChatRoom(${data.chatRoomId}, ${data.otherUser.userId})">
                 <div class="row" style="width: 100%;">
                     <div class="col-3" style="margin-left: 10px; margin-top: 10px;">
                         <img src="/file/profile/${data.otherUser.profileImageUrl}" style="width: 46px; height: 46px; border-radius: 50%;">
@@ -152,22 +154,39 @@ function renderChat(chatRoomId, otherUserId) {
 }
 
 function createChatRoom(userId) {
+    $("#search-modal").modal("hide");
+    let chatroom = $("#chat-room-" + userId);
+    if (chatroom.length){
+        console.log(chatroom);
+        chatroom.trigger("onclick");
+        return;
+    }
     $.ajax({
         type: "post",
         url: "api/chatrooms",
         data: {targetUserId: userId},
+        success: function (data, status, xhr) {
+            addChatListAndEnterRoom(xhr.getResponseHeader("Location"));
+        },
+        error: function (data) {
+            errorHandle(data);
+        }
+    });
+}
+
+function addChatListAndEnterRoom(url) {
+    $.ajax({
+        type: "get",
+        url: url,
         dataType: "Json",
         success: function (data) {
-            $("#search-modal").modal("hide");
-            if (data.newRoom) {
-                $("#chat-room-box").prepend(createChatRoomView(data));
-            }
+            $("#chat-room-box").prepend(createChatRoomView(data));
             enterChatRoom(data.chatRoomId, data.otherUser.userId);
         },
         error: function (data) {
             errorHandle(data);
         }
-    })
+    });
 }
 
 function search() {
@@ -182,9 +201,10 @@ function search() {
         url: "/api/search?filter=" + filter,
         dataType: "Json",
         success: function (data) {
-            data.forEach(user => {
-                $("#search-result").append(createSearchResultView(user));
-            })
+            if (data)
+                data.forEach(user => {
+                    $("#search-result").append(createSearchResultView(user));
+                })
         },
         error: function (data) {
             errorHandle(data);

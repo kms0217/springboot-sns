@@ -13,9 +13,10 @@ function getProfileStory() {
         url: "/api/users/" + user_id + "/stories?page=" + next_page_num,
         dataType: "Json",
         success: function (data) {
-            (data.content).forEach(content => {
-                $("#story-list").append(profileView(content));
-            });
+            if (data.content)
+                (data.content).forEach(content => {
+                    $("#story-list").append(profileView(content));
+                });
             total_page_num = data.totalPages;
             next_page_num = data.pageable.pageNumber + 1;
             if (next_page_num > total_page_num - 1)
@@ -90,9 +91,10 @@ function followerModalShow(userId) {
         url: '/api/follows/' + userId + "/followee",
         dataType: "JSON",
         success: function (data) {
-            data.forEach(profileModalDto => {
-                $("#profile-follow-modal-item").append(createView(profileModalDto));
-            })
+            if (data)
+                data.forEach(profileModalDto => {
+                    $("#profile-follow-modal-item").append(createView(profileModalDto));
+                })
         },
         error: function (data) {
             errorHandle(data);
