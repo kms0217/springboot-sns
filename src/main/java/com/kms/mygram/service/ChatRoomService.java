@@ -24,7 +24,7 @@ public class ChatRoomService {
     }
 
     public ChatRoomDto createChatRoom(Long userId, Long targetUserId) {
-        User userTwo = userService.getUser(targetUserId);
+        User userTwo = userService.getUserById(targetUserId);
         ChatRoom chatRoom = chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).orElse(null);
         if (chatRoom != null) {
             return ChatRoomDto.builder()
@@ -32,7 +32,7 @@ public class ChatRoomService {
                     .chatRoomId(chatRoom.getChatRoomId())
                     .newRoom(false).build();
         }
-        User userOne = userService.getUser(userId);
+        User userOne = userService.getUserById(userId);
         chatRoom = ChatRoom.builder()
                 .userOne(userOne)
                 .userTwo(userTwo)

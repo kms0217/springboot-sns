@@ -6,6 +6,7 @@ import com.kms.mygram.dto.Page.DirectPageDto;
 import com.kms.mygram.dto.Page.ExplorerPageDto;
 import com.kms.mygram.dto.Page.HomePageDto;
 import com.kms.mygram.dto.Page.ProfilePageDto;
+import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.exception.PageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,12 @@ public class PageService {
     }
 
     public ProfilePageDto TargetProfilePage(User currentUser, String targetUsername) {
-        User targetUser = userService.getUserByUsername(targetUsername);
-        if (targetUser == null)
+        User targetUser;
+        try{
+            targetUser = userService.getUserByUsername(targetUsername);
+        } catch (ApiException e) {
             throw new PageException("없는 사용자 입니다.");
+        }
         List<Story> storyList = storyService.findAllStoriesByUser(targetUser);
         ProfilePageDto profilePageDto = ProfilePageDto.builder()
                 .myProfile(currentUser.getUserId().equals(targetUser.getUserId()))

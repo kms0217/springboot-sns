@@ -40,16 +40,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new ApiException("존재하지 않는 User 입니다.")
+        );
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByUsername(username).orElseThrow(() ->
+                new ApiException("존재하지 않는 User 입니다.")
+        );
     }
 
     public List<User> getRecommendUsers(Long userId) {

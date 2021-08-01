@@ -10,14 +10,12 @@ import com.kms.mygram.validator.ProfileEditValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -27,25 +25,19 @@ public class UserApiController {
     private final UserService userService;
     private final ProfileEditValidator profileEditValidator;
 
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<User>> allUsers() {
-        List<User> userList = userService.getAllUsers();
-        if (userList.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(userList, HttpStatus.OK);
-    }
-
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        User user = userService.getUser(userId);
-        if (user == null)
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        User user = userService.getUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/users/me")
+    public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal Principal principal) {
+        return new ResponseEntity<>(principal.getUser(), HttpStatus.OK);
+    }
+
     @PutMapping("/users/{userId}")
-    public ResponseEntity<?> updateUser(
+    public HttpStatus updateUser(
             @PathVariable Long userId,
             @AuthenticationPrincipal Principal principal,
             @Valid ProfileEditDto profileEditDto,
@@ -62,6 +54,6 @@ public class UserApiController {
         }
         User userEntity = userService.updateUser(principal.getUser().getUserId(), profileEditDto);
         principal.setUser(userEntity);
-        return new ResponseEntity<>(userEntity, HttpStatus.OK);
+        return HttpStatus.OK;
     }
 }

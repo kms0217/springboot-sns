@@ -37,7 +37,7 @@ public class StoryService {
     @Transactional
     public Story createStory(StoryRequestDto storyRequestDto, User user) {
         String fileUrl = fileUploader.upload(storyRequestDto.getImage(), "post/");
-        User userEntity = userService.getUser(user.getUserId());
+        User userEntity = userService.getUserById(user.getUserId());
         Story story = new Story();
         if (!Utils.isBlank(fileUrl))
             story.setImageUrl(fileUrl);
