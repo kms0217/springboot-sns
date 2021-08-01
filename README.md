@@ -43,7 +43,7 @@
 
 # DB
 --- ---
-![image/snsERD.png](image/snsErd.png)
+![image/snsERD.jpg](image/snsErd.jpg)
 
 [user](https://www.notion.so/b3847087f3cd4e159023c1bd6040f1ef)
 
