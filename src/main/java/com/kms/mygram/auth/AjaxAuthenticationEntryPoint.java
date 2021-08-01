@@ -19,7 +19,7 @@ public class AjaxAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoi
         String header = request.getHeader("X-Requested-With");
         boolean isAjax = "XMLHttpRequest".equals(header);
         if (isAjax) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "세션이 만료되었습니다.");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "세션이 만료되었습니다.");
             return;
         }
         super.commence(request, response, authException);
