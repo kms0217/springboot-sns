@@ -20,6 +20,9 @@ public class SearchApiController {
 
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchUser(@AuthenticationPrincipal Principal principal, @RequestParam String filter) {
+        List<User> userList = userService.getUserWithFilter(principal.getUser(), filter);
+        if (userList.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(userService.getUserWithFilter(principal.getUser(), filter), HttpStatus.OK);
     }
 }

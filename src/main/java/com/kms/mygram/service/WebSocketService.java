@@ -21,7 +21,7 @@ public class WebSocketService {
         Message message = Message.builder()
                 .content(messageDto.getContent())
                 .user(userService.getUserByUsername(userName))
-                .chatRoom(chatRoomService.getChatRoom(messageDto.getChatRoomId()))
+                .chatRoom(chatRoomService.getChatRoomById(messageDto.getChatRoomId()))
                 .build();
         message = messageService.createMessage(message);
         messageSendingOperations.convertAndSend(

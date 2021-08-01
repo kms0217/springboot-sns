@@ -14,5 +14,4 @@ public class ChatRoomDto {
 
     private Long chatRoomId;
     private User otherUser;
-    private boolean newRoom;
 }

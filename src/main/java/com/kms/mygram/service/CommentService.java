@@ -20,6 +20,16 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final StoryService storyService;
 
+    public List<Comment> getCommentByStoryId(Long storyId) {
+        return commentRepository.findByStoryId(storyId);
+    }
+
+    public Comment getCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(() ->
+                new ApiException("존재하지 않는 Comment 입니다.")
+        );
+    }
+
     @Transactional
     public Comment createComment(User user, CommentDto commentDto) {
         Story story = storyService.getStoryById(commentDto.getStoryId());
@@ -36,9 +46,5 @@ public class CommentService {
                 .orElseThrow(() -> new ApiException("해당 댓글이 존재하지 않습니다."));
         if (!comment.getUser().getUserId().equals(user.getUserId()))
             throw new ApiForbiddenException("본인의 댓글만 지울 수 있습니다.");
-    }
-
-    public List<Comment> getStoryComment(Long storyId) {
-        return commentRepository.findByStoryId(storyId);
     }
 }

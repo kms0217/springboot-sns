@@ -20,18 +20,10 @@ public class FollowApiController {
 
     private final FollowService followService;
 
-    @GetMapping("/follows")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Follow>> allFollows() {
-        List<Follow> followList = followService.findAllFollows();
-        if (followList.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(followList, HttpStatus.OK);
-    }
-
     @GetMapping("/follows/{userId}/follower")
-    public ResponseEntity<List<ProfileModalDto>> getFollower(@PathVariable Long userId,
-                                                             @AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<List<ProfileModalDto>> getFollower(@AuthenticationPrincipal Principal principal,
+                                                             @PathVariable Long userId) {
+
         List<ProfileModalDto> profileModalDtoList =
                 followService.getModalDtoByFollower(principal.getUser().getUserId(), userId);
         if (profileModalDtoList.isEmpty())
@@ -40,8 +32,9 @@ public class FollowApiController {
     }
 
     @GetMapping("/follows/{userId}/followee")
-    public ResponseEntity<List<ProfileModalDto>> getFollowee(@PathVariable Long userId,
-                                                             @AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<List<ProfileModalDto>> getFollowee(@AuthenticationPrincipal Principal principal,
+                                                             @PathVariable Long userId) {
+
         List<ProfileModalDto> profileModalDtoList =
                 followService.getModalDtoByFollowee(principal.getUser().getUserId(), userId);
         if (profileModalDtoList.isEmpty())
@@ -51,16 +44,16 @@ public class FollowApiController {
 
     @PostMapping("/follows/{userId}")
     public HttpStatus Follow(@AuthenticationPrincipal Principal principal,
-                             @PathVariable Long userId
-    ) {
+                             @PathVariable Long userId) {
+
         followService.createFollow(principal.getUser().getUserId(), userId);
-        return HttpStatus.OK;
+        return HttpStatus.CREATED;
     }
 
     @DeleteMapping("/follows/{userId}")
     public HttpStatus UnFollow(@AuthenticationPrincipal Principal principal,
-                               @PathVariable Long userId
-    ) {
+                               @PathVariable Long userId) {
+
         followService.deleteFollow(principal.getUser().getUserId(), userId);
         return HttpStatus.OK;
     }

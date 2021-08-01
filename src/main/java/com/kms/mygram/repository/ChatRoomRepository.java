@@ -17,4 +17,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
             "where (user_one_id=:user_one_id and user_two_id=:user_two_id) " +
             "or (user_one_id=:user_two_id and user_two_id=:user_one_id) limit 1", nativeQuery = true)
     Optional<ChatRoom> findByUserOneIdAndUserTwoId(@Param("user_one_id") Long userOneId, @Param("user_two_id") Long userTwoId);
+
+    @Query(value = "select * from chat_room where chat_room_id=:chat_room_id and (user_one_id=:user_id or user_two_id=:user_id)", nativeQuery = true)
+    Optional<ChatRoom> findByIdAndUserId(@Param("chat_room_id") Long chatroomId, @Param("user_id") Long userId);
 }

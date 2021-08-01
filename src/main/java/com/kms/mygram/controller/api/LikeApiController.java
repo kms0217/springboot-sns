@@ -25,5 +25,4 @@ public class LikeApiController {
         likeService.deleteLike(storyId, principal.getUser());
         return HttpStatus.OK;
     }
-
 }

@@ -19,7 +19,7 @@ public class MessageService {
     private final ChatRoomService chatRoomService;
 
     public List<Message> getChatRoomMessages(User user, Long chatRoomId) {
-        ChatRoom chatRoom = chatRoomService.getChatRoom(chatRoomId);
+        ChatRoom chatRoom = chatRoomService.getChatRoomById(chatRoomId);
         if (!chatRoom.getUserOne().getUserId().equals(user.getUserId()) && !chatRoom.getUserTwo().getUserId().equals(user.getUserId())) {
             throw new ApiForbiddenException("해당 채팅방에 참여중이 아닙니다.");
         }
