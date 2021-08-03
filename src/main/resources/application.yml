@@ -1,27 +1,52 @@
-server:
-  port: 9091
+spring:
+  profiles:
+    group:
+      local: local,common
+
+---
 
 spring:
-  devtools:
-    livereload:
-      enabled: true
-    restart:
-      enabled: true
+  profiles:
+    group:
+      prod: prod,common
 
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "common"
   thymeleaf:
     prefix: classpath:/templates/
     cache: false
     check-template-location: true
     suffix: .html
 
+server:
+  port: 9091
+
+default:
+  profile:
+    image: "default-profile.png"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "local"
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-
   datasource:
     dirverClassName: com.mysql.cj.jdbc.Dirver
     url: jdbc:mysql://localhost:3306/mygram?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
@@ -35,6 +60,25 @@ logging:
 upload:
   path: "C:/Users/kms/IdeaProjects/mygram/upload/"
 
-default:
-  profile:
-    image: "default-profile.png"
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    dirverClassName: com.mysql.cj.jdbc.Dirver
+    url: jdbc:mysql://mygramdb.c2ejxfeifgj5.ap-northeast-2.rds.amazonaws.com:3306/mygram
+    username: admin
+    password: mygram1234
+
+logging:
+  level:
+    org.springframework.web: trace
+
+upload:
+  path: "~/"
