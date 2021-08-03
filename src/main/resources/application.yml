@@ -18,16 +18,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-  servlet:
-    multipart:
-      enabled: true
+    properties:
+      hibernate:
+        format_sql: true
 
   datasource:
     dirverClassName: com.mysql.cj.jdbc.Dirver
     url: jdbc:mysql://localhost:3306/mygram?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
     username: root
-    password:
+    password: 1234
 
 logging:
   level:

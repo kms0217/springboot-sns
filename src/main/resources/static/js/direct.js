@@ -157,7 +157,6 @@ function createChatRoom(userId) {
     $("#search-modal").modal("hide");
     let chatroom = $("#chat-room-" + userId);
     if (chatroom.length){
-        console.log(chatroom);
         chatroom.trigger("onclick");
         return;
     }
