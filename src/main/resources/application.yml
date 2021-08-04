@@ -87,4 +87,4 @@ logging:
     org.springframework.web: trace
 
 upload:
-  path: "~/"
+  path: "upload/"
