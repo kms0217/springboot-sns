@@ -1,10 +1,10 @@
 # 목적
---- ---
+
 - SNS를 직접 구현해 보면서 Backend System의 도메인을 이해하자.
 - 단순 기능 구현이 아닌 어떻게 하면 성능을 개선할 수 있을 지 고민해보자.
 
 # 프로젝트 주요 기능
---- ---
+
 - 로그인
     - username, 핸드폰 번호, 이메일 중 하나를 선택해 Login할 수 있다.
     - Facebook, Google 로그인을 할 수 있다.
@@ -42,7 +42,7 @@
     - 새로운 DM에 대해 알람을 받는다.
 
 # DB
---- ---
+
 ![image/snsERD.jpg](image/snsErd.jpg)
 
 [user](https://www.notion.so/b3847087f3cd4e159023c1bd6040f1ef)
