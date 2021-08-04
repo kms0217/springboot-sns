@@ -58,3 +58,9 @@
 [chat_room](https://www.notion.so/3c0c019381a6476f864f3b8fb590e07c)
 
 [message](https://www.notion.so/a0aa00df01834d11bad29287e1a32dbc)
+
+# CI/CD
+
+- AWS EC2, AWS RDS, Jenkins, Docker를 사용해 CI/CD 파이프 라인 구축
+- CICD 구성 및 설정 : [WIKI](https://github.com/xcvdv/springboot-sns/wiki/CI-CD)
+
