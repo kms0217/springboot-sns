@@ -14,7 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})" style="line-height: 0px;"></div>
+<div th:replace="nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})" style="line-height: 0px;"></div>
 <div class="content" style="margin: auto; padding-top: 84px; max-width: 935px; align-content: center;">
     <div class="container">
         <div class="gallery" id="story-list">

@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 <body>
-<div th:replace="/nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
+<div th:replace="nav.html :: fragment-nav(current = ${pageInfo.currentPage}, user = ${pageInfo.currentUser})"></div>
 <div class="content">
     <div class="content-container h-100 row" style="margin-left: 0!important; margin-right: 0!important;">
         <div class="post-list h-100 col-8" id="home-content">
@@ -26,7 +26,7 @@
                 <a th:href="@{/allRecommend}"
                    style="padding-left: 80px; text-decoration: none; font-weight: 600; color: black">모두 보기</a>
                 <div class="recommend-list" style="padding-top: 15px;" th:each="u : ${pageInfo.userList}">
-                    <div th:replace="/recommendList.html :: fragment-recommend(user=${u})"
+                    <div th:replace="recommendList.html :: fragment-recommend(user=${u})"
                          style="margin-bottom: 10px"></div>
                 </div>
             </div>
