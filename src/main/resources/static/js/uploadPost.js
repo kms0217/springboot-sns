@@ -18,7 +18,7 @@ function upload() {
         processData: false,
         success: function () {
             alert("upload에 성공했습니다.")
-            window.location.href = "http://localhost:9091/profile"
+            window.location.href = "/profile"
         },
         error: function (data) {
             errorHandle(data);

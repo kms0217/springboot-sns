@@ -13,7 +13,7 @@ function update(userId) {
         processData: false,
         success: function () {
             alert("변경에 성공하였습니다.");
-            window.location.href = "http://localhost:9091/profile";
+            window.location.href = "/profile";
         },
         error: function (data) {
             errorHandle(data);
