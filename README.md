@@ -45,16 +45,9 @@
 
 ![image/snsERD.jpg](image/snsErd.jpg)
 
-[user](https://www.notion.so/b3847087f3cd4e159023c1bd6040f1ef)
 
-[story](https://www.notion.so/ae5a8b8abdc04cd9a27308fb8aa722ae)
+# CI/CD
 
-[comment](https://www.notion.so/7c5e29ca4d914ebd95d63ce4950acd10)
+- AWS EC2, AWS RDS, Jenkins, Docker를 사용해 CI/CD 파이프 라인 구축
+- CICD 구성 및 설정 : [WIKI](https://github.com/xcvdv/springboot-sns/wiki/CI-CD)
 
-[like](https://www.notion.so/38fca44a581141528d4bbe512a43df09)
-
-[follow](https://www.notion.so/e436de1d4ae94a7791abccff9d03a6ad)
-
-[chat_room](https://www.notion.so/3c0c019381a6476f864f3b8fb590e07c)
-
-[message](https://www.notion.so/a0aa00df01834d11bad29287e1a32dbc)
