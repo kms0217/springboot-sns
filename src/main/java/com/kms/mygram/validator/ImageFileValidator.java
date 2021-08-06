@@ -1,6 +1,6 @@
 package com.kms.mygram.validator;
 
-import com.kms.mygram.Annotation.ImageFile;
+import com.kms.mygram.annotation.ImageFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;

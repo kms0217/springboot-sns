@@ -1,6 +1,6 @@
 package com.kms.mygram.validator;
 
-import com.kms.mygram.Annotation.EmailPhoneNumber;
+import com.kms.mygram.annotation.EmailPhoneNumber;
 import com.kms.mygram.utils.Utils;
 
 import javax.validation.ConstraintValidator;

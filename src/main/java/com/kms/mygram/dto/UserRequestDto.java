@@ -1,6 +1,6 @@
 package com.kms.mygram.dto;
 
-import com.kms.mygram.Annotation.EmailPhoneNumber;
+import com.kms.mygram.annotation.EmailPhoneNumber;
 import com.kms.mygram.domain.User;
 import com.kms.mygram.validator.EmailPhoneNumberValidator;
 import lombok.AllArgsConstructor;

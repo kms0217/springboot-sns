@@ -1,6 +1,6 @@
 package com.kms.mygram.dto;
 
-import com.kms.mygram.Annotation.ImageFile;
+import com.kms.mygram.annotation.ImageFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
