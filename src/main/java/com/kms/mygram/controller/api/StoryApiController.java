@@ -3,7 +3,6 @@ package com.kms.mygram.controller.api;
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.dto.StoryRequestDto;
-import com.kms.mygram.exception.ValidException;
 import com.kms.mygram.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -62,12 +60,6 @@ public class StoryApiController {
                                             BindingResult bindingResult,
                                             UriComponentsBuilder uriComponentsBuilder) {
 
-        if (bindingResult.hasErrors()) {
-            StringBuffer buffer = new StringBuffer("Validation Fail\n");
-            for (FieldError error : bindingResult.getFieldErrors())
-                buffer.append(error.getDefaultMessage() + "\n");
-            throw new ValidException(buffer.toString());
-        }
         Story story = storyService.createStory(storyRequestDto, principal.getUser());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponentsBuilder.path("/api/stories/{storyId}").buildAndExpand(story.getStoryId()).toUri());
@@ -80,12 +72,6 @@ public class StoryApiController {
                                   @Valid @RequestBody StoryRequestDto storyRequestDto,
                                   BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            StringBuffer buffer = new StringBuffer("Validation Fail\n");
-            for (FieldError error : bindingResult.getFieldErrors())
-                buffer.append(error.getDefaultMessage() + "\n");
-            throw new ValidException(buffer.toString());
-        }
         storyService.updateStory(storyId, storyRequestDto, principal.getUser());
         return HttpStatus.OK;
     }

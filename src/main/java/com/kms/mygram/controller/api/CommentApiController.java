@@ -3,7 +3,6 @@ package com.kms.mygram.controller.api;
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.Comment;
 import com.kms.mygram.dto.CommentDto;
-import com.kms.mygram.exception.ValidException;
 import com.kms.mygram.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,16 +39,10 @@ public class CommentApiController {
 
     @PostMapping("/comments")
     public ResponseEntity<Void> addComment(@AuthenticationPrincipal Principal principal,
-                                              @Valid @RequestBody CommentDto commentDto,
-                                              BindingResult bindingResult,
-                                              UriComponentsBuilder uriComponentsBuilder) {
+                                           @Valid @RequestBody CommentDto commentDto,
+                                           BindingResult bindingResult,
+                                           UriComponentsBuilder uriComponentsBuilder) {
 
-        if (bindingResult.hasErrors()) {
-            StringBuffer buffer = new StringBuffer("Validation Fail\n");
-            for (FieldError error : bindingResult.getFieldErrors())
-                buffer.append(error.getDefaultMessage() + "\n");
-            throw new ValidException(buffer.toString());
-        }
         Comment comment = commentService.createComment(principal.getUser(), commentDto);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponentsBuilder.path("/api/comments/{commentId}").buildAndExpand(comment.getCommentId()).toUri());
