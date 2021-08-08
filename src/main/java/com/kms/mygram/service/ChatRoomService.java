@@ -7,6 +7,7 @@ import com.kms.mygram.exception.ApiException;
 import com.kms.mygram.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ChatRoomService {
         return chatRoomDtoList;
     }
 
+    @Transactional
     public ChatRoom createChatRoom(Long userId, Long targetUserId) {
         User userTwo = userService.getUserById(targetUserId);
         if (chatRoomRepository.findByUserOneIdAndUserTwoId(userId, targetUserId).isPresent())
