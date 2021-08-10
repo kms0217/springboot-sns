@@ -1,13 +1,11 @@
 package com.kms.mygram.controller.api;
 
 import com.kms.mygram.auth.Principal;
-import com.kms.mygram.domain.Follow;
-import com.kms.mygram.dto.Page.ProfileModalDto;
+import com.kms.mygram.dto.ProfileModalDto;
 import com.kms.mygram.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

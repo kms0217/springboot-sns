@@ -1,4 +1,4 @@
-package com.kms.mygram.dto.Page;
+package com.kms.mygram.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,6 @@ public class ProfileModalDto {
     private Long userId;
     private String username;
     private String profileImageUrl;
-    private boolean following;
-    private boolean me;
+    private Boolean following;
+    private Boolean me;
 }
