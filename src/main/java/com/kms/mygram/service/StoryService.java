@@ -84,16 +84,19 @@ public class StoryService {
                 .setMaxResults(limit)
                 .getResultList();
 
-        stories = em.createQuery("select distinct s from Story s join fetch s.comments c join fetch c.user where s in :stories", Story.class)
+        System.out.println(stories.size());
+        stories = em.createQuery("select distinct s from Story s left join fetch s.comments c left join fetch c.user where s in :stories", Story.class)
                 .setParameter("stories", stories)
                 .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .getResultList();
 
-        stories = em.createQuery("select distinct s from Story s join fetch s.likes l join fetch l.user where s in :stories", Story.class)
+        System.out.println(stories.size());
+        stories = em.createQuery("select distinct s from Story s left join fetch s.likes l left join fetch l.user where s in :stories order by s.createdAt desc", Story.class)
                 .setParameter("stories", stories)
                 .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .getResultList();
 
+        System.out.println(stories.size());
         stories.forEach(story ->
                 story.getLikes().forEach(like -> {
                     if (user.getUserId().equals(like.getUser().getUserId()))
