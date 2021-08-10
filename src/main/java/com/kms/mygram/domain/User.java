@@ -1,14 +1,11 @@
 package com.kms.mygram.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -25,6 +22,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_id"))
     @JsonIgnore
+    @ToString.Exclude
     private Set<Authority> authorities;
 
     @Column(unique = true, nullable = false)
@@ -34,7 +32,6 @@ public class User {
     private String email;
 
     @Column(unique = true)
-    @JsonIgnore
     private String phoneNumber;
 
     @Column(nullable = false)

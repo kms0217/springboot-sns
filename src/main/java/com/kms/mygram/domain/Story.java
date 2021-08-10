@@ -1,8 +1,8 @@
 package com.kms.mygram.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,12 +26,14 @@ public class Story {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "story")
+    @JsonIgnore
+    @ToString.Exclude
     private List<Like> likes;
 
-    @Transient
+    @Formula("(select count(*) from like_table l where l.story_id=story_id)")
     private int likeNum;
 
-    @Transient
+    @Formula("(select count(*) from comment c where c.story_id=story_id)")
     private int commentNum;
 
     @Transient

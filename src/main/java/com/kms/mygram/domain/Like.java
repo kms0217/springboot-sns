@@ -1,10 +1,7 @@
 package com.kms.mygram.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,6 +25,7 @@ public class Like {
     @ManyToOne
     @JoinColumn(name = "story_id")
     @JsonIgnore
+    @ToString.Exclude
     private Story story;
 
     private LocalDateTime createdAt;

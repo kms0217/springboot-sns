@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "story_id")
     @JsonIgnore
+    @ToString.Exclude
     private Story story;
 
     @Column(nullable = false)
