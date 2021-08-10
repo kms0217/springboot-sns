@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface StoryRepository extends JpaRepository<Story, Long> {
 
-    @EntityGraph(attributePaths = {"comments", "comments.user"})
+    @EntityGraph(attributePaths = {"user", "comments", "comments.user"})
     Optional<Story> findById(Long storyId);
 
     List<Story> findAllByUserOrderByCreatedAtDesc(User user);
