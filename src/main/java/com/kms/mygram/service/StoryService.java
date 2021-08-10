@@ -77,30 +77,28 @@ public class StoryService {
         int offset = pageable.getPageNumber() * pageable.getPageSize();
         int limit = pageable.getPageSize();
         int total = storyRepository.countFolloweeStories(user);
-        List<Story> stories = em.createQuery(
-                "select distinct s from Story s where s.user in (select f.followee from Follow f where f.follower=:user)",
-                Story.class
-        ).setParameter("user", user).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        List<Story> stories = em.createQuery("select distinct s from Story s where s.user in (select f.followee from Follow f where f.follower=:user)", Story.class)
+                .setParameter("user", user)
+                .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
 
-        stories = em.createQuery(
-                "select distinct s from Story s join fetch s.comments c join fetch c.user where s in :stories",
-                Story.class).setParameter("stories", stories).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        stories = em.createQuery("select distinct s from Story s join fetch s.comments c join fetch c.user where s in :stories", Story.class)
+                .setParameter("stories", stories)
+                .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .getResultList();
 
-        stories = em.createQuery(
-                "select distinct s from Story s join fetch s.likes l join fetch l.user where s in :stories",
-                Story.class).setParameter("stories", stories).setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
+        stories = em.createQuery("select distinct s from Story s join fetch s.likes l join fetch l.user where s in :stories", Story.class)
+                .setParameter("stories", stories)
+                .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .getResultList();
 
         stories.forEach(story ->
-            story.getLikes().forEach(like -> {
-                if (user.getUserId().equals(like.getUser().getUserId())) {
-                    story.setLikeStatus(true);
-                }
-            })
+                story.getLikes().forEach(like -> {
+                    if (user.getUserId().equals(like.getUser().getUserId()))
+                        story.setLikeStatus(true);
+                })
         );
         return new PageImpl<>(stories, pageable, total);
     }
