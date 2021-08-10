@@ -1,6 +1,8 @@
 package com.kms.mygram.repository;
 
 import com.kms.mygram.domain.ChatRoom;
+import com.kms.mygram.domain.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,8 +12,8 @@ import java.util.Optional;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-    @Query(value = "select * from chat_room where user_one_id=:user_id or user_two_id=:user_id", nativeQuery = true)
-    List<ChatRoom> findAllByUserId(@Param("user_id") Long userId);
+    @EntityGraph(attributePaths = {"userOne", "userTwo"})
+    List<ChatRoom> findByUserOneOrUserTwo(User userOne, User userTwo);
 
     @Query(value = "select * from chat_room " +
             "where (user_one_id=:user_one_id and user_two_id=:user_two_id) " +

@@ -26,7 +26,7 @@ public class ChatRoomService {
 
     public List<ChatRoomDto> getChatRoomsDto(User user) {
         List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
-        chatRoomRepository.findAllByUserId(user.getUserId()).forEach(chatRoom -> {
+        chatRoomRepository.findByUserOneOrUserTwo(user, user).forEach(chatRoom -> {
             ChatRoomDto chatRoomDto = new ChatRoomDto();
             chatRoomDto.setChatRoomId(chatRoom.getChatRoomId());
             chatRoomDto.setOtherUser(!chatRoom.getUserOne().getUserId().equals(user.getUserId()) ? chatRoom.getUserOne() : chatRoom.getUserTwo());
