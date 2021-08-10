@@ -3,6 +3,7 @@ package com.kms.mygram.controller.api;
 import com.kms.mygram.auth.Principal;
 import com.kms.mygram.domain.Story;
 import com.kms.mygram.dto.StoryRequestDto;
+import com.kms.mygram.dto.StoryResponseDto;
 import com.kms.mygram.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,14 +28,14 @@ public class StoryApiController {
     private final StoryService storyService;
 
     @GetMapping("/stories")
-    public ResponseEntity<Page<Story>> getAllStoriesPage(@PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Story> storyPage = storyService.getStoriesPage(pageable);
+    public ResponseEntity<Page<StoryResponseDto>> getAllStoriesPage(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<StoryResponseDto> storyPage = storyService.getStoriesPage(pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
     @GetMapping("/stories/home")
     public ResponseEntity<Page<Story>> getAllFolloweeStoriesPage(@AuthenticationPrincipal Principal principal,
-                                                                 @PageableDefault(sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                 @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Story> storyPage = storyService.getFolloweeStoriesPage(principal.getUser(), pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
@@ -47,10 +48,10 @@ public class StoryApiController {
     }
 
     @GetMapping("/users/{userId}/stories")
-    public ResponseEntity<Page<Story>> getAllStoriesByUser(@PathVariable Long userId,
-                                                           @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<StoryResponseDto>> getAllStoriesByUser(@PathVariable Long userId,
+                                                                      @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<Story> storyPage = storyService.getTargetStoriesPage(userId, pageable);
+        Page<StoryResponseDto> storyPage = storyService.getTargetStoriesPage(userId, pageable);
         return new ResponseEntity<>(storyPage, HttpStatus.OK);
     }
 
