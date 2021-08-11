@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from user a " +
             "where a.user_id not in " +
             "(select b.followee_id from follow b where b.follower_id =:user_id) " +
-            "and a.user_id !=:user_id", nativeQuery = true)
+            "and a.user_id !=:user_id limit 5", nativeQuery = true)
     List<User> findRecommendUser(@Param("user_id") Long userId);
 
     @Query(value = "select * from user where username like :filter% and user_id!=:user_id", nativeQuery = true)
