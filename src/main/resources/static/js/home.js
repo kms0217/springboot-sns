@@ -1,7 +1,6 @@
 let created_at;
 let next_page_num = 0;
 let total_page_num = 0;
-
 window.onload = getStory;
 
 function getStory() {
@@ -9,6 +8,7 @@ function getStory() {
         type: "get",
         url: "/api/stories/home/?page=" + next_page_num,
         dataType: "Json",
+        async: false,
         success: function (data) {
             if (data.content)
                 (data.content).forEach(content => {

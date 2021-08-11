@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>Mygram</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/css/signbase.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" href="/css/signbase.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 <main id="login-form">
     <div class="sign-wrapper">
         <div class="sign-box">
-            <form method="post" th:action="@{/login}" style="min-width: 100%">
-                <img class="logo" th:src="@{/image/logo.png}">
+            <form method="post" action="/login" style="min-width: 100%">
+                <img class="logo" src="/image/logo.png">
                 <input class="sign-input"
                        name="username"
                        type="text"
@@ -30,13 +30,13 @@
             <div class="line-text">또는</div>
             <a href="#" style="text-decoration:none;">
                 <button class="OAuth-login" id="facebook-OAuth">
-                    <img class="OAuth-icon" th:src="@{/image/facebook.png}">
+                    <img class="OAuth-icon" src="/image/facebook.png">
                     Facebook으로 로그인
                 </button>
             </a>
             <a href="#" style="text-decoration:none;">
                 <button class="OAuth-login" id="google-OAuth">
-                    <img class="OAuth-icon" th:src="@{/image/google.png}">
+                    <img class="OAuth-icon" src="/image/google.png">
                     Google로 로그인
                 </button>
             </a>
@@ -46,7 +46,7 @@
         </div>
         <div id="sign-bottom-box">
             <p>계정이 없으신가요?
-                <a th:href="@{/signup}" style="text-decoration:none;">가입하기</a>
+                <a href="/signup" style="text-decoration:none;">가입하기</a>
             </p>
         </div>
     </div>
