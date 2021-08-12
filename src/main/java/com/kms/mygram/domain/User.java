@@ -45,6 +45,7 @@ public class User {
     private String intro;
     private String gender;
     private boolean recommend;
+    private String oauth;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

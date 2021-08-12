@@ -13,10 +13,11 @@
         <div class="sign-box">
             <img class="logo" src="/image/logo.png">
             <p>친구들의 사진과 동영상을 보려면 가입하세요.</p>
-            <button class="sign-button facebook-login">Facebook으로 로그인</button>
+            <a href="/oauth2/authorization/facebook" style="text-decoration:none;">
+                <button class="sign-button facebook-login">Facebook으로 로그인</button>
+            </a>
             <button class="sign-button google-login">Google로 로그인</button>
             <div class="line-text"> 또는</div>
-
             <form method="post" th:action="@{/signup}" th:object="${userRequestDto}">
                 <input class="sign-input form-control"
                        name="emailOrPhoneNumber"
@@ -25,7 +26,8 @@
                        placeholder="휴대폰 번호 또는 이메일 주소"
                        required
                 >
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('emailOrPhoneNumber')}" th:errors="*{emailOrPhoneNumber}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('emailOrPhoneNumber')}"
+                     th:errors="*{emailOrPhoneNumber}">
                 </div>
                 <input class="sign-input form-control"
                        name="name"

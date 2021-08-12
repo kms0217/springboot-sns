@@ -35,6 +35,12 @@ public class AuthController {
         return "login";
     }
 
+    @GetMapping("/oauth-login-error")
+    public String oAuthLoginError(Model model) {
+        model.addAttribute("oauthError", true);
+        return "login";
+    }
+
     @GetMapping("/signup")
     public String signupForm(Model model) {
         model.addAttribute("userRequestDto", new UserRequestDto());

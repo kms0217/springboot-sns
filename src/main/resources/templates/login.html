@@ -28,7 +28,7 @@
                 <button type="submit" class="sign-button">로그인</button>
             </form>
             <div class="line-text">또는</div>
-            <a href="#" style="text-decoration:none;">
+            <a href="/oauth2/authorization/facebook" style="text-decoration:none;">
                 <button class="OAuth-login" id="facebook-OAuth">
                     <img class="OAuth-icon" src="/image/facebook.png">
                     Facebook으로 로그인
@@ -42,6 +42,9 @@
             </a>
             <div class="error-message" th:if="${loginError}">
                 <span> 아이디나 패스워드가 올바르지 않습니다. </span>
+            </div>
+            <div class="error-message" th:if="${oauthError}">
+                <span> 중복되는 Email이 존재합니다. </span>
             </div>
         </div>
         <div id="sign-bottom-box">

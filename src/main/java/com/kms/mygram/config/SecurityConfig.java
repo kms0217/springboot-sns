@@ -1,6 +1,9 @@
 package com.kms.mygram.config;
 
 import com.kms.mygram.auth.AjaxAuthenticationEntryPoint;
+import com.kms.mygram.auth.FaceBookOAuthService;
+import com.kms.mygram.exception.handler.AuthFailureHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final FaceBookOAuthService faceBookOAuthService;
+    private final AuthFailureHandler authFailureHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -24,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         request
                                 .antMatchers("/login").permitAll()
                                 .antMatchers("/login-error").permitAll()
+                                .antMatchers("/oauth-login-error").permitAll()
                                 .antMatchers("/signup").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -32,7 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/", false)
-                                .failureUrl("/login-error")
+                                .failureHandler(authFailureHandler)
+                )
+                .oauth2Login(auth ->
+                        auth
+                                .failureHandler(authFailureHandler)
+                                .userInfoEndpoint()
+                                .userService(faceBookOAuthService)
                 )
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(ajaxAwareAuthenticationEntryPoint())
