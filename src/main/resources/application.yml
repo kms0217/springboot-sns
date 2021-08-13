@@ -79,8 +79,18 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mygramdb.c2ejxfeifgj5.ap-northeast-2.rds.amazonaws.com:3306/mygram?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
-    username: admin
-    password: mygram1234
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: ${FACE_BOOK_CLIENT_ID}
+            client-secret: ${e37b18be77909921f6e47041876cbd42}
+            scope:
+              - public_profile
+              - email
 
 logging:
   level:
