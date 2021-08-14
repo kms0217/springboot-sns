@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FaceBookOAuthService extends DefaultOAuth2UserService {
+public class CustomOAuthService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
     private final AuthService authService;
@@ -24,25 +24,48 @@ public class FaceBookOAuthService extends DefaultOAuth2UserService {
     @Override
     @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
-        System.out.println(userRequest.getClientRegistration().getRegistrationId());
-        OAuth2User facebookUser = super.loadUser(userRequest);
-        Map<String, Object> attributes = facebookUser.getAttributes();
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+        Map<String, Object> attributes = oAuth2User.getAttributes();
         String email = (String) attributes.get("email");
-        System.out.println(attributes);
         User user = userRepository.findByEmail(email).orElse(null);
+        if ("facebook".equals(registrationId))
+            return faceBookUser(user, attributes);
+        return googleUser(user, attributes);
+    }
+
+    OAuth2User faceBookUser(User user, Map<String, Object> attributes) {
         if (user == null) {
             user = User.builder()
                     .name((String) attributes.get("name"))
-                    .email(email)
-                    .username("facebook_" + attributes.get("id"))
+                    .email((String) attributes.get("email"))
+                    .username("facebook_"  + attributes.get("id"))
                     .password(UUID.randomUUID().toString())
                     .oauth("facebook")
                     .build();
             return new Principal(authService.signup(user), attributes);
         }
-        if ("facebook".equals(user.getOauth())){
+        if ("facebook".equals(user.getOauth())) {
             user.getAuthorities();
-            return new Principal(user, facebookUser.getAttributes());
+            return new Principal(user, attributes);
+        }
+        throw new OAuthException("Email duplicate");
+    }
+
+    OAuth2User googleUser(User user, Map<String, Object> attributes) {
+        if (user == null) {
+            user = User.builder()
+                    .name((String) attributes.get("name"))
+                    .email((String) attributes.get("email"))
+                    .username("google_" + attributes.get("sub"))
+                    .password(UUID.randomUUID().toString())
+                    .oauth("google")
+                    .build();
+            return new Principal(authService.signup(user), attributes);
+        }
+        if ("google".equals(user.getOauth())) {
+            user.getAuthorities();
+            return new Principal(user, attributes);
         }
         throw new OAuthException("Email duplicate");
     }

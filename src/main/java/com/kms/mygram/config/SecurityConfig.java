@@ -1,7 +1,7 @@
 package com.kms.mygram.config;
 
 import com.kms.mygram.auth.AjaxAuthenticationEntryPoint;
-import com.kms.mygram.auth.FaceBookOAuthService;
+import com.kms.mygram.auth.CustomOAuthService;
 import com.kms.mygram.exception.handler.AuthFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final FaceBookOAuthService faceBookOAuthService;
+    private final CustomOAuthService customOAuthService;
     private final AuthFailureHandler authFailureHandler;
 
     @Override
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         auth
                                 .failureHandler(authFailureHandler)
                                 .userInfoEndpoint()
-                                .userService(faceBookOAuthService)
+                                .userService(customOAuthService)
                 )
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(ajaxAwareAuthenticationEntryPoint())
