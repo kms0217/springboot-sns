@@ -85,9 +85,15 @@ spring:
     oauth2:
       client:
         registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
           facebook:
             client-id: ${FACE_BOOK_CLIENT_ID}
-            client-secret: ${e37b18be77909921f6e47041876cbd42}
+            client-secret: ${FACE_BOOK_CLIENT_SECRET}
             scope:
               - public_profile
               - email

@@ -16,7 +16,9 @@
             <a href="/oauth2/authorization/facebook" style="text-decoration:none;">
                 <button class="sign-button facebook-login">Facebook으로 로그인</button>
             </a>
-            <button class="sign-button google-login">Google로 로그인</button>
+            <a href="/oauth2/authorization/google" style="text-decoration:none;">
+                <button class="sign-button google-login">Google로 로그인</button>
+            </a>
             <div class="line-text"> 또는</div>
             <form method="post" th:action="@{/signup}" th:object="${userRequestDto}">
                 <input class="sign-input form-control"
