@@ -1,7 +1,7 @@
 package com.kms.mygram.auth;
 
-import com.kms.mygram.domain.User;
-import com.kms.mygram.repository.UserRepository;
+import com.kms.mygram.user.entity.User;
+import com.kms.mygram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

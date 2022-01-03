@@ -1,6 +1,6 @@
 package com.kms.mygram.auth;
 
-import com.kms.mygram.domain.User;
+import com.kms.mygram.user.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,9 +1,9 @@
 package com.kms.mygram.auth;
 
-import com.kms.mygram.domain.User;
-import com.kms.mygram.exception.OAuthException;
-import com.kms.mygram.repository.UserRepository;
-import com.kms.mygram.service.AuthService;
+import com.kms.mygram.user.entity.User;
+import com.kms.mygram.common.exception.OAuthException;
+import com.kms.mygram.user.repository.UserRepository;
+import com.kms.mygram.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
